@@ -1,0 +1,30 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/padding_50"
+    android:background="#8B0000"
+    android:orientation="horizontal">
+
+    <Button
+        android:id="@+id/button_menu"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="4dp"
+        android:background="@drawable/slide_menu_icon"
+        android:onClick="toggleMenu" />
+
+    <TextView
+        android:layout_alignRight="@+id/button_menu"
+        android:id="@+id/lk_profile_header_textview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_50"
+        android:layout_centerInParent="true"
+        android:padding="10dp"
+        android:text="Train Panda"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#FFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</RelativeLayout>

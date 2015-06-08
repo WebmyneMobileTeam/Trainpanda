@@ -1,0 +1,84 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    tools:context="com.hackaholic.trainpanda.ui.fragments.OrderFood">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_detail"
+                android:gravity="center_horizontal"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/editText"
+                android:layout_marginBottom="20dp"
+                android:text="ENTER PNR DETAILS"
+                />
+
+            <EditText
+                android:id="@+id/editText"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/textView"
+                android:layout_marginBottom="20dp"
+                android:background="#FFF"
+                android:textColorHint="#8c8c8c"
+                android:hint="ENTER PNR HERE" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="OR"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#FFF" />
+
+
+
+            <EditText
+                android:id="@+id/editText2"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textView"
+                android:layout_marginTop="20dp"
+                android:background="#FFF"
+                android:textColorHint="#8c8c8c"
+                android:hint="ENTER STATION CODE" />
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/editText2"
+                android:layout_marginTop="20dp"
+                android:background="#FF9A0A"
+                android:text="GO" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+
+</FrameLayout>

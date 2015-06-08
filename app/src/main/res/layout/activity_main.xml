@@ -1,0 +1,107 @@
+<com.hackaholic.trainpanda.utils.SlidingMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/dark_bg">
+
+            <LinearLayout
+                android:id="@+id/user_profile"
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:background="#3D69AC"
+                android:orientation="horizontal">
+
+                <View
+                    android:layout_width="5dp"
+                    android:layout_height="match_parent"
+                    android:background="#8A0000" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/leftNavLogoImageView"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="right|center"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/circle" />
+
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_profile"
+                android:divider="@null"
+                android:listSelector="@drawable/list_selector"
+                android:saveEnabled="true" />
+
+            <Button
+                android:id="@+id/more_back_button"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_below="@+id/list"
+                android:layout_marginLeft="45dp"
+                android:layout_marginRight="45dp"
+                android:layout_marginTop="30dp"
+                android:background="#FF9A0A"
+                android:text="BACK" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- This acts as Actionbar -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_50"
+            android:background="#8B0000"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_menu"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="4dp"
+                android:background="@drawable/slide_menu_icon"
+                android:onClick="toggleMenu" />
+
+            <TextView
+                android:id="@+id/lk_profile_header_textview"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/padding_50"
+                android:layout_alignLeft="@+id/button_menu"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="40dp"
+                android:padding="10dp"
+                android:text="Train Panda"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- This is where fragment will show up -->
+
+        <FrameLayout
+            android:id="@+id/lk_profile_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFF" />
+    </LinearLayout>
+
+</com.hackaholic.trainpanda.utils.SlidingMenuLayout>

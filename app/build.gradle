@@ -26,4 +26,5 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile project(':FacebookSDK')
     compile 'com.google.android.gms:play-services:7.0.0'
+    compile files('libs/picasso-2.5.2.jar')
 }

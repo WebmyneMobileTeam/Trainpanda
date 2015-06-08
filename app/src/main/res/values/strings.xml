@@ -8,7 +8,46 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash">SplashActivity</string>
 
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
     <!-- Railway API's Key -->
     <string name="key1">39586</string>
     <string name="applicationId">381489645378140</string>
+
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item>PNR</item>
+        <item>Train Arriving</item>
+        <item>Running Status</item>
+        <item>Train Routes</item>
+        <item>Fare Inquiry</item>
+        <item>Search Trains</item>
+        <item>Seat Availability</item>
+        <item>Order Food</item>
+        <item>Book Hotel</item>
+        <item>Weather</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/pnr_sliding_menu</item>
+        <item>@drawable/train_arriving</item>
+        <item>@drawable/running_status</item>
+        <item>@drawable/train_routes</item>
+        <item>@drawable/fair_enquiry</item>
+        <item>@drawable/more</item>
+        <item>@drawable/seat_availablity</item>
+        <item>@drawable/more</item>
+        <item>@drawable/more</item>
+        <item>@drawable/more</item>
+    </array>
+
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    <string name="title_activity_sliding">SlidingActivity</string>
+
 </resources>

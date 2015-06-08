@@ -172,7 +172,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			}
 
 			private void checkLoginStatus(java.lang.String email, JSONObject innerJSONObject) {
-				java.lang.String url = "http://52.11.174.94/api/customers?filter[where][email]=" + email;
+				java.lang.String url = "http://admin.trainpanda.com/api/customers?filter[where][email]=" + email;
 				//String url="http://52.11.174.94/api/customers?filter[where][email]=vikas0dhar@gmail.com";
 				new FBLoginStatusAsync().execute(new String[]{url, String.valueOf(innerJSONObject)});
 

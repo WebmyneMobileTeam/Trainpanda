@@ -1,6 +1,7 @@
 package com.hackaholic.trainpanda.ui.activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,9 @@ import com.hackaholic.trainpanda.ui.fragments.SeatAvailability;
 import com.hackaholic.trainpanda.ui.fragments.StationInfo;
 import com.hackaholic.trainpanda.ui.fragments.TrainArraiving;
 import com.hackaholic.trainpanda.utils.SlidingMenuLayout;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MainActivity extends FragmentActivity {
@@ -78,6 +82,8 @@ public class MainActivity extends FragmentActivity {
             R.drawable.more
 
     };
+    private TextView lk_profile_header_textview;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +94,33 @@ public class MainActivity extends FragmentActivity {
         //setContentView(R.layout.activity_main);
         context = this;
 
+        CircleImageView leftNavLogoImageView = (CircleImageView)findViewById(R.id.leftNavLogoImageView);
+
         title = (TextView) findViewById(R.id.lk_profile_header_textview);
         title.setText("TRAIN PANDA");
+
+        sharedPreferences = getSharedPreferences("TrainPanda",MODE_PRIVATE);
+        System.out.println(sharedPreferences.getString("name", "no name"));
+
+        lk_profile_header_textview=(TextView)findViewById(R.id.lk_profile_header_textview);
+        lk_profile_header_textview.setText(sharedPreferences.getString("name", "no name"));
+
+        String url=sharedPreferences.getString("image_url",null).toString();
+        System.out.println("Url Profile_image "+url);
+        String id = sharedPreferences.getString("idd", "not found").toString();
+
+        Picasso.with(getBaseContext()).load(url).placeholder(R.drawable.a6).into(leftNavLogoImageView);
+
 
         button_back = (Button) findViewById(R.id.more_back_button);
         button_back.setVisibility(View.INVISIBLE);
 
+
+
         MainFragment fragment = new MainFragment();
         start_fragment(fragment);
+
+
 
         lk_profile_menu = (Button) findViewById(R.id.button_menu);
         lk_profile_menu.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +144,11 @@ public class MainActivity extends FragmentActivity {
 
         button_back.setOnClickListener(buttonClick);
     }
+
+
+
+
+
 
     AdapterView.OnItemClickListener mainListview = new AdapterView.OnItemClickListener() {
         @Override

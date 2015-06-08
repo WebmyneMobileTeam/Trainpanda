@@ -2,25 +2,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg"
+    android:background="@drawable/bg">
     tools:context="com.hackaholic.trainpanda.ui.fragments.OrderFood">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <TextView
                 android:id="@+id/tv_detail"
-                android:gravity="center_horizontal"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
+                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/editText"
+
+                android:textColor="#fff"
                 android:layout_marginBottom="20dp"
                 android:text="ENTER PNR DETAILS"
                 />
@@ -32,7 +35,7 @@
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/textView"
+
                 android:layout_marginBottom="20dp"
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
@@ -45,11 +48,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="OR"
+                android:layout_gravity="center"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="#FFF" />
 
 
-
+            editText
             <EditText
                 android:id="@+id/editText2"
                 android:layout_marginRight="25dp"
@@ -57,7 +61,7 @@
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/textView"
+
                 android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
@@ -71,14 +75,14 @@
                 android:layout_width="match_parent"
                 android:textSize="16dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/editText2"
+
                 android:layout_marginTop="20dp"
                 android:background="#FF9A0A"
                 android:text="GO" />
 
 
-        </RelativeLayout>
-    </ScrollView>
+        </LinearLayout>
+   </ScrollView>
 
 
 </FrameLayout>

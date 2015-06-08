@@ -26,20 +26,16 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.activity_splash);
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
-        new Handler().postDelayed(new Runnable() {
+
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                /* Create an Intent that will start the Menu-Activity. */
-                if (!haveNetworkConnection()) {
-
-                    Toast.makeText(getApplicationContext(), "Please Check your network connection", Toast.LENGTH_SHORT).show();
-
-                }
-                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-                SplashActivity.this.startActivity(mainIntent);
-                SplashActivity.this.finish();
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                startActivity(intent);
             }
-        }, SPLASH_DISPLAY_LENGTH);
+        }, 3000);
     }
 
     private boolean haveNetworkConnection() {

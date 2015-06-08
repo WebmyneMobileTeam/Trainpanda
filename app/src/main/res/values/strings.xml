@@ -7,4 +7,8 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_splash">SplashActivity</string>
+
+    <!-- Railway API's Key -->
+    <string name="key1">39586</string>
+    <string name="applicationId">381489645378140</string>
 </resources>

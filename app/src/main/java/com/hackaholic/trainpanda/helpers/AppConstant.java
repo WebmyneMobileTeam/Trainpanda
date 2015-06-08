@@ -8,3 +8,4 @@ public class AppConstant {
 
     public static String BASE_URL = "http://www.bitace.in/bininc/manager/";
 }
+

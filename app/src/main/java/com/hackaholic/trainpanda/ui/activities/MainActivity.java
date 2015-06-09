@@ -40,7 +40,7 @@ public class MainActivity extends FragmentActivity {
     static SlidingMenuLayout slidingmenu_layout;
     Context context;
     Button button_back;
-    TextView title;
+    TextView title,txtprofileName;
     Button lk_profile_menu;
     private boolean doubleBackToExitPressedOnce;
 
@@ -96,14 +96,17 @@ public class MainActivity extends FragmentActivity {
 
         CircleImageView leftNavLogoImageView = (CircleImageView)findViewById(R.id.leftNavLogoImageView);
 
+
+        txtprofileName = (TextView) findViewById(R.id.txtprofileName);
         title = (TextView) findViewById(R.id.lk_profile_header_textview);
         title.setText("TRAIN PANDA");
 
         sharedPreferences = getSharedPreferences("TrainPanda",MODE_PRIVATE);
         System.out.println(sharedPreferences.getString("name", "no name"));
 
-        lk_profile_header_textview=(TextView)findViewById(R.id.lk_profile_header_textview);
-        lk_profile_header_textview.setText(sharedPreferences.getString("name", "no name"));
+
+
+        txtprofileName.setText(sharedPreferences.getString("name", "no name"));
 
         String url=sharedPreferences.getString("image_url",null).toString();
         System.out.println("Url Profile_image "+url);

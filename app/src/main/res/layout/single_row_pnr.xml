@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp" >
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:gravity="center|left" >
+
+            <TextView
+                android:id="@+id/single_row_pnr_tv_passengers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Passenger 1 "
+                android:textColor="@color/White"
+                android:textSize="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/single_row_pnr_tv_seats"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S2 1-LB"
+                android:textColor="@color/White"
+                android:textSize="8dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_weight="1"
+            android:gravity="center|right" >
+
+            <TextView
+                android:id="@+id/single_row_pnr_tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CNF"
+                android:textColor="@color/White"
+                android:textSize="8dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/Orange" />
+
+
+</LinearLayout>

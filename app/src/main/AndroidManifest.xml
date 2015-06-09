@@ -22,7 +22,7 @@
             android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,6 +46,12 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+
+        <activity
+            android:name=".ui.activities.SlidingActivity"
+            android:label="@string/title_activity_sliding"
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data

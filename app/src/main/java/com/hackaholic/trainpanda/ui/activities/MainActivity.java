@@ -24,6 +24,7 @@ import com.hackaholic.trainpanda.ui.fragments.MainFragment;
 import com.hackaholic.trainpanda.ui.fragments.MyFoodOrder;
 import com.hackaholic.trainpanda.ui.fragments.MySearchedPNR;
 import com.hackaholic.trainpanda.ui.fragments.OrderFood;
+import com.hackaholic.trainpanda.ui.fragments.PNRFragment;
 import com.hackaholic.trainpanda.ui.fragments.RunningStatus;
 import com.hackaholic.trainpanda.ui.fragments.SearchTrain;
 import com.hackaholic.trainpanda.ui.fragments.SeatAvailability;
@@ -33,7 +34,7 @@ import com.hackaholic.trainpanda.utils.SlidingMenuLayout;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
+import android.util.Log;
 
 public class MainActivity extends FragmentActivity {
     ListView Listview, more_Listview;
@@ -42,6 +43,7 @@ public class MainActivity extends FragmentActivity {
     Button button_back;
     TextView title,txtprofileName;
     Button lk_profile_menu;
+
     private boolean doubleBackToExitPressedOnce;
 
     String[] web = {
@@ -108,19 +110,22 @@ public class MainActivity extends FragmentActivity {
 
         txtprofileName.setText(sharedPreferences.getString("name", "no name"));
 
-        String url=sharedPreferences.getString("image_url",null).toString();
-        System.out.println("Url Profile_image "+url);
-        String id = sharedPreferences.getString("idd", "not found").toString();
+        try {
+            String url = sharedPreferences.getString("image_url", null).toString();
+            System.out.println("Url Profile_image " + url);
+            String id = sharedPreferences.getString("idd", "not found").toString();
 
-        Picasso.with(getBaseContext()).load(url).placeholder(R.drawable.a6).into(leftNavLogoImageView);
-
+            Picasso.with(getBaseContext()).load(url).placeholder(R.drawable.a6).into(leftNavLogoImageView);
+        }catch (Exception e){
+            Log.e("exc in profile image",e.toString());
+        }
 
         button_back = (Button) findViewById(R.id.more_back_button);
         button_back.setVisibility(View.INVISIBLE);
 
 
 
-        MainFragment fragment = new MainFragment();
+        PNRFragment fragment = new PNRFragment();
         start_fragment(fragment);
 
 
@@ -164,7 +169,7 @@ public class MainActivity extends FragmentActivity {
                 case 0:
                     toggleMenu(view);
                     title.setText("TRAIN PANDA");
-                    MainFragment home = new MainFragment();
+                    PNRFragment home = new PNRFragment();
                     start_fragment(home);
                     //Toast.makeText(MainActivity.this, "You Clicked at " + web[+i], Toast.LENGTH_SHORT).show();
                     break;

@@ -9,8 +9,13 @@ import android.graphics.Typeface;
  */
 public class PrefUtils {
 
+    public static void setCurrentStationCode(Context ctx,String code){
+        Prefs.with(ctx).save("stCode",code);
+    }
 
-
-
+    public static String getCurrentStationCode(Context ctx){
+        String code = Prefs.with(ctx).getString("stCode", "");
+        return code;
+    }
 
 }

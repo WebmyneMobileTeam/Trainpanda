@@ -16,31 +16,32 @@
             android:layout_gravity="center">
 
             <TextView
+                android:textSize="@dimen/big_text"
                 android:id="@+id/tv_detail"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
                 android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:textColor="#fff"
                 android:layout_marginBottom="20dp"
                 android:text="ENTER PNR DETAILS"
                 />
 
             <EditText
-                android:id="@+id/editText"
+                android:gravity="center"
+                android:inputType="number"
+                android:textColor="#494949"
+                android:id="@+id/etPNR"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:textSize="@dimen/normal_text"
                 android:layout_marginBottom="20dp"
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
                 android:hint="ENTER PNR HERE" />
-
+<!--
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
@@ -53,32 +54,45 @@
                 android:textColor="#FFF" />
 
 
-            editText
+
             <EditText
+                android:textColor="#494949"
                 android:id="@+id/editText2"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:textSize="@dimen/normal_text"
                 android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
-                android:hint="ENTER STATION CODE" />
+                android:hint="ENTER STATION CODE" />-->
 
 
             <Button
-                android:id="@+id/button"
+                android:textColor="#ffffff"
+                android:id="@+id/buttonGO"
                 android:layout_marginRight="25dp"
                 android:layout_marginLeft="25dp"
                 android:layout_width="match_parent"
-                android:textSize="16dp"
                 android:layout_height="wrap_content"
-
+                android:textSize="@dimen/normal_text"
                 android:layout_marginTop="20dp"
                 android:background="#FF9A0A"
                 android:text="GO" />
+
+            <Button
+                android:textColor="#ffffff"
+                android:id="@+id/buttonPNRSMS"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text"
+                android:layout_marginTop="20dp"
+                android:background="#FF9A0A"
+                android:text="FETCH PNR FROM SMS" />
 
 
         </LinearLayout>

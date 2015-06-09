@@ -38,6 +38,7 @@ public class SplashActivity extends Activity {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 startActivity(intent);
+                finish();
             }
         }, 3000);
     }

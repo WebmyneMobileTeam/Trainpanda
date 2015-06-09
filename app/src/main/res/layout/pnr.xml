@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:background="@drawable/background" >
+
+    <LinearLayout
+        android:id="@+id/pnr_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp" >
+
+            <TextView
+                android:textSize="@dimen/big_text"
+                android:id="@+id/tv_detail"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#fff"
+                android:layout_marginBottom="20dp"
+                android:text="ENTER PNR DETAILS"
+                />
+
+            <EditText
+                android:gravity="center"
+                android:inputType="number"
+                android:textColor="#494949"
+                android:id="@+id/ed_pnr_no_input"
+                android:layout_marginRight="25dp"
+                android:layout_marginLeft="25dp"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text"
+                android:layout_marginBottom="20dp"
+                android:background="#FFF"
+                android:textColorHint="#8c8c8c"
+                android:hint="ENTER PNR HERE" />
+
+
+
+
+                <TextView
+                    android:gravity="center"
+                    android:textColor="#ffffff"
+                    android:id="@+id/pnr_tv_go"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/normal_text"
+                    android:layout_marginTop="20dp"
+                    android:padding="8dp"
+                    android:background="#FF9A0A"
+                    android:text="GO" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_pnr_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pnr_linear_layout"
+        android:paddingBottom="2dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="16dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/l_train_orange"
+            android:gravity="center|right"
+            android:paddingLeft="0dp"
+            android:paddingRight="10dp"
+            android:text="1"
+            android:textColor="@color/White"
+            android:textSize="9dp" />
+
+        <TextView
+            android:layout_width="43dp"
+            android:layout_height="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/r_train_orange"
+            android:gravity="center|right"
+            android:paddingLeft="0dp"
+            android:paddingRight="10dp"
+            android:text="2"
+            android:textColor="@color/White"
+            android:textSize="9dp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_pnr_first"
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:layout_below="@+id/rl_pnr_second"
+        android:background="@drawable/pnr_background"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.45"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:padding="0dp" >
+
+            <TextView
+                android:id="@+id/pnr_tv_from_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/White"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/pnr_tv_from_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/Orange"
+                android:textSize="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/White"
+                android:textSize="8dp" />
+
+            <TextView
+                android:id="@+id/pnr_tv_from_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/Orange"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/pnr_tv_sdl_dep"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Schedule Departure "
+                android:textColor="@color/White"
+                android:textSize="8dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/pnr_tv_from_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="06:03 "
+                android:textColor="@color/Orange"
+                android:textSize="10dp"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="8dp"
+            android:layout_weight="0.45"
+            android:gravity="right"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/pnr_tv_to_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/White"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/pnr_tv_to_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/Orange"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/pnr_tv_to_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Sat,24 jan"
+                android:textColor="@color/White"
+                android:textSize="14dp"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/pnr_tv_to_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" 15:00"
+                android:textColor="@color/White"
+                android:textSize="14dp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_pnr_third"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@+id/ll_pnr_first"
+        android:background="@drawable/pnr_background_below"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:id="@+id/pnr_third"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="0.60"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/pnr_tv_train_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/Orange"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status "
+                    android:textColor="@color/White"
+                    android:textSize="12dp" />
+
+                <TextView
+                    android:id="@+id/pnr_tv_status"
+                    android:layout_width="46dp"
+                    android:layout_height="12dp"
+                    android:layout_marginLeft="8dp"
+                    android:background="@drawable/rounded_corners_green"
+                    android:gravity="center"
+                    android:text="Confirm"
+                    android:textColor="@color/White"
+                    android:textSize="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/passenger_detail_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_pnr_third"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/Orange"
+            android:orientation="horizontal"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:visibility="visible" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:gravity="center|left" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Passengers"
+                    android:textColor="@color/Black"
+                    android:textSize="10dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seats"
+                    android:textColor="@color/Black"
+                    android:textSize="10dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="9dp"
+                android:layout_weight="1"
+                android:gravity="center|right" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Status"
+                    android:textColor="@color/Black"
+                    android:textSize="10dp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/pnr_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/passenger_detail_menu"
+        android:visibility="gone" />
+
+</RelativeLayout>

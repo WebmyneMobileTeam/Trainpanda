@@ -518,6 +518,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				holder=new MyHolder();
 				LayoutInflater inflater=(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 				row=inflater.inflate(R.layout.single_row_train_route, parent,false);
+
 				holder.train_route_arival_time=(TextView) row.findViewById(R.id.train_route_arival_time);
 				holder.train_route_departure_time=(TextView) row.findViewById(R.id.train_route_departure_time);
 				holder.train_route_avg_delay_time=(TextView) row.findViewById(R.id.train_route_avg_delay_time);
@@ -534,6 +535,9 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			holder.train_route_arival_time.setText(" - "+al_scharr.get(position)+" ");
 			holder.train_route_departure_time.setText(" - "+al_schdep.get(position)+" ");
 			holder.train_route_train_name.setText(""+al_fullname.get(position)+" ");
+
+
+
 
 			if(!al_scharr.get(position).trim().equals("Source") && !al_schdep.get(position).trim().equals("Destination") )
 			{

@@ -431,9 +431,9 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 				holder=new MyHolder();
 				LayoutInflater inflater=(LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 				row=inflater.inflate(R.layout.single_row_hotel_booking, parent,false);
-				holder.hotel_name=(TextView)row.findViewById(R.id.hotel_name);
-				holder.ll_booking_now=(LinearLayout)row.findViewById(R.id.ll_booking_now);
-				holder.ll_call_now=(LinearLayout)row.findViewById(R.id.ll_call_now);
+
+				holder.hotel_name=(TextView)row.findViewById(R.id.nameHotel);
+				holder.mobile=(TextView)row.findViewById(R.id.mobile);
 				row.setTag(holder);
 			}
 			else
@@ -441,24 +441,8 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 				holder=(MyHolder) row.getTag();
 			}
 			holder.hotel_name.setText(al_name.get(position));
+			//holder.hotel_name.setText(al_mobileNo.get(position));
 
-			holder.ll_call_now.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					printMessage("Call Now : "+position);
-				}
-			});
-
-			holder.ll_booking_now.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					printMessage("Booking Now : "+position);
-				}
-			});
 
 			return row;
 		}
@@ -466,7 +450,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 
 	private static class MyHolder
 	{
-		TextView hotel_name;
+		TextView hotel_name,mobile;
 		LinearLayout ll_call_now,ll_booking_now;
 	}
 

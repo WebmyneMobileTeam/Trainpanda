@@ -627,10 +627,11 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				//holder.tv_s_indian=(TextView)row.findViewById(R.id.tv_s_indian);
 				//holder.tv_veg=(TextView)row.findViewById(R.id.tv_veg);
 				holder.tv_restaurant_timings=(TextView)row.findViewById(R.id.time);
-				holder.ll_order_now=(LinearLayout)row.findViewById(R.id.ll_order_now);
-				holder.ll_call=(LinearLayout)row.findViewById(R.id.ll_call);
+
+				//holder.ll_order_now=(LinearLayout)row.findViewById(R.id.ll_order_now);
+				//holder.ll_call=(LinearLayout)row.findViewById(R.id.ll_call);
 				//holder.ll_veg_boundry=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
-				holder.ll_give_ratings=(LinearLayout)row.findViewById(R.id.ll_give_ratings);
+				//holder.ll_give_ratings=(LinearLayout)row.findViewById(R.id.ll_give_ratings);
 				row.setTag(holder);
 			}
 			else
@@ -638,73 +639,9 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder=(MyHolder) row.getTag();
 			}
 			holder.tv_restaurant_name.setText(al_name.get(position));
-			//holder.tv_restaurant_mobile.setText(al_mobileNo.get(position));
-
-			/*if(al_vegItems.get(position).trim().equals("true"))
-			{
-				holder.ll_veg_boundry.setBackgroundResource(R.drawable.green_boundry_hotel_booking);
-				holder.tv_veg.setTextColor(Color.parseColor("#00AF00"));				
-			}
-			else
-			{
-				holder.ll_veg_boundry.setBackgroundResource(R.drawable.red_boundry_hotel_booking);
-				holder.tv_veg.setTextColor(Color.parseColor("#F40101"));
-			}*/
-			
-			/*if(al_northIndia.get(position).trim().equals("true"))
-			{
-				holder.tv_n_india.setText("yes");
-			}
-			else
-			{
-				holder.tv_n_india.setText("no");
-			}
-			
-			if(al_southIndia.get(position).trim().equals("true"))
-			{
-				holder.tv_s_indian.setText("yes");
-			}
-			else
-			{
-				holder.tv_s_indian.setText("no");
-			}
-			
-			if(al_pizza.get(position).trim().equals("true"))
-			{
-				holder.tv_n_pizza.setText("yes");
-			}
-			else
-			{
-				holder.tv_n_pizza.setText("no");
-			}*/
+//			holder.tv_restaurant_mobile.setText(al_mobileNo.get(position));
 
 
-			holder.ll_call.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					printMessage("Call "+position);
-				}
-			});
-
-			holder.ll_order_now.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					printMessage("Order "+position);
-				}
-			});
-
-			holder.ll_give_ratings.setOnClickListener(new OnClickListener()
-			{
-				@Override
-				public void onClick(View v)
-				{
-					printMessage("Ratings"+position);
-				}
-			});
 
 //			holder.tv_restaurant_timings.setText(" "+al_morningOpeningTime.get(position)+" to "+al_morningClosingTime.get(position)+" & "+al_eveningOpeningTime.get(position)+" to "+al_eveningClosingTime.get(position)+" ");
 			return row;

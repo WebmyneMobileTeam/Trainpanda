@@ -11,6 +11,7 @@
 android:orientation="horizontal" >
 
         <ImageView
+            android:padding="4dp"
             android:id="@+id/imgHotel"
             android:layout_width="80dp"
             android:layout_height="80dp"
@@ -96,7 +97,7 @@ android:orientation="horizontal" >
                 android:id="@+id/minOrder"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Min Order: 300 INR."
+                android:text="Min Order: 300 INR"
                 android:textSize="12dp"
                 android:textColor="@color/Orange"
                 />

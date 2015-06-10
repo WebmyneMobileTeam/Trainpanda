@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -32,6 +33,8 @@ import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.activities.SlidingActivity;
+import com.hackaholic.trainpanda.utility.ExpandableLayout;
+import com.hackaholic.trainpanda.utility.ExpandableLayoutListView;
 import com.hackaholic.trainpanda.utility.ExpandablePanel;
 
 import org.json.JSONArray;
@@ -51,11 +54,12 @@ import Model.PNR;
 
 public class TrainRoutesFragment extends Fragment implements OnClickListener
 {
+
 	private ArrayList<String> al_booking_status;
 	private ArrayList<String> al_current_status;
 	private ArrayList<String> al_no;
 	private String totalPassengers="";
-
+	ExpandableLayoutListView expandableLayoutListView;
 	private TextView train_route_train_name;
 	private TextView train_route_train_code;
 	private ListView train_route_listview,pnr_listview;
@@ -66,6 +70,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 	ExpandablePanel panel;
 	LinearLayout pnr_expand , ll_pnr_third ,ll_pnr_fourth;
 	ArrayList<String> al_code;
+	private final String[] array = {"Hello", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome"};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,10 +92,28 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.train_route, container, false);
-		initializeViews(rootView);		
+
+
+		/*final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.view_row, R.id.header_text, array);
+		final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
+
+		expandableLayoutListView.setAdapter(arrayAdapter);*/
+
+		initializeViews(rootView);
+
+
+		ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
+		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
+		pnr_listview.setVisibility(View.VISIBLE);
+		Log.e("on expand panel","yes");
+		pnr_listview.setAdapter(
+				new MyAdapterPNR(cuurentPNR, getActivity()));
 		return rootView;
 
 	}
+
+
+
 
 	private void initializeViews(View rootView)
 	{
@@ -101,35 +124,32 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		train_route_actv_train_number=(AutoCompleteTextView)rootView.findViewById(R.id.train_route_actv_train_number);
 		train_route_actv_train_number.setThreshold(1);
 		train_route_actv_train_number.setText(tNO);
-		pnr_expand = (LinearLayout)rootView.findViewById(R.id.ll_pnr_first);
+		//pnr_expand = (LinearLayout)rootView.findViewById(R.id.ll_pnr_first);
+
+
 
 		pnr_listview = (ListView)rootView.findViewById(R.id.pnr_listview);
 
-		ll_pnr_third = (LinearLayout)rootView.findViewById(R.id.ll_pnr_third);
+		//ll_pnr_third = (LinearLayout)rootView.findViewById(R.id.ll_pnr_third);
 		//ll_pnr_fourth = (LinearLayout)rootView.findViewById(R.id.ll_pnr_fourth);
 
 
 		train_route_tv_go.performClick();
 
-		panel = (ExpandablePanel) rootView.findViewById(R.id.expandablePanel);
+		//panel = (ExpandablePanel) rootView.findViewById(R.id.expandablePanel);
 		// panel.setCollapsedHeight(10);
-		train_route_actv_train_number.addTextChangedListener(new TextWatcher()
-		{
+		train_route_actv_train_number.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count)
-			{
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after)
-			{
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s)
-			{
-				if(train_route_actv_train_number.getText().toString().length()>4)
-				{
+			public void afterTextChanged(Editable s) {
+				if (train_route_actv_train_number.getText().toString().length() > 4) {
 					train_route_tv_go.performClick();
 					new TrainNumberTask().execute(train_route_actv_train_number.getText().toString().trim());
 				}
@@ -138,7 +158,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 
 
-		panel.setOnExpandListener(new ExpandablePanel.OnExpandListener() {
+		/*panel.setOnExpandListener(new ExpandablePanel.OnExpandListener() {
 
 			public void onCollapse(View handle, View content) {
 				pnr_expand.setVisibility(View.GONE);
@@ -167,7 +187,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				panel.setCollapsedHeight(10);
 				btn.setText("Hide");
 			}
-		});
+		});*/
 	}
 
 	private class TrainNumberTask extends AsyncTask<String,Void,String>
@@ -392,17 +412,17 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		@Override
 		public int getCount()
 		{
-			return 3;
+			return valuesPNR.passengers.size();
 		}
 		@Override
 		public Object getItem(int position)
 		{
-			return position;
+			return valuesPNR.passengers.get(position);
 		}
 		@Override
 		public long getItemId(int position)
 		{
-			return position;
+			return 0;
 		}
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
@@ -418,6 +438,8 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
 
 			single_row_pnr_tv_passengers.setText("Passenger ");
+			single_row_pnr_tv_seats.setText("Passenger ");
+			single_row_pnr_tv_status.setText("Passenger ");
 			/*for(int i=0;i<valuesPNR.passengers.size();i++){
 				//holder.single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(i).no+"");
 				holder.single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(i).booking_status+"  ");

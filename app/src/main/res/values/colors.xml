@@ -31,4 +31,7 @@
     <color name="cream_color">#C69C6D</color>
     <color name="sky_blue">#00FFFF</color>
     <color name="dark_blue">#066E9A</color>
+
+    <color name="pnr_bg">#152846</color>
+
 </resources>

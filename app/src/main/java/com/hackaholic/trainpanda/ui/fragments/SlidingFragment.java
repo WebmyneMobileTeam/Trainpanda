@@ -49,11 +49,30 @@ public class SlidingFragment extends Fragment {
 	private FragmentTabHost mTabHost;
 
 	public SlidingFragment(){}
+	String stName;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+
+		Bundle args = getArguments();
+		if (args  != null && args.containsKey("stName")){
+			stName= args.getString("stName");
+
+		}
+
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
+
+		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
+		title.setText("BRC - static");
+
+
+
 		View rootView = inflater.inflate(R.layout.activity_sliding, container, false);
 
 		mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);

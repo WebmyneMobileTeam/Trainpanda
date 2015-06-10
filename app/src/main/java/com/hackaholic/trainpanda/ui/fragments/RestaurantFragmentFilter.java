@@ -2,10 +2,12 @@ package com.hackaholic.trainpanda.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
@@ -28,6 +31,7 @@ import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
+import com.hackaholic.trainpanda.ui.activities.RestrauntDetail;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -58,6 +62,30 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 		performTask();
 
 		getRestaurantDetails();
+
+
+		restaurant_fragment_filter_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+				Intent in = new Intent(getActivity(), RestrauntDetail.class);
+				in.putExtra("stCode",currRestr.Restraunt.get(i).stationCode);
+				startActivity(in);
+			/*
+				Restaurant_details fragment = new Restaurant_details();
+				Bundle bundle = new Bundle();
+				bundle.putString("stCode", currRestr.Restraunt.get(i).stationCode);
+				//Log.e("pnr",cuurentPNR.pnr);
+				//bundle.putString("pnr", cuurentPNR.pnr);
+
+				//fragment.setArguments(bundle);
+				FragmentManager fragmentManager22 = getFragmentManager();
+				fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).addToBackStack(null).commit();*/
+
+			}
+		});
+
+
 
 		return row;
 	}

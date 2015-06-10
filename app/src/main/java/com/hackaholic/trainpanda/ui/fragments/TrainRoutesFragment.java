@@ -119,9 +119,18 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
 		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
 		pnr_listview.setVisibility(View.VISIBLE);
-		Log.e("on expand panel","yes");
+		Log.e("on expand panel", "yes");
 		pnr_listview.setAdapter(
 				new MyAdapterPNR(cuurentPNR, getActivity()));
+
+
+
+
+
+
+
+
+
 		return rootView;
 
 	}
@@ -289,10 +298,23 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				Intent i = new Intent(getActivity(),SlidingActivity.class);
 				startActivity(i);*/
 				String code = al_code.get(position);
-				PrefUtils.setCurrentStationCode(getActivity(),code);
+
+
+				Bundle bun = new Bundle();
+				bun.putString("stName", code);
+
+
+				SlidingFragment fragment = new SlidingFragment();
+				Bundle bundle = new Bundle();
+				fragment.setArguments(bundle);
+				FragmentManager fragmentManager22 = getFragmentManager();
+				fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+
+				/*PrefUtils.setCurrentStationCode(getActivity(),code);
 				FragmentManager fragmentManager2 = getFragmentManager();
+
 				fragmentManager2.beginTransaction()
-						.replace(R.id.lk_profile_fragment,new SlidingFragment()).commit();
+						.replace(R.id.lk_profile_fragment,new SlidingFragment()).commit();*/
 
 			}
 		});

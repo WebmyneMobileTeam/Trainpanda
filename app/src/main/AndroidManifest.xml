@@ -54,6 +54,13 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:name=".ui.activities.RestrauntDetail"
+            android:label="@string/title_activity_sliding"
+            android:screenOrientation="portrait">
+        </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/applicationId" />

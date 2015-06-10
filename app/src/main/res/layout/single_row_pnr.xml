@@ -22,7 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Passenger 1 "
-                android:textColor="@color/White"
+                android:textColor="#494949"
                 android:textSize="8dp" />
         </RelativeLayout>
 
@@ -37,7 +37,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="S2 1-LB"
-                android:textColor="@color/White"
+                android:textColor="#494949"
                 android:textSize="8dp" />
         </RelativeLayout>
 
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CNF"
-                android:textColor="@color/White"
+                android:textColor="#494949"
                 android:textSize="8dp" />
         </RelativeLayout>
     </LinearLayout>

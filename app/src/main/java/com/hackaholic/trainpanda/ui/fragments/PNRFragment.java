@@ -22,8 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
+import com.hackaholic.trainpanda.custom.ComplexPreferences;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -40,6 +42,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import Model.PNR;
 
 public class PNRFragment extends Fragment implements OnClickListener
 {
@@ -512,6 +516,14 @@ public class PNRFragment extends Fragment implements OnClickListener
 
 					Log.e("pnr Response",jsonObject.toString());
 
+
+					PNR cuurentPNR= new GsonBuilder().create().fromJson(jsonObject.toString(), PNR.class);
+
+
+					ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
+					complexPreferences.putObject("current-pnr", cuurentPNR);
+					complexPreferences.commit();
+
 					System.out.println(result);
 					//Class
 					classRailway=jsonObject.getString("class");
@@ -569,6 +581,7 @@ public class PNRFragment extends Fragment implements OnClickListener
 				}
 				catch(Exception e)
 				{
+					Log.e("exc in pnr",e.toString());
 					e.printStackTrace();
 				}
 			}

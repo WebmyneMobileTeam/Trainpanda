@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -68,7 +69,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 	private AutoCompleteTextView train_route_actv_train_number;
 	private ProgressBar progressBar_train_routes;
 	private TextView train_route_tv_go;
-	String tNO;
+	String tNO,PNR;
 	ExpandablePanel panel;
 	LinearLayout pnr_expand , ll_pnr_third ,ll_pnr_fourth;
 	ArrayList<String> al_code;
@@ -84,6 +85,10 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			tNO= args.getString("trainNo");
 
 		}
+		if (args  != null && args.containsKey("pnr")){
+			PNR= args.getString("pnr");
+			Log.e("pnr",PNR);
+		}
 
 	}
 
@@ -93,6 +98,13 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
+
+		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
+		title.setText("PNR : "+PNR);
+
+		ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
+		imgToolbarOption.setVisibility(View.VISIBLE);
+
 		View rootView = inflater.inflate(R.layout.train_route, container, false);
 
 
@@ -344,6 +356,8 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		protected void onPostExecute(String result)
 		{
 			super.onPostExecute(result);
+
+			dialog.dismiss();
 			//Initialize Arraylist
 			ArrayList<String> al_lat=new ArrayList<String>();
 			ArrayList<String> al_scharr=new ArrayList<String>();
@@ -390,7 +404,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 					e.printStackTrace();
 				}
 			}
-			dialog.dismiss();
+
 			train_route_listview.setAdapter(new MyAdapter(getActivity(),
 					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng));
 		}

@@ -104,6 +104,7 @@
                 android:onClick="toggleMenu" />
 
             <TextView
+
                 android:id="@+id/lk_profile_header_textview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_50"
@@ -114,8 +115,18 @@
                 android:text="Train Panda"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#FFF"
-                android:textSize="20sp"
+                android:textSize="@dimen/big_text"
                 android:textStyle="bold" />
+            <ImageView
+                android:visibility="gone"
+                android:layout_margin="8dp"
+                android:src="@drawable/ic_launcher"
+                android:id="@+id/imgToolbarOption"
+                android:layout_alignRight="@+id/lk_profile_header_textview"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <!-- This is where fragment will show up -->

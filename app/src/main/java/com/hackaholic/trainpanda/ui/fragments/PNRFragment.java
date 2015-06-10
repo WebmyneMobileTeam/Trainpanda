@@ -81,6 +81,9 @@ public class PNRFragment extends Fragment implements OnClickListener
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
 	{
+
+
+
 		View rootView = inflater.inflate(R.layout.pnr, container, false);
 		sharedPreferences=getActivity().getSharedPreferences("TrainPanda",getActivity().MODE_PRIVATE);
 		/*iv_b=(ImageView)rootView.findViewById(R.id.iv_b);
@@ -462,6 +465,17 @@ public class PNRFragment extends Fragment implements OnClickListener
 		}
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
+		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
+		title.setText("Train Panda");
+
+		ImageView imgToolbarOption = (ImageView)getActivity().findViewById(R.id.imgToolbarOption);
+		imgToolbarOption.setVisibility(View.GONE);
+
+	}
+
 	private void pringMessage(String msg)
 	{
 		Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT).show();
@@ -503,6 +517,9 @@ public class PNRFragment extends Fragment implements OnClickListener
 			}
 			return response;
 		}
+
+
+
 
 		@Override
 		protected void onPostExecute(String result)
@@ -573,7 +590,9 @@ public class PNRFragment extends Fragment implements OnClickListener
 					Fragment fragment = new TrainRoutesFragment();
 	                Bundle bundle = new Bundle();
 					bundle.putString("trainNo", trainNumber);
-					
+					Log.e("pnr",cuurentPNR.pnr);
+					bundle.putString("pnr", cuurentPNR.pnr);
+
 					fragment.setArguments(bundle);
 					FragmentManager fragmentManager22= getFragmentManager();
 		     		fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment,fragment).commit();

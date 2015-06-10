@@ -49,7 +49,7 @@ public class SlidingMenuLayout extends LinearLayout {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         mainLayoutWidth = MeasureSpec.getSize(widthMeasureSpec);
-        menuRightMargin = mainLayoutWidth * 15 / 100;
+        menuRightMargin = mainLayoutWidth * 30 / 100;
     }
 
     @Override

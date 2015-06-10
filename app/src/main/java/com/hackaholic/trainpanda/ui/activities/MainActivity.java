@@ -304,6 +304,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.lk_profile_fragment, frag);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

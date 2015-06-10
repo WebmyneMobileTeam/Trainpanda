@@ -27,9 +27,6 @@ public class SplashActivity extends Activity {
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
 
-        Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(intent);
 
     Handler handler=new Handler();
         handler.postDelayed(new Runnable() {

@@ -29,7 +29,7 @@ android:orientation="horizontal" >
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hotel Krunal"
-                android:textSize="22dp"
+                android:textSize="@dimen/big_text"
                 android:textColor="@color/Orange"
                 />
 
@@ -71,11 +71,9 @@ android:orientation="horizontal" >
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-
-
-                    android:gravity="center"
+                    android:gravity="top"
                     android:paddingTop="4dp"
-                    android:layout_gravity="center"
+                    android:layout_gravity="top"
                     android:src="@drawable/departure"/>
 
 
@@ -85,8 +83,8 @@ android:orientation="horizontal" >
                     android:layout_height="wrap_content"
                     android:text="10:00 to 22:00 Hrs "
                     android:textColor="@color/White"
-                    android:textSize="14sp"
-                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
                     android:layout_gravity="center"
                     android:layout_margin="4dp"
@@ -140,6 +138,8 @@ android:orientation="horizontal" >
 
           <include
               layout="@layout/veglayout"/>
+            <include
+                layout="@layout/nonveglayout"/>
 
         </LinearLayout>
 

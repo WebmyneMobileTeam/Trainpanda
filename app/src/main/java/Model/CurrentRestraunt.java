@@ -47,7 +47,7 @@ public class CurrentRestraunt {
 	public boolean northIndia;
 
 	@SerializedName("pizza")
-	public String pizza;
+	public boolean pizza;
 
 	@SerializedName("name")
 	public String name;

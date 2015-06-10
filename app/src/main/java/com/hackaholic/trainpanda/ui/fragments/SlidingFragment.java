@@ -60,7 +60,7 @@ public class SlidingFragment extends Fragment {
 		//mTabHost.setup(getActivity(), getActivity().getSupportFragmentManager(), android.R.id.tabcontent);
 		mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
 
-		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Food", null), RestaurantFragmentFilter.class, null);
+		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Food",null), RestaurantFragmentFilter.class, null);
 		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Hotel", null), HotelBookingWithStationCodeFragment.class, null);
 		mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Info", null), WeatherFragment.class, null);
 

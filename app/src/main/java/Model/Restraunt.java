@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Restraunt {
 
-	@SerializedName("mobileNo")
+	@SerializedName("Restraunt")
 	public ArrayList<CurrentRestraunt> Restraunt;
 
 

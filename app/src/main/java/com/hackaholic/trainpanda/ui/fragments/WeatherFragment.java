@@ -34,13 +34,15 @@ public class WeatherFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState)
 	{
-		View row=inflater.inflate(R.layout.jaipur_delhi, container,false);
-		initializeTextViews(row);
-		new MyBackgroundAsync(getActivity()).execute("delhi");
+		View row=inflater.inflate(R.layout.weather, container,false);
+
+
+		//initializeTextViews(row);
+		//new MyBackgroundAsync(getActivity()).execute("delhi");
 		return row;
 	}
 	
-	private void initializeTextViews(View row)
+	/*private void initializeTextViews(View row)
 	{
 		weather_tv_description=(TextView)row.findViewById(R.id.weather_tv_description);
 		weather_tv_humidity=(TextView)row.findViewById(R.id.weather_tv_humidity);
@@ -154,6 +156,7 @@ public class WeatherFragment extends Fragment
 					String code=jsonObject.getString("cod");
 					
 					//Set Data
+
 					weather_tv_min.setText("Min Temp - "+temp_min.substring(0,2)+" ");
 					weather_tv_max.setText("Max Temp - "+temp_max.substring(0,2)+" ");
 					weather_tv_pressure.setText("Pressure - "+pressure+" ");
@@ -187,6 +190,6 @@ public class WeatherFragment extends Fragment
 		
 		
         
-	}
+	}*/
 	
 }

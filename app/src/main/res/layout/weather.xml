@@ -1,0 +1,192 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/pnr_bg"
+    android:weightSum="3"
+    android:orientation="vertical"
+
+    tools:context="com.hackaholic.trainpanda.ui.activities.SplashActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+       android:layout_gravity="center">
+
+    <TextView
+        android:id="@+id/nameHotel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weather Information"
+android:paddingLeft="16dp"
+        android:layout_margin="8dp"
+        android:textSize="22dp"
+        android:textColor="@color/Orange"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+     android:padding="16dp"
+        android:weightSum="3"
+        >
+
+        <ImageView
+            android:id="@+id/imageCloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+android:layout_gravity="center"
+            android:layout_weight="1"
+           android:src="@drawable/cloud"
+            />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:layout_weight="1">
+
+
+            <TextView
+                android:id="@+id/address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20 C "
+                android:textColor="@color/White"
+                android:textSize="30sp"
+
+
+                android:layout_gravity="center"
+
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Partly Cloud "
+                android:textColor="@color/White"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:layout_gravity="center"
+
+                />
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+android:gravity="center"
+            android:layout_weight="1">
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/Orange"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wind - 10 KM/H"
+                android:textSize="12dp"
+                android:textColor="@color/Orange"
+                />
+
+
+            </LinearLayout>
+
+
+    </LinearLayout>
+
+        </LinearLayout>
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/departure_color"
+      />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+      android:layout_gravity="center">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Famous For"
+android:paddingLeft="16dp"
+            android:layout_margin="8dp"
+            android:textSize="22dp"
+            android:textColor="@color/Orange"
+            />
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
+            android:textColor="@color/White"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:layout_margin="4dp"
+            />
+
+        </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Latest Event"
+            android:paddingLeft="16dp"
+            android:layout_margin="8dp"
+            android:textSize="22dp"
+            android:textColor="@color/Orange"
+            />
+
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
+            android:textColor="@color/White"
+            android:textSize="14sp"
+            android:paddingLeft="16dp"
+            android:layout_margin="4dp"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

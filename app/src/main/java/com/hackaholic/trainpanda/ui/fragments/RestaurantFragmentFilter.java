@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.helpers.API;
@@ -33,8 +34,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import Model.Restraunt;
+
 public class RestaurantFragmentFilter extends Fragment implements OnClickListener
 {
+	Restraunt currRestr;
 	private ListView restaurant_fragment_filter_listview;
 	private TextView restaurant_fragment_filter_tv_go;
 	private ProgressBar restaurant_fragment_filter_progressBar;
@@ -314,39 +318,16 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 
-			//Declares arraylist
-			ArrayList<String> al_name=new ArrayList<String>();
-			ArrayList<String> al_code=new ArrayList<String>();
-			ArrayList<String> al_mobileNo=new ArrayList<String>();
-			ArrayList<String> al_email=new ArrayList<String>();
-			ArrayList<String> al_stationCode=new ArrayList<String>();
-			//ArrayList<String> al_text=new ArrayList<String>();
-			ArrayList<String> al_distanceFromStation=new ArrayList<String>();
-			ArrayList<String> al_avgPricePerPerson=new ArrayList<String>();
-			ArrayList<String> al_minOrderAmount=new ArrayList<String>();
-			ArrayList<String> al_deliveryCharges=new ArrayList<String>();
-			ArrayList<String> al_railwayVendor=new ArrayList<String>();
-			//ArrayList<String> al_jainFoodAvailable=new ArrayList<String>();
-			//ArrayList<String> al_vegItems=new ArrayList<String>();
-			//ArrayList<String> al_pizza=new ArrayList<String>();
-			//ArrayList<String> al_northIndia=new ArrayList<String>();
-			//ArrayList<String> al_southIndia=new ArrayList<String>();
-			//ArrayList<String> al_thai=new ArrayList<String>();
-			//ArrayList<String> al_rating=new ArrayList<String>();
-			ArrayList<String> al_morningOpeningTime=new ArrayList<String>();
-			ArrayList<String> al_morningClosingTime=new ArrayList<String>();
-			ArrayList<String> al_eveningOpeningTime=new ArrayList<String>();
-			ArrayList<String> al_eveningClosingTime=new ArrayList<String>();
-			ArrayList<String> al_addedOn=new ArrayList<String>();
-			ArrayList<String> al_updatedOn=new ArrayList<String>();
-			ArrayList<String> al_id=new ArrayList<String>();
-
-
 			if(result!=null)
 			{
 				try
 				{
+
+					JSONObject mainObject = new JSONObject();
+					JSONArray subArray = new JSONArray();
+
 					JSONArray jsonArray=new JSONArray(result);
+
 					if(jsonArray.length()>0)
 					{
 						for(int i=0;i<jsonArray.length();i++)
@@ -354,115 +335,19 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 							JSONObject jsonObject=jsonArray.getJSONObject(i);
 
 							Log.e("resturnr list",jsonObject.toString());
-
-
-							if(jsonObject.has("name")){
-								al_name.add(jsonObject.getString("name"));
-							}else al_name.add("no name");
-
-							if(jsonObject.has("code")){
-								al_name.add(jsonObject.getString("code"));
-							}else al_name.add("no code");
-
-							if(jsonObject.has("mobileNo")){
-								al_name.add(jsonObject.getString("mobileNo"));
-							}else al_name.add("no mobileNo");
-							
-							/*if(jsonObject.has("email")){
-								al_name.add(jsonObject.getString("email"));
-							}else al_name.add("no email");*/
-
-							if(jsonObject.has("stationCode")){
-								al_name.add(jsonObject.getString("stationCode"));
-							}else al_name.add("no stationCode");
-							
-							/*if(jsonObject.has("text")){
-								al_name.add(jsonObject.getString("text"));
-							}else al_name.add("no text");
-							
-							if(jsonObject.has("distanceFromStation")){
-								al_name.add(jsonObject.getString("distanceFromStation"));
-							}else al_name.add("no distanceFromStation");
-							
-							if(jsonObject.has("avgPricePerPerson")){
-								al_name.add(jsonObject.getString("avgPricePerPerson"));
-							}else al_name.add("no avgPricePerPerson");*/
-
-							if(jsonObject.has("minOrderAmount")){
-								al_name.add(jsonObject.getString("minOrderAmount"));
-							}else al_name.add("no minOrderAmount");
-
-							if(jsonObject.has("deliveryCharges")){
-								al_name.add(jsonObject.getString("deliveryCharges"));
-							}else al_name.add("no deliveryCharges");
-
-							if(jsonObject.has("railwayVendor")){
-								al_name.add(jsonObject.getString("railwayVendor"));
-							}else al_name.add("no railwayVendor");
-							
-							/*if(jsonObject.has("jainFoodAvailable")){
-								al_name.add(jsonObject.getString("jainFoodAvailable"));
-							}else al_name.add("no jainFoodAvailable");
-							
-							if(jsonObject.has("vegItems")){
-								al_name.add(jsonObject.getString("vegItems"));
-							}else al_name.add("no vegItems");
-							
-							if(jsonObject.has("pizza")){
-								al_name.add(jsonObject.getString("pizza"));
-							}else al_name.add("no pizza");
-							
-							if(jsonObject.has("northIndia")){
-								al_name.add(jsonObject.getString("northIndia"));
-							}else al_name.add("no northIndia");
-							
-							if(jsonObject.has("southIndia")){
-								al_name.add(jsonObject.getString("southIndia"));
-							}else al_name.add("no southIndia");
-							
-							if(jsonObject.has("thai")){
-								al_name.add(jsonObject.getString("thai"));
-							}else al_name.add("no thai");
-							
-							if(jsonObject.has("rating")){
-								al_name.add(jsonObject.getString("rating"));
-							}else al_name.add("no rating");*/
-
-							if(jsonObject.has("morningOpeningTime")){
-								al_name.add(jsonObject.getString("morningOpeningTime"));
-							}else al_name.add("no morningOpeningTime");
-
-							if(jsonObject.has("morningClosingTime")){
-								al_name.add(jsonObject.getString("morningClosingTime"));
-							}else al_name.add("no morningClosingTime");
-
-							if(jsonObject.has("eveningOpeningTime")){
-								al_name.add(jsonObject.getString("eveningOpeningTime"));
-							}else al_name.add("no eveningOpeningTime");
-
-							if(jsonObject.has("eveningClosingTime")){
-								al_name.add(jsonObject.getString("eveningClosingTime"));
-							}else al_name.add("no eveningClosingTime");
-
-							if(jsonObject.has("addedOn")){
-								al_name.add(jsonObject.getString("addedOn"));
-							}else al_name.add("no addedOn");
-
-							if(jsonObject.has("updatedOn")){
-								al_name.add(jsonObject.getString("updatedOn"));
-							}else al_name.add("no updatedOn");
-
-							if(jsonObject.has("id")){
-								al_name.add(jsonObject.getString("id"));
-							}else al_name.add("no id");
-
-
-
+							subArray.put(i,jsonObject);
 						}
+
+						mainObject.put("Restraunt", subArray);
+						Log.e("final resturnr list", mainObject.toString());
+
+						currRestr  = new GsonBuilder().create().fromJson(mainObject.toString(), Restraunt.class);
+
+
 					}
 					else
 					{
-						printMessage("No Records Found...!");
+						//printMessage("No Records Found...!");
 					}
 				}
 				catch(Exception e)
@@ -475,32 +360,15 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				printMessage("Server Error,Response is null...!");
 			}
 			//dialog.dismiss();
-			restaurant_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(),
-					al_name,
-					al_code,
-					al_mobileNo,
-					al_email,
-					al_stationCode,
-					//al_text,
-					al_distanceFromStation,
-					al_avgPricePerPerson,
-					al_minOrderAmount,
-					al_deliveryCharges,
-					al_railwayVendor,
-					//al_jainFoodAvailable,
-					//al_vegItems,
-					//al_pizza,
-					//al_northIndia, 
-					//al_southIndia, 
-					//al_thai, 
-					//al_rating,
-					al_morningOpeningTime,
-					al_morningClosingTime,
-					al_eveningOpeningTime,
-					al_eveningClosingTime,
-					al_addedOn,
-					al_updatedOn,
-					al_id));
+
+			try {
+				if (currRestr.Restraunt.size() == 0) {
+					Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
+				} else
+					restaurant_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(), currRestr));
+			}catch (Exception e){
+				Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
+			}
 
 		}
 	}
@@ -515,95 +383,22 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 	{
 		private Context context;
 		//Declares arraylist
-		private ArrayList<String> al_name;
-		private ArrayList<String> al_code;
-		private ArrayList<String> al_mobileNo;
-		private ArrayList<String> al_email;
-		private ArrayList<String> al_stationCode;
-		//private ArrayList<String> al_text;
-		private ArrayList<String> al_distanceFromStation;
-		private ArrayList<String> al_avgPricePerPerson;
-		private ArrayList<String> al_minOrderAmount;
-		private ArrayList<String> al_deliveryCharges;
-		private ArrayList<String> al_railwayVendor;
-		//private ArrayList<String> al_jainFoodAvailable;
-		//private ArrayList<String> al_vegItems;
-		//private ArrayList<String> al_pizza;
-		//private ArrayList<String> al_northIndia;
-		//private ArrayList<String> al_southIndia;
-		//private ArrayList<String> al_thai;
-		//private ArrayList<String> al_rating;
-		private ArrayList<String> al_morningOpeningTime;
-		private ArrayList<String> al_morningClosingTime;
-		private ArrayList<String> al_eveningOpeningTime;
-		private ArrayList<String> al_eveningClosingTime;
-		private ArrayList<String> al_addedOn;
-		private ArrayList<String> al_updatedOn;
-		private ArrayList<String> al_id;
+		private Restraunt valuesRestraunt;
 
-		public MyAdapter(Context context,
-						 ArrayList<String> al_name,
-						 ArrayList<String> al_code,
-						 ArrayList<String> al_mobileNo,
-						 ArrayList<String> al_email,
-						 ArrayList<String> al_stationCode,
-						 //ArrayList<String> al_text,
-						 ArrayList<String> al_distanceFromStation,
-						 ArrayList<String> al_avgPricePerPerson,
-						 ArrayList<String> al_minOrderAmount,
-						 ArrayList<String> al_deliveryCharges,
-						 ArrayList<String> al_railwayVendor,
-						 //ArrayList<String> al_jainFoodAvailable,
-						 //ArrayList<String> al_vegItems,
-						 //ArrayList<String> al_pizza,
-						 //ArrayList<String> al_northIndia,
-						 //ArrayList<String> al_southIndia,
-						 //ArrayList<String> al_thai,
-						 //ArrayList<String> al_rating,
-						 ArrayList<String> al_morningOpeningTime,
-						 ArrayList<String> al_morningClosingTime,
-						 ArrayList<String> al_eveningOpeningTime,
-						 ArrayList<String> al_eveningClosingTime,
-						 ArrayList<String> al_addedOn,
-						 ArrayList<String> al_updatedOn,
-						 ArrayList<String> al_id)
+		public MyAdapter(Context context,Restraunt curr )
 		{
 			this.context=context;
-			this.al_name=al_name;
-			this.al_code=al_code;
-			this.al_mobileNo=al_mobileNo;
-			this.al_email=al_email;
-			this.al_stationCode=al_stationCode;
-			//this.al_text=al_text;
-			this.al_distanceFromStation=al_distanceFromStation;
-			this.al_avgPricePerPerson=al_avgPricePerPerson;
-			this.al_minOrderAmount=al_minOrderAmount;
-			this.al_deliveryCharges=al_deliveryCharges;
-			this.al_railwayVendor=al_railwayVendor;
-			//this.al_jainFoodAvailable=al_jainFoodAvailable;
-			//this.al_vegItems=al_vegItems;
-			//this.al_pizza=al_pizza;
-			//this.al_northIndia=al_northIndia;
-			//this.al_southIndia=al_southIndia;
-			//this.al_thai=al_thai;
-			//this.al_rating=al_rating;
-			this.al_morningOpeningTime=al_morningOpeningTime;
-			this.al_morningClosingTime=al_morningClosingTime;
-			this.al_eveningOpeningTime=al_eveningOpeningTime;
-			this.al_eveningClosingTime=al_eveningClosingTime;
-			this.al_addedOn=al_addedOn;
-			this.al_updatedOn=al_updatedOn;
-			this.al_id=al_id;
+			this.valuesRestraunt = curr;
 		}
 		@Override
 		public int getCount()
 		{
-			return al_name.size();
+			return valuesRestraunt.Restraunt.size();
 		}
 		@Override
 		public Object getItem(int position)
 		{
-			return al_name.get(position);
+			return valuesRestraunt.Restraunt.get(position);
 		}
 		@Override
 		public long getItemId(int position)
@@ -622,15 +417,14 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				row=inflater.inflate(R.layout.single_row_restaurant, parent,false);
 				holder.tv_restaurant_name=(TextView)row.findViewById(R.id.nameHotel);
 				holder.tv_restaurant_mobile=(TextView)row.findViewById(R.id.mobile);
-				//holder.tv_n_india=(TextView)row.findViewById(R.id.tv_n_india);
-				//holder.tv_n_pizza=(TextView)row.findViewById(R.id.tv_n_pizza);
-				//holder.tv_s_indian=(TextView)row.findViewById(R.id.tv_s_indian);
-				//holder.tv_veg=(TextView)row.findViewById(R.id.tv_veg);
-				holder.tv_restaurant_timings=(TextView)row.findViewById(R.id.time);
+				holder.menu=(TextView)row.findViewById(R.id.menu);
+				holder.time=(TextView)row.findViewById(R.id.time);
 
-				//holder.ll_order_now=(LinearLayout)row.findViewById(R.id.ll_order_now);
-				//holder.ll_call=(LinearLayout)row.findViewById(R.id.ll_call);
-				//holder.ll_veg_boundry=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
+				holder.minOrder=(TextView)row.findViewById(R.id.minOrder);
+				holder.delivery=(TextView)row.findViewById(R.id.delivery);
+				holder.veg=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
+				holder.nonveg=(LinearLayout)row.findViewById(R.id.ll_nonveg_boundry);
+
 				//holder.ll_give_ratings=(LinearLayout)row.findViewById(R.id.ll_give_ratings);
 				row.setTag(holder);
 			}
@@ -638,20 +432,55 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 			{
 				holder=(MyHolder) row.getTag();
 			}
-			holder.tv_restaurant_name.setText(al_name.get(position));
-//			holder.tv_restaurant_mobile.setText(al_mobileNo.get(position));
+			holder.tv_restaurant_name.setText(valuesRestraunt.Restraunt.get(position).name);
+			holder.tv_restaurant_mobile.setText(""+valuesRestraunt.Restraunt.get(position).mobileNo);
 
 
+			if(valuesRestraunt.Restraunt.get(position).jainFoodAvailable ){
+				holder.menu.setText(" " +"JainFood");
+			}
 
-//			holder.tv_restaurant_timings.setText(" "+al_morningOpeningTime.get(position)+" to "+al_morningClosingTime.get(position)+" & "+al_eveningOpeningTime.get(position)+" to "+al_eveningClosingTime.get(position)+" ");
+
+			if(valuesRestraunt.Restraunt.get(position).northIndia ){
+			holder.menu.setText(" " +"North Indian");
+			}
+
+
+			if(valuesRestraunt.Restraunt.get(position).southIndia ){
+			holder.menu.setText(" " +"South Indian");
+			}
+
+			if(valuesRestraunt.Restraunt.get(position).pizza ){
+				holder.menu.setText(" " +"Pizza");
+			}
+
+			holder.time.setText(valuesRestraunt.Restraunt.get(position).morningOpeningTime+" - "+valuesRestraunt.Restraunt.get(position).morningClosingTime + " Hrs , "+valuesRestraunt.Restraunt.get(position).eveningOpeningTime+" - "+valuesRestraunt.Restraunt.get(position).eveningClosingTime+" Hrs");
+			holder.minOrder.setText("Min. Order : "+valuesRestraunt.Restraunt.get(position).minOrderAmount+" INR");
+
+			if(valuesRestraunt.Restraunt.get(position).deliveryCharges ==0)
+				holder.delivery.setText("Delivery : Free");
+			else
+			holder.delivery.setText("Delivery : "+valuesRestraunt.Restraunt.get(position).deliveryCharges+" INR");
+
+
+			if(valuesRestraunt.Restraunt.get(position).vegItems) {
+				holder.veg.setVisibility(View.VISIBLE);
+				holder.nonveg.setVisibility(View.GONE);
+			}
+			else{
+				holder.veg.setVisibility(View.GONE);
+				holder.nonveg.setVisibility(View.VISIBLE);
+			}
+
+
 			return row;
 		}
 	}
 
 	private static class MyHolder
 	{
-		TextView tv_restaurant_name,tv_n_india,tv_n_pizza,tv_s_indian,tv_veg,tv_restaurant_timings,tv_restaurant_mobile;
-		LinearLayout ll_order_now,ll_call,ll_veg_boundry,ll_give_ratings;
+		TextView tv_restaurant_name,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile;
+		LinearLayout nonveg,veg;
 	}
 
 

@@ -3,9 +3,11 @@ package com.hackaholic.trainpanda.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -269,15 +271,17 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) 
 			{
-				String code = al_code.get(position);
-				//Toast.makeText(getActivity(),""+code,Toast.LENGTH_SHORT).show();
 
+				/*String code = al_code.get(position);
 				PrefUtils.setCurrentStationCode(getActivity(),code);
-
 				Intent i = new Intent(getActivity(),SlidingActivity.class);
-				//i.putExtra("stCode",code);
-				startActivity(i);
-				//startActivity(new Intent(getActivity(),SlidingActivity.class));
+				startActivity(i);*/
+				String code = al_code.get(position);
+				PrefUtils.setCurrentStationCode(getActivity(),code);
+				FragmentManager fragmentManager2 = getFragmentManager();
+				fragmentManager2.beginTransaction()
+						.replace(R.id.lk_profile_fragment,new SlidingFragment()).commit();
+
 			}
 		});
 
@@ -511,6 +515,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent)
 		{
+			boolean isDestination=false;
 			View row=convertView;
 			MyHolder holder;
 			if(row==null)
@@ -527,6 +532,19 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				holder.train_route_train_name=(TextView) row.findViewById(R.id.train_route_train_name);
 				row.setTag(holder);
 				//Log.e("ALCODE ",""+al_code);
+				LinearLayout linearRoute = (LinearLayout)row.findViewById(R.id.linearRoute);
+
+/*
+				if(al_code.get(position).equalsIgnoreCase("BRC")){
+					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
+				}else if(al_code.get(position).equalsIgnoreCase("VSKP")){
+					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
+					isDestination=true;
+				}*//*else if(!isDestination){
+					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
+				}
+*/
+
 			}
 			else
 			{

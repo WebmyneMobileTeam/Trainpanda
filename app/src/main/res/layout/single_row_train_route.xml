@@ -3,6 +3,7 @@
     android:layout_height="wrap_content" >
 
     <LinearLayout
+        android:id="@+id/linearRoute"
         android:layout_width="match_parent"
         android:layout_height="144dp"
         android:background="@drawable/train_route_dark_bg"

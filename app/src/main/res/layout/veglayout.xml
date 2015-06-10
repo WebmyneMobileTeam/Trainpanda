@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/ll_veg_boundry"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/green_boundry_hotel_booking"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:padding="2dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        android:layout_width="14dp"
+        android:layout_height="14dp"
+        android:src="@drawable/green_veg"
+        android:padding="2dp"/>
+
+    <TextView
+        android:id="@+id/tv_veg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text=" Veg "
+        android:textColor="@color/Green"
+        android:textSize="8dp" />
+</LinearLayout>
+
+

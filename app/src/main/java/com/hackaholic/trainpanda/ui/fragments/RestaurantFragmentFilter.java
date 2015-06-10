@@ -620,13 +620,13 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder=new MyHolder();
 				LayoutInflater inflater=(LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 				row=inflater.inflate(R.layout.single_row_restaurant, parent,false);
-				holder.tv_restaurant_name=(TextView)row.findViewById(R.id.tv_restaurant_name);
-				holder.tv_restaurant_mobile=(TextView)row.findViewById(R.id.tv_restaurant_mobile);
+				holder.tv_restaurant_name=(TextView)row.findViewById(R.id.nameHotel);
+				holder.tv_restaurant_mobile=(TextView)row.findViewById(R.id.mobile);
 				//holder.tv_n_india=(TextView)row.findViewById(R.id.tv_n_india);
 				//holder.tv_n_pizza=(TextView)row.findViewById(R.id.tv_n_pizza);
 				//holder.tv_s_indian=(TextView)row.findViewById(R.id.tv_s_indian);
 				//holder.tv_veg=(TextView)row.findViewById(R.id.tv_veg);
-				holder.tv_restaurant_timings=(TextView)row.findViewById(R.id.tv_restaurant_timings);
+				holder.tv_restaurant_timings=(TextView)row.findViewById(R.id.time);
 				holder.ll_order_now=(LinearLayout)row.findViewById(R.id.ll_order_now);
 				holder.ll_call=(LinearLayout)row.findViewById(R.id.ll_call);
 				//holder.ll_veg_boundry=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);

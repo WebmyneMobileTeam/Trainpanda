@@ -14,7 +14,8 @@
     <!-- Railway API's Key 39586-krishna key b94vqja3597 , jkigze33833  -->
     <string name="key1">jkigze33833</string>
 
-    <string name="applicationId">381489645378140</string>
+    <!-- Facebook ID-->
+    <string name="applicationId">102120220130159</string>
 
 
     <!-- Nav Drawer Menu Items -->

@@ -1,17 +1,41 @@
 package com.hackaholic.trainpanda.ui.activities;
 
 
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.Request;
@@ -29,26 +53,9 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
 
 public class LoginActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener
 {
@@ -61,9 +68,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	private SignInButton iv_google_plus;
 	//private ImageView iv_google_plus;
 	private ProgressDialog mDialog;
-	private static final java.lang.String TAG = "LoginActivity";
+	private static final String TAG = "LoginActivity";
 
-	private static final java.lang.String String = null;
+	private static final String String = null;
 	private int flag=0;
 
 	// google plus
@@ -72,13 +79,13 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	private ConnectionResult mConnectionResult;
 
 	//Facebook
-	private java.lang.String arr_permissions[]={"public_profile","user_location","user_likes", "email","user_hometown"};
+	private String arr_permissions[]={"public_profile","user_location","user_likes", "email","user_hometown"};
 	private UiLifecycleHelper uiHelper;
 	private SharedPreferences sharedPreferences;
 	private Editor editor;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState)
+	protected void onCreate(Bundle savedInstanceState) 
 	{
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(LoginActivity.this, callback);
@@ -121,7 +128,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	private Session.StatusCallback callback=new Session.StatusCallback()
 	{
 		@Override
-		public void call(Session session, SessionState state, Exception exception)
+		public void call(Session session, SessionState state, Exception exception) 
 		{
 			Log.e(TAG, "callback");
 			onSessionStateChange(session, state, exception);
@@ -139,8 +146,8 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	}
 
 
-	private void onSessionStateChange(Session session, SessionState state,
-			Exception exception)
+	private void onSessionStateChange(Session session, SessionState state, 
+			Exception exception) 
 	{
 		if (state.isOpened()) 
 		{
@@ -158,38 +165,43 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	@SuppressWarnings({ "unused", "deprecation" })
 	private void getFacebookUserData(Session session)
 	{
-		Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
-			private java.lang.String user_id;
+		Request.executeMeRequestAsync(session,new Request.GraphUserCallback()
+		{
+			private String user_id;
 
 			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				if (user != null) {
-					if (flag == 0) {
-						flag = 1;
-						checkLoginStatus((java.lang.String) user.getProperty("email"), user.getInnerJSONObject());
+			public void onCompleted(GraphUser user, Response response)
+			{
+				if(user!=null)
+				{
+					if(flag==0)
+					{
+						flag=1;
+						checkLoginStatus((String) user.getProperty("email"),user.getInnerJSONObject());
 					}
 				}
 			}
 
-			private void checkLoginStatus(java.lang.String email, JSONObject innerJSONObject) {
-				java.lang.String url = "http://admin.trainpanda.com/api/customers?filter[where][email]=" + email;
-				//String url="http://52.11.174.94/api/customers?filter[where][email]=vikas0dhar@gmail.com";
-				new FBLoginStatusAsync().execute(new String[]{url, String.valueOf(innerJSONObject)});
-
-				System.out.println("*&*&*&*&*&*&*&*&*&*&*&" + String.valueOf(innerJSONObject));
+			private void checkLoginStatus(String email,	JSONObject innerJSONObject) 
+			{
+				String url="http://admin.trainpanda.com/api/customers?filter[where][email]="+email;
+				//String url="http://admin.trainpanda.com/api/customers?filter[where][email]=vikas0dhar@gmail.com";
+				new FBLoginStatusAsync().execute(new String[]{url,String.valueOf(innerJSONObject)});
+				
+				System.out.println("*&*&*&*&*&*&*&*&*&*&*&"+String.valueOf(innerJSONObject));
 			}
 		});
 	}
 
 	//LoginStatusAsync Class
-	private class FBLoginStatusAsync extends AsyncTask<java.lang.String, Void, java.lang.String>
+	private class FBLoginStatusAsync extends AsyncTask<String, Void, String>
 	{
 		private ProgressDialog dialog;
-		private java.lang.String name;
-		private java.lang.String gender;
-		private java.lang.String email;
-		private java.lang.String id;
-		private java.lang.String state;
+		private String name;
+		private String gender;
+		private String email;
+		private String id;
+		private String state;
 		@Override
 		protected void onPreExecute() 
 		{
@@ -201,46 +213,49 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		}
 
 		@Override
-		protected java.lang.String doInBackground(java.lang.String... params)
+		protected String doInBackground(String... params) 
 		{
 			int length=hitServer(params[0]);
-			Log.e("length : ", "" + length);
+			Log.e("length : ",""+length);
 			if(length>1)
 			{
+
+				Log.e("fb nam","inside before");
 				//Perform Login
 				//Call Next Activity
 				Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				startActivity(intent);
-				finish();
 
 			}
 			else
 			{
 				//Perform Registration
-				java.lang.String jsonResponse=params[1];
+				String jsonResponse=params[1];
 				//Log.e("Json Object : ",""+jsonResponse);
 				try
 				{
 					JSONObject jsonObject=new JSONObject(jsonResponse);
 					System.out.println("Response "+jsonResponse);
 					id=jsonObject.getString("id");
-					java.lang.String first_name=jsonObject.getString("first_name");
-					java.lang.String timezone=jsonObject.getString("timezone");
+					String first_name=jsonObject.getString("first_name");
+					String timezone=jsonObject.getString("timezone");
 					email=jsonObject.getString("email");
-					java.lang.String verified=jsonObject.getString("verified");
+					String verified=jsonObject.getString("verified");
 					name=jsonObject.getString("name");
-					Log.e("###########", "" + name);
-					java.lang.String locale=jsonObject.getString("locale");
-					java.lang.String link=jsonObject.getString("link");
-					java.lang.String last_name=jsonObject.getString("last_name");
+					Log.e("###########",""+name);
+					String locale=jsonObject.getString("locale");
+					String link=jsonObject.getString("link");
+					String last_name=jsonObject.getString("last_name");
 					gender=jsonObject.getString("gender");
-					java.lang.String updated_time=jsonObject.getString("updated_time");
+					String updated_time=jsonObject.getString("updated_time");
+
+					Log.e("fb nam",name);
 					if(jsonObject.has("hometown")){
 						
-						java.lang.String stateFetch = jsonObject.getString("hometown");
+						String stateFetch = jsonObject.getString("hometown");
 						JSONObject newJsonObj = jsonObject.getJSONObject("hometown");
-						java.lang.String statef = newJsonObj.getString("name");
+						String statef = newJsonObj.getString("name");
 						state = newJsonObj.getString("name");
 						
 						System.out.println("State "+statef);
@@ -249,6 +264,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				}
 				catch(Exception e)
 				{
+					Log.e("fb login",e.toString());
 					e.printStackTrace();
 				}
 
@@ -281,12 +297,12 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					if (response.getStatusLine().getStatusCode() == 200)
 					{
 						HttpEntity entity = response.getEntity();
-						java.lang.String json = EntityUtils.toString(entity);
-						Log.e("*****Http Post Response:" + response.getStatusLine().getStatusCode(), json);
+						String json = EntityUtils.toString(entity);
+						Log.e("*****Http Post Response:"+response.getStatusLine().getStatusCode(),json);
 						//Toast.makeText(getApplicationContext(), ""+json,Toast.LENGTH_SHORT).show();
-						java.lang.String customer_id=getCustomerId(json);
+						String customer_id=getCustomerId(json);
 						System.out.println("ID "+customer_id);
-						java.lang.String customer_code=getCustomerCode(json);
+						String customer_code=getCustomerCode(json);
 						System.out.println("code "+customer_code);
 
 						//Save Facebook Id to Shared Preference
@@ -300,11 +316,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 						intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 						//intent.putExtra("customer_id",customer_id);
 						startActivity(intent);
-						finish();
 					}
 					else
 					{
-						Log.e("Server Error : " + response.getStatusLine().getStatusCode(), "Server Error");
+						Log.e("Server Error : "+response.getStatusLine().getStatusCode(),"Server Error");
 					}
 
 				}
@@ -316,9 +331,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			return null;
 		}
 
-		private java.lang.String getCustomerCode(java.lang.String json)
+		private String getCustomerCode(String json)
 		{
-			java.lang.String id=null;
+			String id=null;
 			try
 			{
 				JSONObject jsonObject=new JSONObject(json);
@@ -331,9 +346,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			return id;
 		}
 
-		private void saveIdToSP(java.lang.String customer_id, java.lang.String customerCode)
+		private void saveIdToSP(String customer_id,String customerCode) 
 		{
-			java.lang.String url= "https://graph.facebook.com/"+id+"/picture?type=small";
+			String url= "https://graph.facebook.com/"+id+"/picture?type=small";
 			System.out.println("URL :"+url);
 			editor.putString("image_url",url);
 			editor.putString("customer_id",customer_id);
@@ -345,9 +360,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			System.out.println(editor);
 		}
 
-		private java.lang.String getCustomerId(java.lang.String json)
+		private String getCustomerId(String json) 
 		{
-			java.lang.String id=null;
+			String id=null;
 			try
 			{
 				JSONObject jsonObject=new JSONObject(json);
@@ -366,13 +381,13 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			return random.nextInt(i);
 		}
 
-		private int hitServer(java.lang.String url)
+		private int hitServer(String url)
 		{
 			int length=0;
 			try
 			{
 				ServiceHandler handler=new ServiceHandler();
-				java.lang.String response=handler.makeServiceCall(url, ServiceHandler.GET);
+				String response=handler.makeServiceCall(url, ServiceHandler.GET);
 				JSONArray jsonArray=new JSONArray(response);
 				length=jsonArray.length();
 			}
@@ -384,7 +399,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		}
 
 		@Override
-		protected void onPostExecute(java.lang.String result)
+		protected void onPostExecute(String result) 
 		{
 			super.onPostExecute(result);
 			dialog.dismiss();
@@ -394,7 +409,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 
 
 	@Override
-	public void onClick(View v)
+	public void onClick(View v) 
 	{
 		switch (v.getId())
 		{
@@ -422,9 +437,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		}
 	}
 
-	private void printToast(java.lang.String msg)
+	private void printToast(String msg)
 	{
-		Toast.makeText(getApplicationContext(), "" + msg, Toast.LENGTH_SHORT).show();
+		Toast.makeText(getApplicationContext(), ""+msg,Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -490,7 +505,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState)
+	public void onSaveInstanceState(Bundle outState) 
 	{
 		super.onSaveInstanceState(outState);
 		uiHelper.onSaveInstanceState(outState);
@@ -560,10 +575,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 				Person currentPerson = Plus.PeopleApi
 						.getCurrentPerson(mGoogleApiClient);
-				java.lang.String personName = currentPerson.getDisplayName();
-				java.lang.String personPhotoUrl = currentPerson.getImage().getUrl();
-				java.lang.String personGooglePlusProfile = currentPerson.getUrl();
-				java.lang.String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+				String personName = currentPerson.getDisplayName();
+				String personPhotoUrl = currentPerson.getImage().getUrl();
+				String personGooglePlusProfile = currentPerson.getUrl();
+				String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
 				Log.e(TAG, "Name: " + personName + ", plusProfile: "
 						+ personGooglePlusProfile + ", email: " + email
@@ -596,24 +611,24 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		}
 	}
 	
-	private void checkGoogleLogin(java.lang.String gmail) {
+	private void checkGoogleLogin(String gmail) {
 		// TODO Auto-generated method stub
 		
-		java.lang.String url="http://52.11.174.94/api/customers?filter[where][email]="+gmail;
+		String url="http://admin.trainpanda.com/api/customers?filter[where][email]="+gmail;
 		
 		new GPLoginStatusAsync().execute(new String[]{url});
 		
 	}
 
 	//LoginStatusAsync Class
-		private class GPLoginStatusAsync extends AsyncTask<java.lang.String, Void, java.lang.String>
+		private class GPLoginStatusAsync extends AsyncTask<String, Void, String>
 		{
 			private ProgressDialog dialog;
-			private java.lang.String g_name;
-			private java.lang.String g_gender;
-			private java.lang.String g_email;
-			private java.lang.String id;
-			private java.lang.String state;
+			private String g_name;
+			private String g_gender;
+			private String g_email;
+			private String id;
+			private String state;
 			@Override
 			protected void onPreExecute() 
 			{
@@ -625,10 +640,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			}
 
 			@Override
-			protected java.lang.String doInBackground(java.lang.String... params)
+			protected String doInBackground(String... params) 
 			{
 				int length=hitGPServer(params[0]);
-				Log.e("length : ", "" + length);
+				Log.e("length : ",""+length);
 				if(length>1)
 				{
 					//Perform Login
@@ -636,7 +651,6 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					startActivity(intent);
-					finish();
 
 				}
 				else
@@ -674,8 +688,8 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 							Person currentPerson = Plus.PeopleApi
 									.getCurrentPerson(mGoogleApiClient);
 							 g_name = currentPerson.getDisplayName();
-							java.lang.String personPhotoUrl = currentPerson.getImage().getUrl();
-							java.lang.String personGooglePlusProfile = currentPerson.getUrl();
+							String personPhotoUrl = currentPerson.getImage().getUrl();
+							String personGooglePlusProfile = currentPerson.getUrl();
 							System.out.println("Profile :: "+personGooglePlusProfile );
 							g_email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 							System.out.println("Gender :: "+currentPerson.getGender());
@@ -719,12 +733,12 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 						if (response.getStatusLine().getStatusCode() == 200)
 						{
 							HttpEntity entity = response.getEntity();
-							java.lang.String json = EntityUtils.toString(entity);
-							Log.e("*****Http Post Response:" + response.getStatusLine().getStatusCode(), json);
+							String json = EntityUtils.toString(entity);
+							Log.e("*****Http Post Response:"+response.getStatusLine().getStatusCode(),json);
 							//Toast.makeText(getApplicationContext(), ""+json,Toast.LENGTH_SHORT).show();
-							java.lang.String customer_id=getCustomerId(json);
+							String customer_id=getCustomerId(json);
 							System.out.println("ID "+customer_id);
-							java.lang.String customer_code=getCustomerCode(json);
+							String customer_code=getCustomerCode(json);
 							System.out.println("code "+customer_code);
 
 							//Save Google Id to Shared Preference
@@ -738,11 +752,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 							intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 							//intent.putExtra("customer_id",customer_id);
 							startActivity(intent);
-							finish();
 						}
 						else
 						{
-							Log.e("Server Error : " + response.getStatusLine().getStatusCode(), "Server Error");
+							Log.e("Server Error : "+response.getStatusLine().getStatusCode(),"Server Error");
 						}
 
 					}
@@ -753,9 +766,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				}
 				return null;
 			}
-			private java.lang.String getCustomerCode(java.lang.String json)
+			private String getCustomerCode(String json)
 			{
-				java.lang.String id=null;
+				String id=null;
 				try
 				{
 					JSONObject jsonObject=new JSONObject(json);
@@ -768,7 +781,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				return id;
 			}
 
-			private void saveIdToSP(java.lang.String customer_id, java.lang.String customerCode)
+			private void saveIdToSP(String customer_id,String customerCode) 
 			{
 								
 				
@@ -780,9 +793,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				System.out.println(editor);
 			}
 
-			private java.lang.String getCustomerId(java.lang.String json)
+			private String getCustomerId(String json) 
 			{
-				java.lang.String id=null;
+				String id=null;
 				try
 				{
 					JSONObject jsonObject=new JSONObject(json);
@@ -801,13 +814,13 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				return random.nextInt(i);
 			}
 
-			private int hitGPServer(java.lang.String url)
+			private int hitGPServer(String url)
 			{
 				int length=0;
 				try
 				{
 					ServiceHandler handler=new ServiceHandler();
-					java.lang.String response=handler.makeServiceCall(url, ServiceHandler.GET);
+					String response=handler.makeServiceCall(url, ServiceHandler.GET);
 					JSONArray jsonArray=new JSONArray(response);
 					length=jsonArray.length();
 				}

@@ -18,6 +18,7 @@
             android:layout_height="240dp"
             android:src="@drawable/app_logo" />
 
+
         <com.google.android.gms.common.SignInButton
             android:id="@+id/iv_google_plus"
             android:layout_width="match_parent"

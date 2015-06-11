@@ -118,9 +118,9 @@
                 android:textSize="@dimen/big_text"
                 android:textStyle="bold" />
             <ImageView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_margin="8dp"
-                android:src="@drawable/ic_launcher"
+                android:src="@drawable/edit_pencil"
                 android:id="@+id/imgToolbarOption"
                 android:layout_alignRight="@+id/lk_profile_header_textview"
                 android:layout_gravity="right"

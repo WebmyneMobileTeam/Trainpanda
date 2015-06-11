@@ -22,15 +22,13 @@
         android:textSize="16sp" />
 
     <TextView
+
         android:id="@+id/expand"
-        android:layout_width="fill_parent"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:layout_weight="75"
-        android:background="@color/Orange"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Show"
-        android:textColor="@color/White" />
+        android:background="@drawable/up"
+        android:gravity="center"         />
 </LinearLayout>
 </RelativeLayout>

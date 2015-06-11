@@ -226,6 +226,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				startActivity(intent);
+				finish();
 
 			}
 			else
@@ -316,6 +317,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 						intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 						//intent.putExtra("customer_id",customer_id);
 						startActivity(intent);
+						finish();
 					}
 					else
 					{
@@ -651,6 +653,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					startActivity(intent);
+					finish();
 
 				}
 				else
@@ -752,6 +755,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 							intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 							//intent.putExtra("customer_id",customer_id);
 							startActivity(intent);
+							finish();
 						}
 						else
 						{

@@ -297,16 +297,16 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				PrefUtils.setCurrentStationCode(getActivity(),code);
 				Intent i = new Intent(getActivity(),SlidingActivity.class);
 				startActivity(i);*/
-				String code = al_code.get(position);
 
+				String code = al_code.get(position);
+				PrefUtils.setCurrentStationCode(getActivity(),code);
 
 				Bundle bun = new Bundle();
 				bun.putString("stName", code);
 
 
 				SlidingFragment fragment = new SlidingFragment();
-				Bundle bundle = new Bundle();
-				fragment.setArguments(bundle);
+				fragment.setArguments(bun);
 				FragmentManager fragmentManager22 = getFragmentManager();
 				fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
 

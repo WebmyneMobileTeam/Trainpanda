@@ -69,8 +69,7 @@ public class SlidingFragment extends Fragment {
 	{
 
 		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
-		title.setText("BRC - static");
-
+		title.setText(stName);
 
 
 		View rootView = inflater.inflate(R.layout.activity_sliding, container, false);

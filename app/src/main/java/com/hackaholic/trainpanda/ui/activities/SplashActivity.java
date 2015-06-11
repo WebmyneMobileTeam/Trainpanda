@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -28,16 +29,31 @@ public class SplashActivity extends Activity {
          * and close this Splash-Screen after some seconds.*/
 
 
-    Handler handler=new Handler();
+      new CountDownTimer(2500,1000){
+
+          @Override
+          public void onTick(long l) {
+
+          }
+
+          @Override
+          public void onFinish() {
+              Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+              intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+              startActivity(intent);
+              finish();
+          }
+      }.start();
+
+
+/*    Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivity(intent);
-                finish();
+
             }
         }, 3000);
+        */
     }
 
     private boolean haveNetworkConnection() {

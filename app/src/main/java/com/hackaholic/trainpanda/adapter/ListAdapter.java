@@ -19,6 +19,8 @@ import com.hackaholic.trainpanda.R;
 
 public class ListAdapter extends ArrayAdapter<String>{
 
+
+
     private final Activity context;
     private final String[] web;
     private final Integer[] imageId;
@@ -29,6 +31,7 @@ public class ListAdapter extends ArrayAdapter<String>{
         this.imageId = imageId;
 
     }
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();

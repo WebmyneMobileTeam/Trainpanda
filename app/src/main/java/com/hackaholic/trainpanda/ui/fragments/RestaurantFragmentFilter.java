@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
+import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.activities.RestrauntDetail;
@@ -68,8 +69,14 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+				//store current user and domain in shared preferences
+				ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
+				complexPreferences.putObject("current_restraunt", currRestr);
+				complexPreferences.commit();
+
 				Intent in = new Intent(getActivity(), RestrauntDetail.class);
-				in.putExtra("stCode",currRestr.Restraunt.get(i).stationCode);
+				in.putExtra("pos",i);
+
 				startActivity(in);
 			/*
 				Restaurant_details fragment = new Restaurant_details();
@@ -328,6 +335,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 		{
 			String response=null;
 			String url="http://api.railwayapi.com/suggest_station/name/"+station_name.replaceAll(" ","%20")+"/apikey/"+getResources().getString(R.string.key1)+"/";
+
 			try
 			{
 				ServiceHandler handler=new ServiceHandler();
@@ -394,6 +402,8 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 					Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
 				} else
 					restaurant_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(), currRestr));
+			}catch (NullPointerException e){
+				Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
 			}catch (Exception e){
 				Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
 			}

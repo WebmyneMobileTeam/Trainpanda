@@ -7,7 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTabHost;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ import java.util.StringTokenizer;
 import Model.PNR;
 
 public class SlidingFragment extends Fragment {
-	private FragmentTabHost mTabHost;
+	private TabHost mTabHost;
 
 	public SlidingFragment(){}
 	String stName;
@@ -63,6 +64,10 @@ public class SlidingFragment extends Fragment {
 
 	}
 
+
+
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState)
@@ -74,16 +79,102 @@ public class SlidingFragment extends Fragment {
 
 		View rootView = inflater.inflate(R.layout.activity_sliding, container, false);
 
-		mTabHost = (FragmentTabHost) rootView.findViewById(android.R.id.tabhost);
-		//mTabHost.setup(getActivity(), getActivity().getSupportFragmentManager(), android.R.id.tabcontent);
-		mTabHost.setup(getActivity(), getChildFragmentManager(), android.R.id.tabcontent);
+		mTabHost = (TabHost) rootView.findViewById(android.R.id.tabhost);
 
-		mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator("Food",null), RestaurantFragmentFilter.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator("Hotel", null), HotelBookingWithStationCodeFragment.class, null);
-		mTabHost.addTab(mTabHost.newTabSpec("tab3").setIndicator("Info", null), WeatherFragment.class, null);
+		mTabHost.setup();
+
+		//mTabHost.getTabWidget().setDividerDrawable(R.drawable.tab_divider);
+
+
+		setupTab(new TextView(getActivity()), "Tab 1");
+
+		setupTab(new TextView(getActivity()), "Tab 2");
+
+		setupTab(new TextView(getActivity()), "Tab 3");
+
+
+
+		mTabHost.setCurrentTabByTag("Tab 1");
+
+		if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 1")){
+			RestaurantFragmentFilter fragment = new RestaurantFragmentFilter();
+			FragmentManager fragmentManager11 = getFragmentManager();
+			fragmentManager11.beginTransaction().replace(android.R.id.tabcontent, fragment).commit();
+		}
+
+
+
+		mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+			@Override
+			public void onTabChanged(String s) {
+
+				switch (s) {
+
+					case "Tab 1":
+						RestaurantFragmentFilter fragment = new RestaurantFragmentFilter();
+						FragmentManager fragmentManager11 = getFragmentManager();
+						fragmentManager11.beginTransaction().replace(android.R.id.tabcontent, fragment).commit();
+
+						break;
+					case "Tab 2":
+						HotelBookingWithStationCodeFragment fragment2 = new HotelBookingWithStationCodeFragment();
+						FragmentManager fragmentManager2 = getFragmentManager();
+						fragmentManager2.beginTransaction().replace(android.R.id.tabcontent, fragment2).commit();
+						break;
+					case "Tab 3":
+						WeatherFragment fragment3 = new WeatherFragment();
+						FragmentManager fragmentManager3 = getFragmentManager();
+						fragmentManager3.beginTransaction().replace(android.R.id.tabcontent, fragment3).commit();
+						break;
+				}
+			}
+		});
 
 		return rootView;
 	}
+
+	private void setupTab(final View view, final String tag) {
+
+
+		View tabview = createTabView(mTabHost.getContext(), tag);
+
+
+
+		TabHost.TabSpec setContent = mTabHost.newTabSpec(tag).setIndicator(tabview).setContent(new TabHost.TabContentFactory() {
+
+			public View createTabContent(String tag) {return view;}
+
+		});
+
+		mTabHost.addTab(setContent);
+
+	}
+
+
+	private static View createTabView(final Context context, final String text) {
+
+		View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
+
+		TextView tv = (TextView) view.findViewById(R.id.tabsText);
+
+		switch (text) {
+
+			case "Tab 1":
+				tv.setText("Food");
+				break;
+			case "Tab 2":
+				tv.setText("Hotel");
+				break;
+			case "Tab 3":
+				tv.setText("Info");
+				break;
+		}
+
+
+		return view;
+
+	}
+
 
 
 }

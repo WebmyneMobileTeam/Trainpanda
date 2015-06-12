@@ -115,14 +115,12 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
 		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
 
-		Log.e("on expand panel", "yes");
-
-
 
 		ListView pnr_listview1 = (ListView)rootView.findViewById(R.id.pnr_listview);
 
 		pnr_listview1.setAdapter(
 				new MyAdapterPNR(cuurentPNR, getActivity()));
+
 
 
 

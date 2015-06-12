@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_hotel_kunal_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/hotel_kunal_dark_bg"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/average_delay_color"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/imgBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center"
+                        android:src="@drawable/ic_leftarrow" />
+
+                    <TextView
+                        android:id="@+id/txtHotelName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="Hotel name"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/big_text" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_hotel_kunal_top1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pnr_bg"
+                    android:orientation="vertical"
+                    android:padding="8dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="4dp">
+
+
+                                <TextView
+                                    android:id="@+id/mobile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="+91 9737388786"
+                                    android:textColor="@color/Orange"
+                                    android:textSize="12dp" />
+
+                                <TextView
+                                    android:id="@+id/distance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="5 km From Station"
+                                    android:textColor="@color/departure_color"
+                                    android:textSize="12dp" />
+
+                                <TextView
+                                    android:id="@+id/menu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="South Indian, North Indian, Jain Food"
+                                    android:textColor="@color/White"
+                                    android:textSize="12dp" />
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+
+                                    <ImageView
+                                        android:layout_width="22dp"
+                                        android:layout_height="22dp"
+                                        android:layout_gravity="top"
+                                        android:gravity="top"
+                                        android:paddingTop="4dp"
+                                        android:src="@drawable/departure" />
+
+
+                                    <TextView
+                                        android:id="@+id/time"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:layout_margin="4dp"
+                                        android:layout_marginLeft="4dp"
+                                        android:paddingTop="4dp"
+                                        android:text="10:00 to 22:00 Hrs "
+                                        android:textColor="@color/White"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/minOrder"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Min Order: 300 INR"
+                                    android:textColor="@color/Orange"
+                                    android:textSize="12dp" />
+
+                                <TextView
+                                    android:id="@+id/delivery"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Delivery : Free"
+                                    android:textColor="@color/Orange"
+                                    android:textSize="12dp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:orientation="vertical">
+
+
+                            <TextView
+
+                                android:id="@+id/tvRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+
+                                android:layout_margin="4dp"
+                                android:background="@color/Orange"
+                                android:padding="4dp"
+                                android:text=" 4.5 "
+                                android:textColor="@color/Red"
+                                android:textSize="14dp" />
+
+
+                            <include layout="@layout/veglayout" />
+
+                            <include layout="@layout/nonveglayout" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.20"
+                    android:orientation="vertical"
+                    android:paddingTop="4dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="REST stands for REpresentational State Transfer (REST) R"
+                        android:textColor="@color/Orange"
+                        android:textSize="8dp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.80"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:background="@drawable/pnr_bg"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+
+            <LinearLayout
+                android:id="@+id/orderLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tv_hotel_kunal_place_order"
+                android:layout_below="@+id/ll_hotel_kunal_top"
+
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:paddingTop="4dp"
+                        android:src="@drawable/departure2" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:paddingTop="4dp"
+                        android:text="Order Timing -"
+                        android:textColor="@color/Orange"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/Ordertime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:paddingTop="4dp"
+                        android:text="09:00 AM "
+                        android:textColor="@color/White"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:gravity="right"
+                    android:layout_gravity="right"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="top"
+                        android:gravity="top"
+                        android:paddingTop="4dp"
+                        android:src="@drawable/arrival" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:paddingTop="4dp"
+                        android:text="Arrival -"
+                        android:textColor="#8dc63f"
+                        android:textSize="10sp" />
+
+                    <TextView
+                        android:id="@+id/ArrivalTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="4dp"
+                        android:layout_marginLeft="4dp"
+                        android:paddingTop="4dp"
+                        android:text="10:00 AM "
+                        android:textColor="@color/White"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/Orange"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:visibility="visible" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center|left" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Particulars"
+                        android:textColor="@color/Dark_Red"
+                        android:textSize="10dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quantity"
+                        android:textColor="@color/Dark_Red"
+                        android:textSize="10dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="9dp"
+                    android:layout_weight="1"
+                    android:gravity="center|right" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Price"
+                        android:textColor="@color/Dark_Red"
+                        android:textSize="10dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ListItemLinear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/tv_hotel_kunal_place_order"
+                android:layout_below="@+id/ll_hotel_kunal_top"
+                android:layout_marginBottom="30dp"
+
+                android:orientation="vertical"></LinearLayout>
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgCall"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/hotel_kunal_new_call_orange"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+                <ImageView
+                    android:id="@+id/imgSms"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/sms"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" />
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+</RelativeLayout>

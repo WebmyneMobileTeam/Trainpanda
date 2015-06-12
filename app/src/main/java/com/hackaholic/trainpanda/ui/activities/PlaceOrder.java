@@ -1,20 +1,14 @@
 package com.hackaholic.trainpanda.ui.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.telephony.gsm.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,45 +21,24 @@ import com.hackaholic.trainpanda.Cells.CheckType;
 import com.hackaholic.trainpanda.Cells.MenuItemCell;
 import com.hackaholic.trainpanda.Cells.SubCategoryCell;
 import com.hackaholic.trainpanda.R;
-import com.hackaholic.trainpanda.adapter.ListAdapter;
 import com.hackaholic.trainpanda.adapter.RestrauntMenuAdapter;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
-import com.hackaholic.trainpanda.ui.fragments.BookHotel;
-import com.hackaholic.trainpanda.ui.fragments.FareEnquiry;
-import com.hackaholic.trainpanda.ui.fragments.MainFragment;
-import com.hackaholic.trainpanda.ui.fragments.MyFoodOrder;
-import com.hackaholic.trainpanda.ui.fragments.MySearchedPNR;
-import com.hackaholic.trainpanda.ui.fragments.OrderFood;
-import com.hackaholic.trainpanda.ui.fragments.PNRFragment;
-import com.hackaholic.trainpanda.ui.fragments.RunningStatus;
-import com.hackaholic.trainpanda.ui.fragments.SearchTrain;
-import com.hackaholic.trainpanda.ui.fragments.SeatAvailability;
-import com.hackaholic.trainpanda.ui.fragments.StationInfo;
-import com.hackaholic.trainpanda.ui.fragments.TrainArraiving;
-import com.hackaholic.trainpanda.utils.SlidingMenuLayout;
-import com.squareup.picasso.Picasso;
-
-import Model.Categories;
-import Model.MenuItems;
-import Model.Restraunt;
-import Model.SubCategories;
-import Model.TopCategories;
-import Model.TopMenuItems;
-import Model.TopSubCategories;
-import de.hdodenhof.circleimageview.CircleImageView;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
-public class RestrauntDetail extends FragmentActivity {
-    TextView txtHotelName,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile,tv_hotel_kunal_place_order;
+import Model.Restraunt;
+import Model.TopCategories;
+import Model.TopMenuItems;
+import Model.TopSubCategories;
+
+public class PlaceOrder extends FragmentActivity {
+    TextView txtHotelName,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile;
     LinearLayout nonveg,veg;
     int listPosition;
     ProgressDialog progressDialog1,progressDialog2,progressDialog3;
@@ -78,16 +51,15 @@ public class RestrauntDetail extends FragmentActivity {
     int counter=0;
     RestrauntMenuAdapter resAdapter;
     ArrayList<CheckType> checkTypeList;
-    ImageView imgBack;
+    ImageView imgBack,imgCall,imgSms;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.restaurant_detail);
+        setContentView(R.layout.placeorder);
         initViews();
-        listPosition = getIntent().getIntExtra("pos", 0);
 
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(RestrauntDetail.this, "user_pref", 0);
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(PlaceOrder.this, "user_pref", 0);
         valuesRestraunt = complexPreferences.getObject("current_restraunt", Restraunt.class);
 
 
@@ -98,25 +70,43 @@ public class RestrauntDetail extends FragmentActivity {
             }
         });
 
-        callWebServices();
+//        callWebServices();
 
-        tv_hotel_kunal_place_order.setOnClickListener(new View.OnClickListener() {
+
+        imgCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent i = new Intent(RestrauntDetail.this,PlaceOrder.class);
-                startActivity(i);
-
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:"+ tv_restaurant_mobile.getText().toString()));
+                startActivity(callIntent);
             }
         });
 
+        imgSms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             /*   SmsManager smsManager = SmsManager.getDefault();
+                smsManager.sendTextMessage("phoneNo", null, "sms message", null, null);*/
+
+                Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                smsIntent.setData(Uri.parse("smsto:"));
+                smsIntent.setType("vnd.android-dir/mms-sms");
+                smsIntent.putExtra("address", new String(tv_restaurant_mobile.getText().toString()));
+                smsIntent.putExtra("sms_body"  , "Test SMS to Angilla");
+                startActivity(smsIntent);
+            }
+        });
 
     }
 
     void initViews(){
 
+        imgCall = (ImageView)findViewById(R.id.imgCall);
+        imgSms = (ImageView)findViewById(R.id.imgSms);
+
         imgBack = (ImageView)findViewById(R.id.imgBack);
-        tv_hotel_kunal_place_order = (TextView)findViewById(R.id.tv_hotel_kunal_place_order);
+
         ListItemLinear =(LinearLayout)findViewById(R.id.ListItemLinear);
         //listviewMenu = (ListView)findViewById(R.id.listviewMenu);
 
@@ -136,9 +126,9 @@ public class RestrauntDetail extends FragmentActivity {
         String SubCategory = API.BASE_URL+"subcategories";
         String MenuItemLink = API.BASE_URL+"items?filter[where][restaurantId]=54fdba259438acb320eaa747";
 
-        progressDialog1 =new ProgressDialog(RestrauntDetail.this);
-        progressDialog2 =new ProgressDialog(RestrauntDetail.this);
-        progressDialog3 =new ProgressDialog(RestrauntDetail.this);
+        progressDialog1 =new ProgressDialog(PlaceOrder.this);
+        progressDialog2 =new ProgressDialog(PlaceOrder.this);
+        progressDialog3 =new ProgressDialog(PlaceOrder.this);
 
         processFetchDetails(MainCategory,progressDialog1,1);
         processFetchDetails(SubCategory, progressDialog2, 2);
@@ -371,7 +361,7 @@ public class RestrauntDetail extends FragmentActivity {
             @Override
             public void error(String error) {
                 pb.dismiss();
-                Toast.makeText(RestrauntDetail.this, error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PlaceOrder.this, error, Toast.LENGTH_SHORT).show();
             }
         }.call2();
     }

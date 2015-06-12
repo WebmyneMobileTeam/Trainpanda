@@ -35,5 +35,5 @@
     <color name="pnr_bg">#152846</color>
 
     <color name="my_custom_orange">#FF9A0A</color>
-
+    <color name="transparent">#00000000</color>
 </resources>

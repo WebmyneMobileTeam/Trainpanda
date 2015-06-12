@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -76,6 +77,7 @@ public class RestrauntDetail extends FragmentActivity {
     int counter=0;
     RestrauntMenuAdapter resAdapter;
     ArrayList<CheckType> checkTypeList;
+    ImageView imgBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +90,21 @@ public class RestrauntDetail extends FragmentActivity {
         valuesRestraunt = complexPreferences.getObject("current_restraunt", Restraunt.class);
 
 
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         callWebServices();
+
+
     }
 
     void initViews(){
+
+        imgBack = (ImageView)findViewById(R.id.imgBack);
 
         ListItemLinear =(LinearLayout)findViewById(R.id.ListItemLinear);
         //listviewMenu = (ListView)findViewById(R.id.listviewMenu);

@@ -41,17 +41,17 @@
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
                 android:hint="ENTER PNR HERE" />
-<!--
+
+
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:textSize="@dimen/big_text"
+                android:gravity="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:textColor="#fff"
+                android:layout_marginBottom="20dp"
                 android:text="OR"
-                android:layout_gravity="center"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#FFF" />
+                />
 
 
 
@@ -64,13 +64,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/normal_text"
-                android:layout_marginTop="20dp"
                 android:background="#FFF"
                 android:textColorHint="#8c8c8c"
-                android:hint="ENTER STATION CODE" />-->
+                android:hint="ENTER STATION CODE" />
 
 
             <Button
+                android:gravity="center"
+                android:padding="8dp"
                 android:textColor="#ffffff"
                 android:id="@+id/buttonGO"
                 android:layout_marginRight="25dp"
@@ -82,17 +83,7 @@
                 android:background="#FF9A0A"
                 android:text="GO" />
 
-            <Button
-                android:textColor="#ffffff"
-                android:id="@+id/buttonPNRSMS"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/normal_text"
-                android:layout_marginTop="20dp"
-                android:background="#FF9A0A"
-                android:text="FETCH PNR FROM SMS" />
+
 
 
         </LinearLayout>

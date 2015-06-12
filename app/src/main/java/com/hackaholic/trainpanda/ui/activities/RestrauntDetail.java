@@ -104,7 +104,13 @@ public class RestrauntDetail extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
+
+
+
+
+
                 Intent i = new Intent(RestrauntDetail.this,PlaceOrder.class);
+                i.putExtra("pos",listPosition);
                 startActivity(i);
 
             }
@@ -166,10 +172,8 @@ public class RestrauntDetail extends FragmentActivity {
         for(int i=0;i<catg.Categories.size();i++) {
 
             View  mainCatg= inflater.inflate(R.layout.rest_catg_item, ListItemLinear, false);
-          /*  View  subCatg= inflater.inflate(R.layout.rest_subcatg_item, ListItemLinear, false);
-            View  mainItem= inflater.inflate(R.layout.rest_menu_item, ListItemLinear, false);
-*/
-            ListItemLinear.addView(mainCatg);
+
+        //    ListItemLinear.addView(mainCatg);
 
             TextView title = (TextView)mainCatg.findViewById(R.id.title);
             title.setText(catg.Categories.get(i).name);
@@ -180,7 +184,7 @@ public class RestrauntDetail extends FragmentActivity {
 
                              View  subCatg2= inflater.inflate(R.layout.rest_subcatg_item, ListItemLinear, false);
 
-                            ListItemLinear.addView(subCatg2);
+                      //      ListItemLinear.addView(subCatg2);
 
 
                             TextView title2 = (TextView)subCatg2.findViewById(R.id.subtitle);
@@ -189,6 +193,10 @@ public class RestrauntDetail extends FragmentActivity {
 
                             for(int k=0;k<menuItems.menuItem.size();k++){
                                     if(menuItems.menuItem.get(k).subCategoryId.equalsIgnoreCase(subCatg.SubCategories.get(j).id)) {
+
+                                        ListItemLinear.addView(mainCatg);
+                                        ListItemLinear.addView(subCatg2);
+
 
                                         View mainItem = inflater.inflate(R.layout.rest_menu_item, ListItemLinear, false);
                                         ListItemLinear.addView(mainItem);

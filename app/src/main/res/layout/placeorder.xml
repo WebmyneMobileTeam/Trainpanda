@@ -175,7 +175,8 @@
 
                             <include layout="@layout/veglayout" />
 
-                            <include layout="@layout/nonveglayout" />
+                            <include
+                                layout="@layout/nonveglayout" />
 
                         </LinearLayout>
 
@@ -370,6 +371,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginTop="10dp"
                 android:id="@+id/ListItemLinear"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

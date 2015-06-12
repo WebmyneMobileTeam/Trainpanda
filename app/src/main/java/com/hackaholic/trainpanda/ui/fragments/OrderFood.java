@@ -33,9 +33,9 @@ public class OrderFood extends Fragment {
 
         etPNR = (EditText)view.findViewById(R.id.etPNR);
         buttonGO = (Button)view.findViewById(R.id.buttonGO);
-        buttonPNRSMS = (Button)view.findViewById(R.id.buttonPNRSMS);
+      //  buttonPNRSMS = (Button)view.findViewById(R.id.buttonPNRSMS);
 
-        buttonGO.setOnClickListener(new View.OnClickListener() {
+       /* buttonGO.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -45,7 +45,7 @@ public class OrderFood extends Fragment {
                     Toast.makeText(getActivity(),"Please Enter PNR",Toast.LENGTH_LONG).show();
                 }
             }
-        });
+        });*/
 
         return view;
     }

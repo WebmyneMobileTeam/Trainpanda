@@ -17,7 +17,7 @@ public class MenuItems {
 	public String menuItem;
 
 	@SerializedName("listPrice")
-	public long listPrice;
+	public int listPrice;
 
 	@SerializedName("morningAvailabilityOpenTime")
 	public String morningAvailabilityOpenTime;

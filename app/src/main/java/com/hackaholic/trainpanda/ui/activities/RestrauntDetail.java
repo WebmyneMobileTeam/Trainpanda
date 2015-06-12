@@ -104,14 +104,19 @@ public class RestrauntDetail extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
+                SharedPreferences sp = getSharedPreferences("currentOrder", 0);
+                int qty = sp.getInt("qty",0);
+
+                if(qty==0){
+                    Toast.makeText(RestrauntDetail.this,"Please select any item to place order",Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent i = new Intent(RestrauntDetail.this,PlaceOrder.class);
+                    i.putExtra("pos",listPosition);
+                    startActivity(i);
+                }
 
 
 
-
-
-                Intent i = new Intent(RestrauntDetail.this,PlaceOrder.class);
-                i.putExtra("pos",listPosition);
-                startActivity(i);
 
             }
         });
@@ -159,13 +164,6 @@ public class RestrauntDetail extends FragmentActivity {
     }
 
     private void setAdapter(){
-        checkTypeList = new ArrayList<>();
-
-        checkTypeList.add(new CategoryCell("NothIndian",true,false,false));
-
-        checkTypeList.add(new SubCategoryCell("Desert","Price","Qty"));
-        checkTypeList.add(new MenuItemCell("Bverges", "o", "o"));
-
         LayoutInflater inflater = getLayoutInflater();
 
 
@@ -198,11 +196,12 @@ public class RestrauntDetail extends FragmentActivity {
                                         ListItemLinear.addView(subCatg2);
 
 
+
                                         View mainItem = inflater.inflate(R.layout.rest_menu_item, ListItemLinear, false);
                                         ListItemLinear.addView(mainItem);
 
                                         TextView itemName = (TextView)mainItem.findViewById(R.id.title);
-                                        TextView price = (TextView)mainItem.findViewById(R.id.title2);
+                                        final TextView price = (TextView)mainItem.findViewById(R.id.title2);
 
                                         TextView minus = (TextView)mainItem.findViewById(R.id.minus);
                                         TextView plus = (TextView)mainItem.findViewById(R.id.plus);
@@ -212,6 +211,9 @@ public class RestrauntDetail extends FragmentActivity {
                                         price.setText("Rs " + menuItems.menuItem.get(k).listPrice);
 
                                         value.setText(""+counter);
+
+                                        final String iname = menuItems.menuItem.get(k).menuItem;
+                                        final int iprice = menuItems.menuItem.get(k).listPrice;
 
 
                                         minus.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +225,10 @@ public class RestrauntDetail extends FragmentActivity {
                                                 } else {
                                                     counter -= 1;
                                                     value.setText("" + counter);
+
+                                                    processSaveCurerntOrder(counter,iname,iprice);
+
+
                                                 }
 
 
@@ -235,11 +241,14 @@ public class RestrauntDetail extends FragmentActivity {
                                                 if (counter >= 9) {
                                                     counter = 9;
                                                     value.setText(""+counter);
+
                                                 }
                                                 else {
                                                     counter += 1;
                                                     value.setText("" + counter);
                                                 }
+
+                                                processSaveCurerntOrder(counter,iname,iprice);
                                             }
                                         });
 
@@ -266,6 +275,17 @@ public class RestrauntDetail extends FragmentActivity {
       //  listviewMenu.setAdapter(resAdapter);
     }
 
+    private void processSaveCurerntOrder(int counter,String ItemName,int Price){
+
+        SharedPreferences sp = getSharedPreferences("currentOrder", 0);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt("qty", counter);
+        editor.putString("itemname", ItemName);
+        editor.putInt("price", Price);
+
+        editor.commit();
+
+    }
 
     private void fillupdetails(){
 

@@ -2,6 +2,7 @@ package com.hackaholic.trainpanda.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -75,6 +76,8 @@ public class PlaceOrder extends FragmentActivity {
 
         fillupdetails();
 
+        fillupCartdetails();
+
         imgCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,12 +98,48 @@ public class PlaceOrder extends FragmentActivity {
                 smsIntent.setData(Uri.parse("smsto:"));
                 smsIntent.setType("vnd.android-dir/mms-sms");
                 smsIntent.putExtra("address", new String(tv_restaurant_mobile.getText().toString()));
-                smsIntent.putExtra("sms_body"  , "Test SMS to Angilla");
+                smsIntent.putExtra("sms_body", "Test SMS to Angilla");
                 startActivity(smsIntent);
             }
         });
 
     }
+
+
+
+    void fillupCartdetails(){
+        LayoutInflater inflater = getLayoutInflater();
+
+        //for(int i=0;i<5;i++) {
+
+        SharedPreferences sp = getSharedPreferences("currentOrder", 0);
+        int qty = sp.getInt("qty", 0);
+        String itemName = sp.getString("itemname", "");
+        int price = sp.getInt("price", 0);
+
+        View cartItem = inflater.inflate(R.layout.placorder_catg_item, ListItemLinear, false);
+
+        TextView txtName = (TextView)cartItem.findViewById(R.id.txtName);
+        TextView txtqty = (TextView)cartItem.findViewById(R.id.qty);
+        TextView txtPrice = (TextView)cartItem.findViewById(R.id.price);
+
+
+        int finalPrice = price * qty;
+
+        txtName.setText(itemName);
+        txtqty.setText("x"+qty);
+        txtPrice.setText("Rs: "+finalPrice + "/-");
+
+            ListItemLinear.addView(cartItem);
+        // }
+        View bottom = inflater.inflate(R.layout.placorder_catg_bottom, ListItemLinear, false);
+        ListItemLinear.addView(bottom);
+
+        TextView txtTotalPrice = (TextView)bottom.findViewById(R.id.totprice);
+        txtTotalPrice.setText("Rs: "+finalPrice+ "/-");
+    }
+
+
 
     void initViews(){
 

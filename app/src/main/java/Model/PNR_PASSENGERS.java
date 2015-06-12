@@ -13,5 +13,5 @@ public class PNR_PASSENGERS {
 	public String booking_status;
 
 	@SerializedName("current_status")
-	public boolean current_status;
+	public String current_status;
 }

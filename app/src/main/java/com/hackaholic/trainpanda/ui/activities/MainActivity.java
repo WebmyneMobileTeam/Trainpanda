@@ -304,7 +304,7 @@ public class MainActivity extends FragmentActivity {
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.lk_profile_fragment, frag);
-        fragmentTransaction.addToBackStack(null);
+        //fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
@@ -318,7 +318,7 @@ public class MainActivity extends FragmentActivity {
         } else {
 
             title.setText("TRAIN PANDA");
-            Fragment fragment = new MainFragment();
+            Fragment fragment = new PNRFragment();
             start_fragment(fragment);
         }
 

@@ -37,6 +37,7 @@ import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.activities.SlidingActivity;
 import com.hackaholic.trainpanda.utility.ExpandableLayout;
+import com.hackaholic.trainpanda.utility.ExpandableLayoutItem;
 import com.hackaholic.trainpanda.utility.ExpandableLayoutListView;
 import com.hackaholic.trainpanda.utility.ExpandablePanel;
 
@@ -100,7 +101,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 	{
 
 		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
-		title.setText("PNR : "+PNR);
+		title.setText("PNR : " + PNR);
 
 		ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
 		imgToolbarOption.setVisibility(View.VISIBLE);
@@ -108,26 +109,20 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		View rootView = inflater.inflate(R.layout.train_route, container, false);
 
 
-		/*final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), R.layout.view_row, R.id.header_text, array);
-		final ExpandableLayoutListView expandableLayoutListView = (ExpandableLayoutListView) rootView.findViewById(R.id.listview);
-
-		expandableLayoutListView.setAdapter(arrayAdapter);*/
-
 		initializeViews(rootView);
 
 
 		ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
 		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
-		pnr_listview.setVisibility(View.VISIBLE);
+
 		Log.e("on expand panel", "yes");
-		pnr_listview.setAdapter(
+
+
+
+		ListView pnr_listview1 = (ListView)rootView.findViewById(R.id.pnr_listview);
+
+		pnr_listview1.setAdapter(
 				new MyAdapterPNR(cuurentPNR, getActivity()));
-
-
-
-
-
-
 
 
 
@@ -135,8 +130,12 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 	}
 
+	@Override
+	public void onResume() {
+		super.onResume();
 
 
+	}
 
 	private void initializeViews(View rootView)
 	{
@@ -181,36 +180,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 
 
-		/*panel.setOnExpandListener(new ExpandablePanel.OnExpandListener() {
 
-			public void onCollapse(View handle, View content) {
-				pnr_expand.setVisibility(View.GONE);
-			//	ll_pnr_third.setVisibility(View.GONE);
-			//	ll_pnr_fourth.setVisibility(View.GONE);
-				TextView btn = (TextView) handle;
-				btn.setText("Show");
-				panel.setCollapsedHeight(100);
-			}
-
-			public void onExpand(View handle, View content) {
-				TextView btn = (TextView) handle;
-				pnr_expand.setVisibility(View.VISIBLE);
-
-
-				ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
-				PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
-				pnr_listview.setVisibility(View.VISIBLE);
-				Log.e("on expand panel","yes");
-				pnr_listview.setAdapter(
-						new MyAdapterPNR(cuurentPNR, getActivity()));
-
-
-				//	ll_pnr_third.setVisibility(View.VISIBLE);
-				//ll_pnr_fourth.setVisibility(View.VISIBLE);
-				panel.setCollapsedHeight(10);
-				btn.setText("Hide");
-			}
-		});*/
 	}
 
 	private class TrainNumberTask extends AsyncTask<String,Void,String>
@@ -475,17 +445,15 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 			TextView single_row_pnr_tv_passengers=(TextView)row.findViewById(R.id.single_row_pnr_tv_passengers);
 			TextView single_row_pnr_tv_seats=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
-			TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
+			TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_status);
 
-			single_row_pnr_tv_passengers.setText("Passenger ");
-			single_row_pnr_tv_seats.setText("Passenger ");
-			single_row_pnr_tv_status.setText("Passenger ");
-			/*for(int i=0;i<valuesPNR.passengers.size();i++){
-				//holder.single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(i).no+"");
-				holder.single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(i).booking_status+"  ");
-				holder.single_row_pnr_tv_status.setText(valuesPNR.passengers.get(i).current_status+"");
 
-			}*/
+			for(int i=0;i<valuesPNR.passengers.size();i++){
+				single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(i).no+"");
+				single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(i).booking_status+"");
+				single_row_pnr_tv_status.setText(valuesPNR.passengers.get(i).current_status+"");
+
+			}
 
 			return row;
 		}

@@ -15,7 +15,13 @@
         expandable:el_contentLayout="@layout/view_content"
         android:background="@color/pnr_bg"/>
 
-
+   <!-- <LinearLayout
+        android:background="@color/pnr_bg"
+        android:id="@+id/first"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+-->
     <LinearLayout
         android:visibility="gone"
         android:id="@+id/pnr_ll_pre_top"

@@ -46,6 +46,8 @@ public class ExpandableLayoutItem extends RelativeLayout
     private FrameLayout headerLayout;
     private Boolean closeByUser = true;
 
+
+    ViewGroup myView;
     public ExpandableLayoutItem(Context context)
     {
         super(context);
@@ -70,7 +72,10 @@ public class ExpandableLayoutItem extends RelativeLayout
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         final int headerID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_headerLayout, -1);
         final int contentID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_contentLayout, -1);
+
         contentLayout = (FrameLayout) rootView.findViewById(R.id.view_expandable_contentLayout);
+
+        myView = (FrameLayout) rootView.findViewById(R.id.view_expandable_contentLayout);
 
         if (headerID == -1 || contentID == -1)
             throw new IllegalArgumentException("HeaderLayout and ContentLayout cannot be null!");
@@ -210,6 +215,11 @@ public class ExpandableLayoutItem extends RelativeLayout
     public FrameLayout getContentLayout()
     {
         return contentLayout;
+    }
+
+    public ViewGroup getMyLayout()
+    {
+        return myView;
     }
 
     public void hide()

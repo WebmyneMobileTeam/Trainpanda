@@ -66,9 +66,11 @@ public class ExpandableLayout extends RelativeLayout
     {
         final View rootView = View.inflate(context, R.layout.view_expandable, this);
         headerLayout = (FrameLayout) rootView.findViewById(R.id.view_expandable_headerlayout);
+
         final TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableLayout);
         final int headerID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_headerLayout, -1);
         final int contentID = typedArray.getResourceId(R.styleable.ExpandableLayout_el_contentLayout, -1);
+
         contentLayout = (FrameLayout) rootView.findViewById(R.id.view_expandable_contentLayout);
 
         if (headerID == -1 || contentID == -1)

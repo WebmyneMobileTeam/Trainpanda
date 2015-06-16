@@ -18,4 +18,14 @@ public class PrefUtils {
         return code;
     }
 
+
+    public static void setDrawerClick(Context ctx,int pos){
+        Prefs.with(ctx).save("pos",pos);
+    }
+
+    public static int getDrawerClick(Context ctx){
+        int code = Prefs.with(ctx).getInt("pos", 0);
+        return code;
+    }
+
 }

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtPNRNUmber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="16dp"
+                android:text="9737388786"
+                android:textColor="#fff"
+                android:textSize="@dimen/normal_text"
+                />
+
+            <TextView
+                android:textStyle="bold"
+                android:id="@+id/pnrStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/Orange"
+                android:text="COMPLETED"
+                android:textColor="#000000"
+                android:textSize="10dp"
+                android:padding="4dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:drawablePadding="4dp"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            android:drawableRight="@drawable/icon_calendar"
+            android:id="@+id/pnrDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="28 MAY 2015"
+            android:textColor="@color/my_custom_yellow"
+            android:textSize="@dimen/small_text"
+            android:paddingLeft="16dp"
+            />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/single_search_pnr_imageview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/icon_right"
+        />
+
+
+</LinearLayout>

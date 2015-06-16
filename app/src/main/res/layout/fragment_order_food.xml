@@ -53,20 +53,48 @@
                 android:text="OR"
                 />
 
-
-
-            <EditText
-                android:textColor="#494949"
-                android:id="@+id/editText2"
-                android:layout_marginRight="25dp"
-                android:layout_marginLeft="25dp"
-                android:padding="8dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/normal_text"
-                android:background="#FFF"
-                android:textColorHint="#8c8c8c"
-                android:hint="ENTER STATION CODE" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal" >
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center" >
+
+                    <AutoCompleteTextView
+                        android:textColor="#494949"
+                        android:id="@+id/etStnCode"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginLeft="25dp"
+                        android:padding="8dp"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/normal_text"
+                        android:background="#FFF"
+                        android:textColorHint="#8c8c8c"
+                        android:hint="ENTER STATION CODE" />
+
+                    <ProgressBar
+                        android:layout_gravity="right"
+                        android:gravity="right"
+                        android:id="@+id/progressBar_train_routes"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:indeterminate="true"
+                        android:visibility="gone" >
+                    </ProgressBar>
+
+                </FrameLayout>
+
+
+            </LinearLayout>
+
+
 
 
             <Button

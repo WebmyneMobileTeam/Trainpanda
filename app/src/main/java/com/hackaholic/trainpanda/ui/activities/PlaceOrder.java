@@ -27,11 +27,17 @@ import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
+import com.hackaholic.trainpanda.helpers.JSONPost;
+import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import Model.Restraunt;
 import Model.TopCategories;
@@ -53,12 +59,15 @@ public class PlaceOrder extends FragmentActivity {
     RestrauntMenuAdapter resAdapter;
     ArrayList<CheckType> checkTypeList;
     ImageView imgBack,imgCall,imgSms;
-
+    int finalPrice;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.placeorder);
         initViews();
+
+        sharedPreferences = PlaceOrder.this.getSharedPreferences("TrainPanda", MODE_PRIVATE);
 
         listPosition = getIntent().getIntExtra("pos", 0);
 
@@ -82,27 +91,111 @@ public class PlaceOrder extends FragmentActivity {
             @Override
             public void onClick(View view) {
 
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:"+ tv_restaurant_mobile.getText().toString()));
-                startActivity(callIntent);
+               saveDataToServer(0);
+
             }
         });
 
         imgSms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              saveDataToServer(1);
+
              /*   SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage("phoneNo", null, "sms message", null, null);*/
 
-                Intent smsIntent = new Intent(Intent.ACTION_VIEW);
-                smsIntent.setData(Uri.parse("smsto:"));
-                smsIntent.setType("vnd.android-dir/mms-sms");
-                smsIntent.putExtra("address", new String(tv_restaurant_mobile.getText().toString()));
-                smsIntent.putExtra("sms_body", "Test SMS to Angilla");
-                startActivity(smsIntent);
             }
         });
 
+    }
+
+
+  private void saveDataToServer(final int TODO) {
+
+        try {
+            JSONObject customerJsonObject = new JSONObject();
+            customerJsonObject.put("id", sharedPreferences.getString("customer_id", "").trim());
+            Log.e("Customer Json Object : ", String.valueOf(customerJsonObject));
+
+
+            final Date currentTime = new Date();
+
+            final SimpleDateFormat sdf =
+                    new SimpleDateFormat("EEE, d MMM  yyyy hh:mm:ss  z");
+
+        // Give it to me in GMT time.
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            System.out.println("GMT time: " + sdf.format(currentTime));
+
+            String todayDate = sdf.format(currentTime);
+
+            Log.e("Date",""+todayDate);
+
+
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("orderId", 0);
+            jsonObject.put("totalAmount",finalPrice);
+            jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
+            jsonObject.put("date",todayDate );
+            jsonObject.put("status", 0);
+            jsonObject.put("stationCode",valuesRestraunt.Restraunt.get(listPosition).stationCode);
+            jsonObject.put("restaurantId",valuesRestraunt.Restraunt.get(listPosition).id);
+
+            Log.e("FINAL ORDER JSON : ", "" + jsonObject);
+
+            try {
+
+                JSONPost json1 = new JSONPost();
+                json1.POST(PlaceOrder.this, "http://admin.trainpanda.com/api/orders", jsonObject.toString(), "Saving Order Details...");
+                json1.setPostResponseListener(new POSTResponseListener() {
+                    @Override
+                    public String onPost(String msg) {
+
+                        Log.e("add order to server", "onPost response: " + msg);
+
+                        if(TODO ==0){
+                            Intent callIntent = new Intent(Intent.ACTION_CALL);
+                            callIntent.setData(Uri.parse("tel:"+ tv_restaurant_mobile.getText().toString()));
+                            startActivity(callIntent);
+                        }else {
+                            try {
+                                Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+                                smsIntent.setData(Uri.parse("smsto:"));
+                                smsIntent.setType("vnd.android-dir/mms-sms");
+                                smsIntent.putExtra("address", new String(tv_restaurant_mobile.getText().toString()));
+                                smsIntent.putExtra("sms_body", "Test SMS to Angilla");
+                                startActivity(smsIntent);
+                            }catch (Exception e){
+                                Toast.makeText(PlaceOrder.this,"Error - "+e.toString(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onPreExecute() {
+
+                    }
+
+                    @Override
+                    public void onBackground() {
+
+                    }
+                });
+            }catch (Exception e){
+                Log.e("exc----", e.toString());
+            }
+
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -124,7 +217,7 @@ public class PlaceOrder extends FragmentActivity {
         TextView txtPrice = (TextView)cartItem.findViewById(R.id.price);
 
 
-        int finalPrice = price * qty;
+         finalPrice = price * qty;
 
         txtName.setText(itemName);
         txtqty.setText("x"+qty);

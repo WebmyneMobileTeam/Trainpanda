@@ -217,7 +217,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		{
 			int length=hitServer(params[0]);
 			Log.e("length : ",""+length);
-			if(length>1)
+			/*if(length>1)
 			{
 
 				Log.e("fb nam","inside before");
@@ -228,9 +228,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				startActivity(intent);
 				finish();
 
-			}
-			else
-			{
+			}*/
+		//	else
+		//	{
 				//Perform Registration
 				String jsonResponse=params[1];
 				//Log.e("Json Object : ",""+jsonResponse);
@@ -299,7 +299,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					{
 						HttpEntity entity = response.getEntity();
 						String json = EntityUtils.toString(entity);
-						Log.e("*****Http Post Response:"+response.getStatusLine().getStatusCode(),json);
+						Log.e("*****Http Post Login Response:"+response.getStatusLine().getStatusCode(),json);
 						//Toast.makeText(getApplicationContext(), ""+json,Toast.LENGTH_SHORT).show();
 						String customer_id=getCustomerId(json);
 						System.out.println("ID "+customer_id);
@@ -329,7 +329,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				{
 					e.printStackTrace();
 				}
-			}
+			//}
 			return null;
 		}
 

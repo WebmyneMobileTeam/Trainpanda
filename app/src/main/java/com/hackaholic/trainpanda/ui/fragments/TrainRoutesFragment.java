@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -30,12 +31,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.EnumType;
+import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.activities.SlidingActivity;
+import com.hackaholic.trainpanda.utility.CustomDialogBoxEditPNR;
 import com.hackaholic.trainpanda.utility.ExpandableLayout;
 import com.hackaholic.trainpanda.utility.ExpandableLayoutItem;
 import com.hackaholic.trainpanda.utility.ExpandableLayoutListView;
@@ -54,27 +59,44 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import Model.LIVE_STATUS;
 import Model.PNR;
+import Model.TRAIN_NAMES;
+import Model.TopCategories;
+import Model.TopMenuItems;
+import Model.TopSubCategories;
 
-public class TrainRoutesFragment extends Fragment implements OnClickListener
-{
+public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 	private ArrayList<String> al_booking_status;
 	private ArrayList<String> al_current_status;
 	private ArrayList<String> al_no;
-	private String totalPassengers="";
+	private String totalPassengers = "";
 	ExpandableLayoutListView expandableLayoutListView;
 	private TextView train_route_train_name;
 	private TextView train_route_train_code;
-	private ListView train_route_listview,pnr_listview;
+	private ListView train_route_listview, pnr_listview;
 	private AutoCompleteTextView train_route_actv_train_number;
 	private ProgressBar progressBar_train_routes;
+	ProgressDialog pb;
 	private TextView train_route_tv_go;
-	String tNO,PNR;
+	String tNO, PNR,DOJ;
+	LIVE_STATUS objLive;
+	String newDOJ;
 	ExpandablePanel panel;
-	LinearLayout pnr_expand , ll_pnr_third ,ll_pnr_fourth;
+	LinearLayout pnr_expand, ll_pnr_third, ll_pnr_fourth;
 	ArrayList<String> al_code;
 	private final String[] array = {"Hello", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome"};
+
+	ArrayList<String> al_lat;
+	ArrayList<String> al_scharr;
+	ArrayList<String> al_fullname;
+	ArrayList<String> al_schdep;
+	ArrayList<String> al_state;
+	ArrayList<String> al_no1;
+	ArrayList<String> al_lng;
+
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,29 +104,54 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		super.onCreate(savedInstanceState);
 
 		Bundle args = getArguments();
-		if (args  != null && args.containsKey("trainNo")){
-			tNO= args.getString("trainNo");
+		if (args != null && args.containsKey("trainNo")) {
+			tNO = args.getString("trainNo");
 
 		}
-		if (args  != null && args.containsKey("pnr")){
-			PNR= args.getString("pnr");
-			Log.e("pnr",PNR);
+		if (args != null && args.containsKey("pnr")) {
+			PNR = args.getString("pnr");
+			Log.e("pnr", PNR);
+		}
+		if (args != null && args.containsKey("doj")) {
+			DOJ = args.getString("doj");
+			Log.e("doj", DOJ);
+
+			try{
+
+				DateFormat originalFormat = new SimpleDateFormat("dd-m-yyyy", Locale.ENGLISH);
+				DateFormat targetFormat = new SimpleDateFormat("yyyymmdd");
+				Date date = originalFormat.parse(DOJ);
+				newDOJ = targetFormat.format(date);  // 20120821
+
+				Log.e("new DOJ",""+newDOJ.toString());
+			}catch (Exception e){
+				Log.e("exc in date conv",e.toString());
+			}
 		}
 
 	}
 
-	public TrainRoutesFragment(){}
+	public TrainRoutesFragment() {
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState)
-	{
+							 Bundle savedInstanceState) {
 
-		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
+		TextView title = (TextView) getActivity().findViewById(R.id.lk_profile_header_textview);
 		title.setText("PNR : " + PNR);
 
 		ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
 		imgToolbarOption.setVisibility(View.VISIBLE);
+
+		imgToolbarOption.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity());
+				cdbox.show();
+			}
+		});
+
 
 		View rootView = inflater.inflate(R.layout.train_route, container, false);
 
@@ -116,11 +163,10 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
 
 
-		ListView pnr_listview1 = (ListView)rootView.findViewById(R.id.pnr_listview);
+		ListView pnr_listview1 = (ListView) rootView.findViewById(R.id.pnr_listview);
 
 		pnr_listview1.setAdapter(
 				new MyAdapterPNR(cuurentPNR, getActivity()));
-
 
 
 
@@ -135,20 +181,18 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 	}
 
-	private void initializeViews(View rootView)
-	{
+	private void initializeViews(View rootView) {
 		initializeTextViews(rootView);
 		initiaiizeListViews(rootView);
 		progressBar_train_routes = (ProgressBar) rootView.findViewById(R.id.progressBar_train_routes);
 		//AutoCompleteTextview for source stations
-		train_route_actv_train_number=(AutoCompleteTextView)rootView.findViewById(R.id.train_route_actv_train_number);
+		train_route_actv_train_number = (AutoCompleteTextView) rootView.findViewById(R.id.train_route_actv_train_number);
 		train_route_actv_train_number.setThreshold(1);
 		train_route_actv_train_number.setText(tNO);
 		//pnr_expand = (LinearLayout)rootView.findViewById(R.id.ll_pnr_first);
 
 
-
-		pnr_listview = (ListView)rootView.findViewById(R.id.pnr_listview);
+		pnr_listview = (ListView) rootView.findViewById(R.id.pnr_listview);
 
 		//ll_pnr_third = (LinearLayout)rootView.findViewById(R.id.ll_pnr_third);
 		//ll_pnr_fourth = (LinearLayout)rootView.findViewById(R.id.ll_pnr_fourth);
@@ -169,7 +213,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (train_route_actv_train_number.getText().toString().length() > 4) {
+				if (train_route_actv_train_number.getText().toString().length() > 1) {
 					train_route_tv_go.performClick();
 					new TrainNumberTask().execute(train_route_actv_train_number.getText().toString().trim());
 				}
@@ -177,89 +221,83 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		});
 
 
-
-
 	}
 
-	private class TrainNumberTask extends AsyncTask<String,Void,String>
-	{
+	private class TrainNumberTask extends AsyncTask<String, Void, String> {
 		@Override
-		protected void onPreExecute()
-		{
+		protected void onPreExecute() {
 			progressBar_train_routes.setVisibility(View.VISIBLE);
 		}
 
 		@Override
-		protected String doInBackground(String... params)
-		{
+		protected String doInBackground(String... params) {
 			return hitServer(params[0]);
 		}
 
-		private String hitServer(String value)
-		{
-			String response=null;
-			String url="http://api.railwayapi.com/suggest_train/trains/"+value+"/apikey/"+getResources().getString(R.string.key1)+"/";
+		private String hitServer(String value) {
+			String response = null;
+			String url = "http://api.railwayapi.com/suggest_station/name/" + value + "/apikey/" + getResources().getString(R.string.key1) + "/";
 			//String url="http://api.railwayapi.com/suggest_station/name/"+value+"/apikey/"+getResources().getString(R.string.key1)+"/";
-			try
-			{
-				ServiceHandler handler=new ServiceHandler();
-				response=handler.makeServiceCall(url.replaceAll(" ","%20"), ServiceHandler.GET);
-			}
-			catch(Exception e)
-			{
+			try {
+				ServiceHandler handler = new ServiceHandler();
+				response = handler.makeServiceCall(url.replaceAll(" ", "%20"), ServiceHandler.GET);
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return response;
 		}
 
 		@Override
-		protected void onPostExecute(String result)
-		{
+		protected void onPostExecute(String result) {
 			progressBar_train_routes.setVisibility(View.GONE);
 
-			if(result!=null)
-			{
+			if (result != null) {
 				//Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
 				Log.e("REsponse", "" + result);
 
-				ArrayList<String> al_train_numbers=new ArrayList<String>();
-				try
-				{
-					JSONObject jsonObject=new JSONObject(result);
-					JSONArray jsonArray=jsonObject.getJSONArray("train");
-					for(int i=0;i<jsonArray.length();i++)
-					{
-						String number=(String)jsonArray.get(i);
-						Log.e("Train Numbers : ", "" + number);
-						al_train_numbers.add(number);
+				ArrayList<String> al_train_numbers = new ArrayList<String>();
+				try {
+
+					TRAIN_NAMES tnmames =  new GsonBuilder().create().fromJson(result.toString(), TRAIN_NAMES.class);
+					for(int i=0;i<tnmames.station.size();i++){
+						al_train_numbers.add(tnmames.station.get(i).code);
 					}
-				}
-				catch(Exception e)
-				{
+
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				ArrayAdapter<String> adapter2=new ArrayAdapter<String>(getActivity(),
-						R.layout.single_row_textview,R.id.signle_row_textview_tv,al_train_numbers);
+
+
+
+
+				ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
+						R.layout.single_row_textview, R.id.signle_row_textview_tv, al_train_numbers);
+
+
 				train_route_actv_train_number.setAdapter(adapter2);
-			}
-			else
-			{
+
+
+
+			} else {
 				Toast.makeText(getActivity(), "Response Is null", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
 
 
-	private void initiaiizeListViews(View rootView)
-	{
-		train_route_listview=(ListView)rootView.findViewById(R.id.train_route_listview);
-		train_route_listview.setOnItemClickListener(new OnItemClickListener()
-		{
+
+
+
+
+	private void initiaiizeListViews(View rootView) {
+
+
+		train_route_listview = (ListView) rootView.findViewById(R.id.train_route_listview);
+		train_route_listview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) 
-			{
+									int position, long id) {
 
 				/*String code = al_code.get(position);
 				PrefUtils.setCurrentStationCode(getActivity(),code);
@@ -267,7 +305,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				startActivity(i);*/
 
 				String code = al_code.get(position);
-				PrefUtils.setCurrentStationCode(getActivity(),code);
+				PrefUtils.setCurrentStationCode(getActivity(), code);
 
 				Bundle bun = new Bundle();
 				bun.putString("stName", code);
@@ -289,24 +327,56 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 
 
 		//To set alarm
-		train_route_listview.setOnLongClickListener(new OnLongClickListener()
-		{
+		train_route_listview.setOnLongClickListener(new OnLongClickListener() {
 			@Override
-			public boolean onLongClick(View v)
-			{
+			public boolean onLongClick(View v) {
 				Toast.makeText(getActivity(), "Set Alarm ?", Toast.LENGTH_LONG).show();
 				return true;
 			}
 		});
 	}
 
-	private void initializeTextViews(View rootView)
-	{
-		train_route_train_name=(TextView)rootView.findViewById(R.id.train_route_train_name);
-		train_route_train_code=(TextView)rootView.findViewById(R.id.train_route_train_code);
-		train_route_tv_go=(TextView)rootView.findViewById(R.id.train_route_tv_go);
+	private void initializeTextViews(View rootView) {
+		train_route_train_name = (TextView) rootView.findViewById(R.id.train_route_train_name);
+		train_route_train_code = (TextView) rootView.findViewById(R.id.train_route_train_code);
+		train_route_tv_go = (TextView) rootView.findViewById(R.id.train_route_tv_go);
 		train_route_tv_go.setOnClickListener(this);
 	}
+
+
+private void hitServerLiveStatus() {
+
+	String url = "http://api.railwayapi.com/live/train/" + tNO + "/doj/" + newDOJ + "/apikey/" + getResources().getString(R.string.key1) + "/";
+
+	pb =new ProgressDialog(getActivity());
+	pb.setMessage("Fetching live status...");
+	pb.show();
+
+
+	new GetPostClass(url , EnumType.GET) {
+		@Override
+		public void response(String response) {
+			pb.dismiss();
+			//Log.e("live status", response.toString());
+			objLive = new GsonBuilder().create().fromJson(response.toString(), LIVE_STATUS.class);
+
+
+			train_route_listview.setAdapter(new MyAdapter(getActivity(),objLive,
+					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng));
+
+		}
+
+		@Override
+		public void error(String error) {
+			pb.dismiss();
+			Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+		}
+	}.call2();
+
+
+
+	}
+
 
 	private class TrainRouteAsync extends AsyncTask<String, Void, String>
 	{
@@ -335,8 +405,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				ServiceHandler handler=new ServiceHandler();
 				response=handler.makeServiceCall(url, ServiceHandler.GET);
 			}
-			catch(Exception e)
-			{
+			catch(Exception e) {
 				e.printStackTrace();
 			}
 			return response;
@@ -348,15 +417,19 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			super.onPostExecute(result);
 
 			dialog.dismiss();
+
 			//Initialize Arraylist
-			ArrayList<String> al_lat=new ArrayList<String>();
-			ArrayList<String> al_scharr=new ArrayList<String>();
-			ArrayList<String> al_fullname=new ArrayList<String>();
-			ArrayList<String> al_schdep=new ArrayList<String>();
-			ArrayList<String> al_state=new ArrayList<String>();
-			ArrayList<String> al_no=new ArrayList<String>();
+			 al_lat=new ArrayList<String>();
+			 al_scharr=new ArrayList<String>();
+			 al_fullname=new ArrayList<String>();
+			 al_schdep=new ArrayList<String>();
+			 al_state=new ArrayList<String>();
+			 al_no=new ArrayList<String>();
+
+
 			 al_code=new ArrayList<String>();
-			ArrayList<String> al_lng=new ArrayList<String>();
+
+			al_lng=new ArrayList<String>();
 			if(result!=null)
 			{
 				try
@@ -395,8 +468,9 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				}
 			}
 
-			train_route_listview.setAdapter(new MyAdapter(getActivity(),
-					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng));
+			hitServerLiveStatus();
+
+
 		}
 	}
 
@@ -480,11 +554,13 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		private ArrayList<String> al_no;
 		private ArrayList<String> al_code;
 		private ArrayList<String> al_lng;
+		LIVE_STATUS valuesLiveStatus;
 
-		public MyAdapter(Context context,ArrayList<String> al_lat,ArrayList<String> al_scharr,
+		public MyAdapter(Context context,LIVE_STATUS obj,ArrayList<String> al_lat,ArrayList<String> al_scharr,
 				ArrayList<String> al_fullname,ArrayList<String> al_schdep,ArrayList<String> al_state,
 				ArrayList<String> al_no,ArrayList<String> al_code,ArrayList<String> al_lng)
 		{
+			this.valuesLiveStatus = obj;
 			this.context=context;
 			this.al_lat=al_lat;
 			this.al_scharr=al_scharr;
@@ -499,6 +575,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 		@Override
 		public int getCount() 
 		{
+			Log.e("size of tarian st",""+al_lat.size());
 			return al_lat.size();
 		}
 
@@ -532,6 +609,9 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 				holder.train_route_distance_next_station=(TextView) row.findViewById(R.id.train_route_distance_next_station);
 				holder.train_route_halt_time=(TextView) row.findViewById(R.id.train_route_halt_time);
 				holder.train_route_train_name=(TextView) row.findViewById(R.id.train_route_train_name);
+				holder.liveStatus=(TextView) row.findViewById(R.id.liveStatus);
+
+
 				row.setTag(holder);
 				//Log.e("ALCODE ",""+al_code);
 				LinearLayout linearRoute = (LinearLayout)row.findViewById(R.id.linearRoute);
@@ -556,6 +636,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 			holder.train_route_departure_time.setText(" - "+al_schdep.get(position)+" ");
 			holder.train_route_train_name.setText(""+al_fullname.get(position)+" ");
 
+			holder.liveStatus.setText(""+valuesLiveStatus.route.get(position).status);
 
 
 
@@ -585,7 +666,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener
 	{
 		TextView train_route_arival_time,train_route_departure_time,
 		train_route_avg_delay_time,train_route_distance_next_station,train_route_halt_time
-		,train_route_train_name;
+		,train_route_train_name,liveStatus;
 	}
 
 	private String calculateHaltTime(String start_time,String end_time)

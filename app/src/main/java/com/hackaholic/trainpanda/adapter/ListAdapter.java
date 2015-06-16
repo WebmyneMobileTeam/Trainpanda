@@ -6,6 +6,7 @@ package com.hackaholic.trainpanda.adapter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,15 +21,16 @@ import com.hackaholic.trainpanda.R;
 public class ListAdapter extends ArrayAdapter<String>{
 
 
-
+    private final int drawerPos;
     private final Activity context;
     private final String[] web;
     private final Integer[] imageId;
-    public ListAdapter(Activity context,String[] web, Integer[] imageId) {
+    public ListAdapter(Activity context,String[] web, Integer[] imageId,int ListPos) {
         super(context, R.layout.list_item, web);
         this.context = context;
         this.web = web;
         this.imageId = imageId;
+        this.drawerPos = ListPos;
 
     }
 
@@ -41,6 +43,8 @@ public class ListAdapter extends ArrayAdapter<String>{
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
 
         txtTitle.setText(web[position]);
+        if(drawerPos==position)
+            rowView.setBackgroundColor(Color.parseColor("#8B0001"));
 
         imageView.setImageResource(imageId[position]);
         return rowView;

@@ -26,6 +26,8 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.JSONPost;
+import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -39,9 +41,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import Model.PNR;
 
@@ -72,7 +77,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     private ArrayList<String> al_current_status;
     private ArrayList<String> al_no;
     private ImageView pnr_iv_running_status;
-
+    PNR cuurentPNR;
 
     public PNRFragment() {
     }
@@ -90,6 +95,13 @@ public class PNRFragment extends Fragment implements OnClickListener {
         initializeEditTexts(rootView);
         initializeImgaeViews(rootView);
         pnr_listview = (ListView) rootView.findViewById(R.id.pnr_listview);
+
+
+        Log.e("Customer id : ", sharedPreferences.getString("customer_id", "").trim());
+
+
+
+
         return rootView;
     }
 
@@ -232,6 +244,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     String url = "http://api.railwayapi.com/pnr_status/pnr/" + pnr_ed_pnr_no.getText().toString().trim() + "/apikey/" + getResources().getString(R.string.key1) + "/";
                     Log.e("Url : ", "" + url);
                     new PNRAsync().execute(url);
+
                     //pnr_tv_train_number.setText(pnr_ed_pnr_no.getText().toString().trim());
 					/*rl_pnr_second.setVisibility(View.VISIBLE);
 					pnr_third.setVisibility(View.VISIBLE);
@@ -293,6 +306,132 @@ public class PNRFragment extends Fragment implements OnClickListener {
         }
     }
 
+    private String parseDate(String doj) {
+        ArrayList<String> al = new ArrayList<String>();
+        StringTokenizer stringTokenizer = new StringTokenizer(doj, "-");
+        while (stringTokenizer.hasMoreTokens()) {
+            al.add(stringTokenizer.nextToken());
+        }
+        return al.get(2) + "" + (al.get(1).length() == 1 ? "0" + al.get(1) : al.get(1)) + "" + (al.get(0).length() == 1 ? "0" + al.get(0) : al.get(0));
+    }
+
+    private void getTrainStartEndTime(String trainNumber, String date) {
+        ArrayList<String> al = new ArrayList<String>();
+        String url = "http://api.railwayapi.com/live/train/" + trainNumber + "/doj/" + date + "/apikey/" + getResources().getString(R.string.key1) + "/";
+        Log.e("URL : ", "" + url);
+    }
+
+    private void saveDataToServer() {
+        getTrainStartEndTime(trainNumber, parseDate(doj));
+        try {
+            JSONObject customerJsonObject = new JSONObject();
+            customerJsonObject.put("id", sharedPreferences.getString("customer_id", "").trim());
+            Log.e("Customer Json Object : ", String.valueOf(customerJsonObject));
+
+            //Starting Station
+            JSONObject startingStationJsonObject = new JSONObject();
+            startingStationJsonObject.put("code", "" + fromStationCode.trim());
+            startingStationJsonObject.put("name", "" + fromStationName.trim());
+            Log.e("Starting Json Object : ", String.valueOf(startingStationJsonObject));
+
+            //End Station
+            JSONObject endJsonObject = new JSONObject();
+            endJsonObject.put("code", "" + toStationCode.trim());
+            endJsonObject.put("name", "" + toStationName.trim());
+            Log.e("End Json Object : ", String.valueOf(endJsonObject));
+
+            //Train Number
+            Log.e("Train Number : ", "" + trainNumber);
+
+            //Passengers Count
+            Log.e("Total Passengers : ", "" + totalPassengers);
+
+
+            //Parse Booking Status
+            ArrayList<String> temp = new ArrayList<String>();
+            StringTokenizer stringTokenizer = new StringTokenizer(al_booking_status.get(0).trim(), ",");
+            while (stringTokenizer.hasMoreTokens()) {
+                temp.add(stringTokenizer.nextToken());
+            }
+
+            Log.e("bookingClass : ", "" + classRailway);
+            Log.e("currentBookingStatus : ", "" + al_current_status.get(0));
+            Log.e("bookingStatus : ", "" + temp.get(0).trim());
+            Log.e("PNR Number : ", "" + pnr_ed_pnr_no.getText().toString().trim());
+            Log.e("bookingQuota : ", temp.get(2));
+
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("sNo", Long.parseLong(pnr_ed_pnr_no.getText().toString().trim()));
+            jsonObject.put("pnr", pnr_ed_pnr_no.getText().toString().trim());
+            jsonObject.put("customer", customerJsonObject);
+            jsonObject.put("trainNumber", Integer.parseInt(trainNumber.trim()));
+            jsonObject.put("startingStation", startingStationJsonObject);
+
+
+//Date Conversion starts
+            SimpleDateFormat orgFormat = new SimpleDateFormat("dd-M-yyyy");
+            String dateInString = cuurentPNR.doj;
+
+            final Date doj = orgFormat.parse(dateInString);
+            final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM  yyyy hh:mm:ss  z");
+
+            // Give it to me in GMT time.
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String DOJinString = sdf.format(doj);
+            Log.e("Date", "" + DOJinString);
+//Date Conversion ends
+
+            jsonObject.put("startDate",DOJinString);
+
+            jsonObject.put("endStation", endJsonObject);
+            jsonObject.put("bookingStatus", temp.get(0).trim());
+            jsonObject.put("passengersCount", Integer.parseInt(totalPassengers.trim()));
+            jsonObject.put("bookingClass", classRailway);
+            jsonObject.put("currentBookingStatus", al_current_status.get(0));
+            jsonObject.put("bookingQuota", temp.get(2).trim());
+
+            Log.e("FINAL JSON : ", "" + jsonObject);
+
+            try {
+
+                JSONPost json1 = new JSONPost();
+                json1.POST(getActivity(), "http://admin.trainpanda.com/api/pnrs", jsonObject.toString(), "Saving PNR Details...");
+                json1.setPostResponseListener(new POSTResponseListener() {
+                    @Override
+                    public String onPost(String msg) {
+
+                        Log.e("add pnr to server", "onPost response: " + msg);
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onPreExecute() {
+
+                    }
+
+                    @Override
+                    public void onBackground() {
+
+                    }
+                });
+            }catch (Exception e){
+                Log.e("exc----",e.toString());
+            }
+
+
+
+
+
+        } catch (Exception e) {
+            Log.e("exc----",e.toString());
+            e.printStackTrace();
+        }
+}
+
+
+
     private class SavePnrNumbersAsync extends AsyncTask<Void, Void, Void> {
         private Context context;
         private ProgressDialog dialog;
@@ -315,7 +454,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
             //
             if (Integer.parseInt(totalPassengers.trim()) > 1) {
                 //Insert Many
-                //getTrainStartEndTime(trainNumber,parseDate(doj));
+                getTrainStartEndTime(trainNumber,parseDate(doj));
 
                 hitServer();
             } else {
@@ -381,7 +520,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                 //Finally Post Data
                 HttpClient httpClient = new DefaultHttpClient();
 
-                HttpPost httpPost = new HttpPost("http://52.11.174.94/api/pnrs");
+                HttpPost httpPost = new HttpPost("http://admin.trainpanda.com/api/pnrs");
                 List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
                 nameValuePair.add(new BasicNameValuePair("sNo", pnr_ed_pnr_no.getText().toString().trim()));
                 nameValuePair.add(new BasicNameValuePair("pnr", pnr_ed_pnr_no.getText().toString().trim()));
@@ -410,7 +549,47 @@ public class PNRFragment extends Fragment implements OnClickListener {
 
                 Log.e("FINAL JSON : ", "" + jsonObject);
 
-                httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+                try {
+
+                    JSONPost json1 = new JSONPost();
+                    json1.POST(getActivity(), "http://admin.trainpanda.com/api/pnrs", jsonObject.toString(), "Saving Recipe...");
+                    json1.setPostResponseListener(new POSTResponseListener() {
+                        @Override
+                        public String onPost(String msg) {
+
+                            Log.e("add recipe", "onPost response: " + msg);
+                            Toast.makeText(getActivity(), "Recipe added Succesfully", Toast.LENGTH_SHORT).show();
+
+                            return null;
+                        }
+
+                        @Override
+                        public void onPreExecute() {
+
+                        }
+
+                        @Override
+                        public void onBackground() {
+
+                        }
+                    });
+                }catch (Exception e){
+                    Log.e("exc----",e.toString());
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+              /*  httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
                 HttpResponse response = httpClient.execute(httpPost);
                 // write response to log
                 if (response.getStatusLine().getStatusCode() == 200) {
@@ -424,6 +603,9 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     String json = EntityUtils.toString(entity);
                     Log.e("*****Http Post Response : " + response.getStatusLine().getStatusCode(), json);
                 }
+                */
+
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -475,7 +657,9 @@ public class PNRFragment extends Fragment implements OnClickListener {
             try {
                 ServiceHandler handler = new ServiceHandler();
                 response = handler.makeServiceCall(url, ServiceHandler.GET);
+
             } catch (Exception e) {
+                Log.e("exc in pnr saveign",e.toString());
                 e.printStackTrace();
             }
             return response;
@@ -492,7 +676,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     Log.e("pnr Response", jsonObject.toString());
 
 
-                    PNR cuurentPNR = new GsonBuilder().create().fromJson(jsonObject.toString(), PNR.class);
+                    cuurentPNR = new GsonBuilder().create().fromJson(jsonObject.toString(), PNR.class);
 
 
                     ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
@@ -546,11 +730,18 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     if (cuurentPNR.pnr == null || cuurentPNR.pnr.equalsIgnoreCase("")) {
                         pringMessage("Could'nt Connect to Server. Please Try again");
                     } else {
+
+
+                        // Saving data to server
+                         saveDataToServer();
+
+
                         Fragment fragment = new TrainRoutesFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("trainNo", trainNumber);
                         Log.e("pnr", cuurentPNR.pnr);
                         bundle.putString("pnr", cuurentPNR.pnr);
+                        bundle.putString("doj", cuurentPNR.doj);
 
                         fragment.setArguments(bundle);
                         FragmentManager fragmentManager22 = getFragmentManager();
@@ -579,6 +770,9 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     new MyAdapter(al_booking_status,
                             al_current_status,
                             al_no, (totalPassengers.trim().equals("") ? 0 : Integer.parseInt(totalPassengers.trim())), getActivity()));
+
+
+
         }
     }
 

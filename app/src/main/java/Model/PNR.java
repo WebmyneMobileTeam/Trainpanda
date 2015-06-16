@@ -27,6 +27,9 @@ public class PNR {
 	@SerializedName("total_passengers")
 	public String total_passengers;
 
+	@SerializedName("doj")
+	public String doj;
+
 
 	@SerializedName("reservation_upto")
 	public PNR_STATION reservation_upto;

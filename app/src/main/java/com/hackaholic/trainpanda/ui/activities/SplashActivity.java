@@ -3,6 +3,7 @@ package com.hackaholic.trainpanda.ui.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.CountDownTimer;
@@ -19,7 +20,7 @@ import com.hackaholic.trainpanda.R;
 public class SplashActivity extends Activity {
 
     private final int SPLASH_DISPLAY_LENGTH = 4000;
-
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,7 @@ public class SplashActivity extends Activity {
         /* New Handler to start the Menu-Activity
          * and close this Splash-Screen after some seconds.*/
 
+        sharedPreferences = getSharedPreferences("TrainPanda",MODE_PRIVATE);
 
       new CountDownTimer(2500,1000){
 
@@ -38,10 +40,25 @@ public class SplashActivity extends Activity {
 
           @Override
           public void onFinish() {
-              Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
-              intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-              startActivity(intent);
-              finish();
+
+
+              String cust_id = sharedPreferences.getString("customer_id", "").trim();
+
+
+              if(cust_id.equalsIgnoreCase("")){
+                  Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                  startActivity(intent);
+                  finish();
+              }else{
+                  Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                  intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                  startActivity(intent);
+                  finish();
+              }
+
+
+
           }
       }.start();
 

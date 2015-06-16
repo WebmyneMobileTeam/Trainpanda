@@ -2,6 +2,7 @@ package com.hackaholic.trainpanda.ui.activities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.adapter.ListAdapter;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.fragments.BookHotel;
 import com.hackaholic.trainpanda.ui.fragments.FareEnquiry;
 import com.hackaholic.trainpanda.ui.fragments.MainFragment;
@@ -43,7 +45,7 @@ public class MainActivity extends FragmentActivity {
     Button button_back;
     TextView title,txtprofileName;
     Button lk_profile_menu;
-
+    int pos;
     private boolean doubleBackToExitPressedOnce;
 
     String[] web = {
@@ -86,6 +88,14 @@ public class MainActivity extends FragmentActivity {
     };
     private TextView lk_profile_header_textview;
     private SharedPreferences sharedPreferences;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,9 +144,14 @@ public class MainActivity extends FragmentActivity {
         lk_profile_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                 pos = PrefUtils.getDrawerClick(MainActivity.this);
+
                 // Show/hide the menu
                 Listview.smoothScrollToPosition(0);
                 toggleMenu(v);
+
+                test();
+
             }
         });
 
@@ -145,7 +160,13 @@ public class MainActivity extends FragmentActivity {
         //Listview.setDividerHeight(2);
         Listview.setClickable(true);
         //Listview.setBackgroundColor(Color.GRAY);
-        ListAdapter adapter = new ListAdapter(MainActivity.this, web, imageId);
+
+      // fetching the last clicked
+       int pos = PrefUtils.getDrawerClick(MainActivity.this);
+
+
+
+        ListAdapter adapter = new ListAdapter(MainActivity.this, web, imageId,pos);
         Listview.setAdapter(adapter);
 
         Listview.setOnItemClickListener(mainListview);
@@ -153,9 +174,21 @@ public class MainActivity extends FragmentActivity {
         button_back.setOnClickListener(buttonClick);
     }
 
+    private void test() {
 
+        for(int i=0;i<Listview.getChildCount();i++){
 
+            View v = Listview.getChildAt(i);
 
+            if(i == pos){
+                v.setBackgroundColor(Color.parseColor("#8B0001"));
+            }else{
+                v.setBackgroundColor(Color.parseColor("#00000000"));
+            }
+
+        }
+
+    }
 
 
     AdapterView.OnItemClickListener mainListview = new AdapterView.OnItemClickListener() {
@@ -168,6 +201,9 @@ public class MainActivity extends FragmentActivity {
 
                 case 0:
                     toggleMenu(view);
+
+                    PrefUtils.setDrawerClick(MainActivity.this, 0);
+
                     title.setText("TRAIN PANDA");
                     PNRFragment home = new PNRFragment();
                     start_fragment(home);
@@ -175,7 +211,10 @@ public class MainActivity extends FragmentActivity {
                     break;
 
                 case 1:
+
                     toggleMenu(view);
+
+                    PrefUtils.setDrawerClick(MainActivity.this, 1);
                     title.setText("ORDER FOOD");
                     OrderFood orderFood = new OrderFood();
                     start_fragment(orderFood);
@@ -184,6 +223,7 @@ public class MainActivity extends FragmentActivity {
 
                 case 2:
                     toggleMenu(view);
+                    PrefUtils.setDrawerClick(MainActivity.this, 2);
                     title.setText("BOOK HOTEL");
                     BookHotel bookHotel = new BookHotel();
                     start_fragment(bookHotel);
@@ -192,6 +232,7 @@ public class MainActivity extends FragmentActivity {
 
                 case 3:
                     toggleMenu(view);
+                    PrefUtils.setDrawerClick(MainActivity.this, 3);
                     title.setText("STATION INFO");
                     StationInfo stationInfo = new StationInfo();
                     start_fragment(stationInfo);
@@ -200,6 +241,7 @@ public class MainActivity extends FragmentActivity {
 
                 case 4:
                     toggleMenu(view);
+                    PrefUtils.setDrawerClick(MainActivity.this, 4);
                     //Toast.makeText(MainActivity.this, "You Clicked at " + web[+i], Toast.LENGTH_SHORT).show();
                     title.setText("MY SEARCHED PNR");
                     MySearchedPNR mySearchedPNR = new MySearchedPNR();
@@ -208,6 +250,7 @@ public class MainActivity extends FragmentActivity {
 
                 case 5:
                     toggleMenu(view);
+                    PrefUtils.setDrawerClick(MainActivity.this, 5);
                     title.setText("MY FOOD ORDER");
                     MyFoodOrder myFoodOrder = new MyFoodOrder();
                     start_fragment(myFoodOrder);
@@ -217,11 +260,12 @@ public class MainActivity extends FragmentActivity {
                 case 6:
                     //Toast.makeText(MainActivity.this, "You Clicked at " + web[+i], Toast.LENGTH_SHORT).show();
                     button_back.setVisibility(View.VISIBLE);
+                    PrefUtils.setDrawerClick(MainActivity.this, 6);
                     more_Listview = (ListView) findViewById(R.id.list);
                     //Listview.setDividerHeight(2);
                     more_Listview.setClickable(true);
                     //Listview.setBackgroundColor(Color.GRAY);
-                    ListAdapter adapter = new ListAdapter(MainActivity.this, web2, imageId2);
+                    ListAdapter adapter = new ListAdapter(MainActivity.this, web2, imageId2,6);
                     more_Listview.setAdapter(adapter);
 
                     more_Listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -289,7 +333,10 @@ public class MainActivity extends FragmentActivity {
             //Listview.setDividerHeight(2);
             Listview.setClickable(true);
             //Listview.setBackgroundColor(Color.GRAY);
-            ListAdapter adapter = new ListAdapter(MainActivity.this, web, imageId);
+
+            int pos = PrefUtils.getDrawerClick(MainActivity.this);
+
+            ListAdapter adapter = new ListAdapter(MainActivity.this, web, imageId,pos);
             Listview.setAdapter(adapter);
             button_back.setVisibility(View.INVISIBLE);
             Listview.setOnItemClickListener(mainListview);
@@ -297,6 +344,7 @@ public class MainActivity extends FragmentActivity {
     };
 
     public static void toggleMenu(View v) {
+
         slidingmenu_layout.toggleMenu();
     }
 

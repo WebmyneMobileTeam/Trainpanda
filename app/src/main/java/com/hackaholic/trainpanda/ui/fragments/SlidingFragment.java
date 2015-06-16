@@ -51,6 +51,7 @@ public class SlidingFragment extends Fragment {
 
 	public SlidingFragment(){}
 	String stName;
+	boolean isHotel;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -60,6 +61,16 @@ public class SlidingFragment extends Fragment {
 		if (args  != null && args.containsKey("stName")){
 			stName= args.getString("stName");
 
+		}
+
+		if (args  != null && args.containsKey("isHotel")){
+			String ishot = args.getString("isHotel");
+
+					if(ishot.equalsIgnoreCase("true")){
+						isHotel = true;
+					}else{
+						isHotel = false;
+					}
 		}
 
 	}
@@ -93,8 +104,11 @@ public class SlidingFragment extends Fragment {
 		setupTab(new TextView(getActivity()), "Tab 3");
 
 
-
-		mTabHost.setCurrentTabByTag("Tab 1");
+		if(isHotel) {
+			mTabHost.setCurrentTabByTag("Tab 1");
+		}else{
+			mTabHost.setCurrentTabByTag("Tab 2");
+		}
 
 		if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 1")){
 			RestaurantFragmentFilter fragment = new RestaurantFragmentFilter();

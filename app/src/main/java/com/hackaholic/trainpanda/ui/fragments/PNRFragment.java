@@ -1,12 +1,19 @@
 package com.hackaholic.trainpanda.ui.fragments;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.telephony.gsm.SmsManager;
+import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +31,13 @@ import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
+import com.hackaholic.trainpanda.ServiceHandler.PnrSmsReceiver;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.JSONPost;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
+import com.hackaholic.trainpanda.ui.activities.MainActivity;
+import com.hackaholic.trainpanda.utility.CustomDialogPNRList;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -49,6 +59,8 @@ import java.util.StringTokenizer;
 import java.util.TimeZone;
 
 import Model.PNR;
+import Model.SMS_DATA;
+import Model.SMS_PNR;
 
 public class PNRFragment extends Fragment implements OnClickListener {
     private ImageView iv_b;
@@ -56,7 +68,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
             pnr_tv_duration, pnr_tv_status, pnr_tv_to_name, pnr_tv_to_code, pnr_tv_to_date, pnr_tv_to_time;
     static EditText pnr_ed_pnr_no;
     private ListView pnr_listview;
-    private TextView pnr_tv_train_number;
+    private TextView pnr_tv_train_number,buttonPNRSMS;
     private RelativeLayout rl_pnr_second;
     private LinearLayout pnr_third;
     private LinearLayout food_layout_send;
@@ -100,9 +112,63 @@ public class PNRFragment extends Fragment implements OnClickListener {
         Log.e("Customer id : ", sharedPreferences.getString("customer_id", "").trim());
 
 
-
+        buttonPNRSMS.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fetchSMS();
+            }
+        });
 
         return rootView;
+    }
+
+    private void fetchSMS(){
+        boolean isSMSFind=false;
+        ArrayList<SMS_PNR> smsPNR = new ArrayList<SMS_PNR>();
+        Uri uri = Uri.parse("content://sms/inbox");
+        Cursor c= getActivity().getContentResolver().query(uri, null, null, null, null);
+       // startManagingCursor(c);
+        // Read the sms data and store it in the list
+        String sms = "";
+        if(c.moveToFirst()) {
+            for(int i=0; i < c.getCount(); i++) {
+                sms = " " + c.getString(c.getColumnIndexOrThrow("body")).toString() ;
+                if(sms.contains("PNR:")) {
+
+                    Log.e("#### PNR SMS ",sms);
+
+                    SMS_PNR smspnrdata = new SMS_PNR();
+                    smspnrdata.PNR = sms;
+
+                    smsPNR.add(smspnrdata);
+
+
+                    isSMSFind = true;
+                }
+
+               // SMSData sms = new SMSData();
+               // sms.setBody(c.getString(c.getColumnIndexOrThrow("body")).toString());
+               // sms.setNumber(c.getString(c.getColumnIndexOrThrow("address")).toString());
+               // smsList.add(sms);
+                c.moveToNext();
+            }
+        }
+        c.close();
+
+
+        if(isSMSFind) {
+            SMS_DATA mainSMS = new SMS_DATA();
+            mainSMS.SMSData = smsPNR;
+
+            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
+            complexPreferences.putObject("sms", mainSMS);
+            complexPreferences.commit();
+        }
+
+        CustomDialogPNRList pnrBox = new CustomDialogPNRList(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
+        pnrBox.show();
+
+
     }
 
     private void initializeImgaeViews(View rootView) {
@@ -134,6 +200,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     }
 
     private void initializeTextViews(View rootView) {
+        buttonPNRSMS= (TextView) rootView.findViewById(R.id.buttonPNRSMS);
         pnr_tv_go = (TextView) rootView.findViewById(R.id.pnr_tv_go);
         pnr_tv_go.setOnClickListener(this);
         pnr_tv_from_name = (TextView) rootView.findViewById(R.id.pnr_tv_from_name);
@@ -358,7 +425,9 @@ public class PNRFragment extends Fragment implements OnClickListener {
             Log.e("currentBookingStatus : ", "" + al_current_status.get(0));
             Log.e("bookingStatus : ", "" + temp.get(0).trim());
             Log.e("PNR Number : ", "" + pnr_ed_pnr_no.getText().toString().trim());
-            Log.e("bookingQuota : ", temp.get(2));
+
+            Log.e("bookingQuota : ", temp.get(1));
+
 
 
             JSONObject jsonObject = new JSONObject();
@@ -389,7 +458,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
             jsonObject.put("passengersCount", Integer.parseInt(totalPassengers.trim()));
             jsonObject.put("bookingClass", classRailway);
             jsonObject.put("currentBookingStatus", al_current_status.get(0));
-            jsonObject.put("bookingQuota", temp.get(2).trim());
+            jsonObject.put("bookingQuota", temp.get(1).trim());
 
             Log.e("FINAL JSON : ", "" + jsonObject);
 
@@ -417,7 +486,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     }
                 });
             }catch (Exception e){
-                Log.e("exc----",e.toString());
+                Log.e("exc1----",e.toString());
             }
 
 
@@ -425,7 +494,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
 
 
         } catch (Exception e) {
-            Log.e("exc----",e.toString());
+            Log.e("exc2----",e.toString());
             e.printStackTrace();
         }
 }
@@ -838,70 +907,5 @@ public class PNRFragment extends Fragment implements OnClickListener {
         TextView single_row_pnr_tv_passengers, single_row_pnr_tv_seats, single_row_pnr_tv_status;
     }
 
-	/*public  static class SmsReceiver extends BroadcastReceiver {
 
-		// Get the object of SmsManager
-		final SmsManager sms = SmsManager.getDefault();
-
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			// TODO Auto-generated method stub
-
-			// Retrieves a map of extended data from the intent.
-			final Bundle bundle = intent.getExtras();
-
-			try {
-
-				if (bundle != null) {
-
-					final Object[] pdusObj = (Object[]) bundle.get("pdus");
-
-					for (int i = 0; i < pdusObj.length; i++) {
-
-						SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
-						String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-
-						String senderNum = phoneNumber;
-						String message = currentMessage.getDisplayMessageBody();
-
-						Log.i("SmsReceiver", "senderNum: "+ senderNum + "; message: " + message);
-
-						if(message.contains("PNR:")){
-							
-							int pos = message.lastIndexOf(",");
-							//String start = message.substringBefore(message, ".");
-							String newstr = message.substring(0, pos);
-							
-							String pnr = newstr.substring(newstr.lastIndexOf(":") + 1);
-							
-														
-							int duration = Toast.LENGTH_LONG;
-							Toast toast = Toast.makeText(context,"PNR: " + pnr, duration);
-							toast.show();
-							
-							
-							//pnr_ed_pnr_no.setText(pnr);
-							
-							Intent ii = new Intent(context, MainActivity.class);
-							ii.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							ii.putExtra("message", message.getMessageBody());
-							context.startActivity(i);
-							
-							
-						}else Toast.makeText(context, "else", Toast.LENGTH_SHORT).show();
-							
-						
-						
-
-					} // end for loop
-				} // bundle is null
-
-			} catch (Exception e) {
-				Log.e("SmsReceiver", "Exception smsReceiver" +e);
-
-			}
-
-		}
-
-	}*/
 }

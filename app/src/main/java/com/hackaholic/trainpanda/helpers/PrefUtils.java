@@ -19,6 +19,25 @@ public class PrefUtils {
     }
 
 
+    public static void setCurrentLatitude(Context ctx,String code){
+        Prefs.with(ctx).save("Latitude",code);
+    }
+
+    public static String setCurrentLatitude(Context ctx){
+        String code = Prefs.with(ctx).getString("Latitude", "");
+        return code;
+    }
+
+    public static void setCurrentLongitude(Context ctx,String code){
+        Prefs.with(ctx).save("Longitude",code);
+    }
+
+    public static String getCurrentLongitude(Context ctx){
+        String code = Prefs.with(ctx).getString("Longitude", "");
+        return code;
+    }
+
+
     public static void setDrawerClick(Context ctx,int pos){
         Prefs.with(ctx).save("pos",pos);
     }

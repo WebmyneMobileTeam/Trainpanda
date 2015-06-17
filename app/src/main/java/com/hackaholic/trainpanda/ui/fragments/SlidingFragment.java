@@ -27,6 +27,7 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.utility.CustomDialogBoxEditPNR;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -63,7 +64,7 @@ public class SlidingFragment extends Fragment {
 
 		}
 
-		if (args  != null && args.containsKey("isHotel")){
+		/*if (args  != null && args.containsKey("isHotel")){
 			String ishot = args.getString("isHotel");
 
 					if(ishot.equalsIgnoreCase("true")){
@@ -71,7 +72,7 @@ public class SlidingFragment extends Fragment {
 					}else{
 						isHotel = false;
 					}
-		}
+		}*/
 
 	}
 
@@ -86,6 +87,18 @@ public class SlidingFragment extends Fragment {
 
 		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
 		title.setText(stName);
+
+
+		ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
+		imgToolbarOption.setVisibility(View.VISIBLE);
+
+		imgToolbarOption.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Toast.makeText(getActivity(),"Not working",Toast.LENGTH_SHORT).show();
+			}
+		});
+
 
 
 		View rootView = inflater.inflate(R.layout.activity_sliding, container, false);
@@ -104,11 +117,13 @@ public class SlidingFragment extends Fragment {
 		setupTab(new TextView(getActivity()), "Tab 3");
 
 
-		if(isHotel) {
+		/*if(isHotel) {
 			mTabHost.setCurrentTabByTag("Tab 1");
 		}else{
 			mTabHost.setCurrentTabByTag("Tab 2");
-		}
+		}*/
+		mTabHost.setCurrentTabByTag("Tab 1");
+
 
 		if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 1")){
 			RestaurantFragmentFilter fragment = new RestaurantFragmentFilter();
@@ -170,16 +185,19 @@ public class SlidingFragment extends Fragment {
 		View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
 
 		TextView tv = (TextView) view.findViewById(R.id.tabsText);
-
+		ImageView imgIcon= (ImageView) view.findViewById(R.id.imgIcon);
 		switch (text) {
 
 			case "Tab 1":
+				imgIcon.setBackgroundResource(R.drawable.icon_food);
 				tv.setText("Food");
 				break;
 			case "Tab 2":
+				imgIcon.setBackgroundResource(R.drawable.icon_hotel);
 				tv.setText("Hotel");
 				break;
 			case "Tab 3":
+				imgIcon.setBackgroundResource(R.drawable.icon_info);
 				tv.setText("Info");
 				break;
 		}

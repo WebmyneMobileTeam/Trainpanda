@@ -180,12 +180,13 @@ public class MySearchedPNR extends Fragment {
                 SimpleDateFormat newFormat = new SimpleDateFormat("dd-MMM-yyyy");
                 String DOJinString = sdf.format(doj);
 
-                pnrDate.setText(DOJinString);
+            //    pnrDate.setText(valuesPNR.get(position).currentBookingStatus);
 
             }catch (Exception e){
                 Log.e("exc in date conv",e.toString());
             }
 
+            pnrDate.setText(valuesPNR.get(position).startDate);
 
             //Date Conversion starts
             /*

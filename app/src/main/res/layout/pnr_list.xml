@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addBabyView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e9060C15"
+    tools:context="com.example.android.parvarish_nutricalculator.ui.HomeScreen">
+
+   <TextView
+       android:layout_marginTop="20dp"
+       android:gravity="center"
+       android:textSize="@dimen/big_text"
+       android:textColor="@color/White"
+       android:text="PNR LIST FROM SMS"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+    <ListView
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:gravity="center"
+        android:id="@+id/pnrList"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</LinearLayout>

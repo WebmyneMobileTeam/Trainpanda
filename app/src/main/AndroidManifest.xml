@@ -54,6 +54,11 @@
             android:screenOrientation="portrait">
         </activity>
 
+        <receiver android:name=".ServiceHandler.PnrSmsReceiver" >
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
         <activity
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:name=".ui.activities.RestrauntDetail"

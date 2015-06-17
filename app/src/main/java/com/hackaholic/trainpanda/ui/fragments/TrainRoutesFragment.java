@@ -305,7 +305,15 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 				startActivity(i);*/
 
 				String code = al_code.get(position);
+
+
+				String latitude = al_lat.get(position);
+				String longitude = al_lng.get(position);
+
 				PrefUtils.setCurrentStationCode(getActivity(), code);
+
+				PrefUtils.setCurrentLatitude(getActivity(), latitude);
+				PrefUtils.setCurrentLongitude(getActivity(), longitude);
 
 				Bundle bun = new Bundle();
 				bun.putString("stName", code);
@@ -347,6 +355,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 private void hitServerLiveStatus() {
 
 	String url = "http://api.railwayapi.com/live/train/" + tNO + "/doj/" + newDOJ + "/apikey/" + getResources().getString(R.string.key1) + "/";
+	Log.e("####live status url",url);
 
 	pb =new ProgressDialog(getActivity());
 	pb.setMessage("Fetching live status...");

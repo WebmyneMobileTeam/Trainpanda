@@ -14,7 +14,7 @@ Copyright (c) 2010 Josh Clemm
     android:orientation="horizontal">
 
     <ImageView
-        android:src="@drawable/icon_food"
+        android:id="@+id/imgIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

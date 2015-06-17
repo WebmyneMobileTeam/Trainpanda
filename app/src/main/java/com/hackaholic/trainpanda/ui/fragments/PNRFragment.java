@@ -66,7 +66,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     private ImageView iv_b;
     private TextView pnr_tv_go, pnr_tv_from_name, pnr_tv_from_code, pnr_tv_from_date, pnr_tv_from_time, pnr_tv_train_name,
             pnr_tv_duration, pnr_tv_status, pnr_tv_to_name, pnr_tv_to_code, pnr_tv_to_date, pnr_tv_to_time;
-    static EditText pnr_ed_pnr_no;
+    public static EditText pnr_ed_pnr_no;
     private ListView pnr_listview;
     private TextView pnr_tv_train_number,buttonPNRSMS;
     private RelativeLayout rl_pnr_second;
@@ -135,10 +135,13 @@ public class PNRFragment extends Fragment implements OnClickListener {
                 sms = " " + c.getString(c.getColumnIndexOrThrow("body")).toString() ;
                 if(sms.contains("PNR:")) {
 
-                    Log.e("#### PNR SMS ",sms);
+                    String tempSMS = sms;
+                    String truncSMS = tempSMS.substring(sms.indexOf(":")+1,sms.indexOf(","));
+
+                    Log.e("#### PNR SMS ",truncSMS);
 
                     SMS_PNR smspnrdata = new SMS_PNR();
-                    smspnrdata.PNR = sms;
+                    smspnrdata.PNR = truncSMS;
 
                     smsPNR.add(smspnrdata);
 

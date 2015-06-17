@@ -27,4 +27,15 @@
 
     </ListView>
 
+    <TextView
+        android:id="@+id/txtNOSMS"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="@dimen/big_text"
+        android:textColor="@color/White"
+        android:text="No PNR SMS Found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </LinearLayout>

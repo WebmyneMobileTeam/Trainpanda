@@ -2,19 +2,27 @@ package com.hackaholic.trainpanda.utility;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,6 +31,8 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
+import com.hackaholic.trainpanda.ui.fragments.SlidingFragment;
 import com.hackaholic.trainpanda.ui.fragments.TrainRoutesFragment;
 
 import org.json.JSONArray;
@@ -31,6 +41,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import Model.PNR;
+import Model.TRAIN_NAMES;
 
 /**
  * Created by Android on 27-04-2015.
@@ -42,9 +53,9 @@ public class CustomDialogBoxEditStation extends Dialog  implements
     public Dialog d;
     public TextView txtUpdate,txtClose;
 
-    EditText edPNR;
+    AutoCompleteTextView edStat;
     private String UserId;
-
+    ProgressBar pb_loading_indicator;
 
     private ImageView iv_b;
     private TextView pnr_tv_go, pnr_tv_from_name, pnr_tv_from_code, pnr_tv_from_date, pnr_tv_from_time, pnr_tv_train_name,
@@ -72,7 +83,7 @@ public class CustomDialogBoxEditStation extends Dialog  implements
     private ArrayList<String> al_current_status;
     private ArrayList<String> al_no;
     private ImageView pnr_iv_running_status;
-
+    ArrayList<String> all_train_station_fullname;
 
     public CustomDialogBoxEditStation(FragmentActivity context) {
         super(context);
@@ -95,7 +106,37 @@ public class CustomDialogBoxEditStation extends Dialog  implements
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.edit_station);
 
-        edPNR =  (EditText)findViewById(R.id.edPNR);
+        pb_loading_indicator = (ProgressBar)findViewById(R.id.pb_loading_indicator);
+        edStat =  (AutoCompleteTextView)findViewById(R.id.edStat);
+
+
+
+        edStat.setThreshold(2);
+        edStat.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+                if (edStat.getText().toString().length() > 1) {
+                    //edStat.performClick();
+                    new TrainNumberTask().execute(edStat.getText().toString().trim());
+                }
+
+            }
+        });
+
+
+
+
         txtUpdate = (TextView) findViewById(R.id.txtUpdate);
         txtClose = (TextView) findViewById(R.id.txtClose);
 
@@ -103,12 +144,96 @@ public class CustomDialogBoxEditStation extends Dialog  implements
         txtClose.setOnClickListener(this);
     }
 
+
+
+    class TrainNumberTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            pb_loading_indicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return hitServer(params[0]);
+        }
+
+        private String hitServer(String value) {
+            String response = null;
+            String url = "http://api.railwayapi.com/suggest_station/name/" + value + "/apikey/" + act.getResources().getString(R.string.key1) + "/";
+             try {
+                ServiceHandler handler = new ServiceHandler();
+                response = handler.makeServiceCall(url.replaceAll(" ", "%20"), ServiceHandler.GET);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pb_loading_indicator.setVisibility(View.GONE);
+
+            if (result != null) {
+                //Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
+                Log.e("REsponse", "" + result);
+
+                ArrayList<String> all_train_station_code = new ArrayList<String>();
+                all_train_station_fullname = new ArrayList<String>();
+                try {
+
+                    TRAIN_NAMES tnmames =  new GsonBuilder().create().fromJson(result.toString(), TRAIN_NAMES.class);
+                    for(int i=0;i<tnmames.station.size();i++){
+
+                        all_train_station_code.add(tnmames.station.get(i).code);
+                        all_train_station_fullname.add(tnmames.station.get(i).fullname);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+
+
+
+                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(act,
+                        R.layout.single_row_textview, R.id.signle_row_textview_tv, all_train_station_code);
+
+
+                edStat.setAdapter(adapter2);
+                edStat.showDropDown();
+
+
+
+
+
+            } else {
+               // Toast.makeText(getActivity(), "Response Is null", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
             case R.id.txtUpdate:
-                //   processUpdatePNR();
+
+
+                String code = edStat.getText().toString().toUpperCase().trim();
+                PrefUtils.setCurrentStationCode(act, code);
+
+                Bundle bun = new Bundle();
+                bun.putString("stName", code);
+
+
+                SlidingFragment fragment = new SlidingFragment();
+                fragment.setArguments(bun);
+                FragmentManager fragmentManager22 = act.getSupportFragmentManager();
+                fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+
+                dismiss();
 
                 break;
 
@@ -123,8 +248,12 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
     }
 
-    private void processUpdatePNR(){
+   private void processFetchResult(){
 
+    }
+
+    private void processUpdatePNR(){
+/*
         if (!edPNR.getText().toString().trim().equals("")) {
             String url = "http://api.railwayapi.com/pnr_status/pnr/" + edPNR.getText().toString().trim() + "/apikey/" + act.getResources().getString(R.string.key1) + "/";
             Log.e("Url : ", "" + url);
@@ -134,7 +263,7 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
         } else {
             pringMessage("Please fill PNR Number.");
-        }
+        }*/
     }
 
 

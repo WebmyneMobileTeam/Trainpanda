@@ -221,7 +221,7 @@ public class BookHotel extends Fragment {
 
 
                 etStnCode.setAdapter(adapter2);
-
+                etStnCode.showDropDown();
 
 
             } else {

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
@@ -84,6 +85,12 @@ public class CustomDialogBoxEditStation extends Dialog  implements
     private ArrayList<String> al_no;
     private ImageView pnr_iv_running_status;
     ArrayList<String> all_train_station_fullname;
+    ArrayList<String> all_train_station_code;
+
+    long  POS_ST_CODE;
+    String FULL_NAME;
+    String CODE;
+    boolean isStationSelected;
 
     public CustomDialogBoxEditStation(FragmentActivity context) {
         super(context);
@@ -134,6 +141,16 @@ public class CustomDialogBoxEditStation extends Dialog  implements
             }
         });
 
+        edStat.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //POS_ST_CODE = adapterView.getItemIdAtPosition(i);
+                isStationSelected = true;
+                FULL_NAME = all_train_station_fullname.get(i);
+                CODE = all_train_station_code.get(i);
+            }
+        });
+
 
 
 
@@ -177,7 +194,7 @@ public class CustomDialogBoxEditStation extends Dialog  implements
                 //Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
                 Log.e("REsponse", "" + result);
 
-                ArrayList<String> all_train_station_code = new ArrayList<String>();
+                all_train_station_code = new ArrayList<String>();
                 all_train_station_fullname = new ArrayList<String>();
                 try {
 
@@ -205,7 +222,6 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
 
 
-
             } else {
                // Toast.makeText(getActivity(), "Response Is null", Toast.LENGTH_SHORT).show();
             }
@@ -220,20 +236,27 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
             case R.id.txtUpdate:
 
-
-                String code = edStat.getText().toString().toUpperCase().trim();
-                PrefUtils.setCurrentStationCode(act, code);
-
-                Bundle bun = new Bundle();
-                bun.putString("stName", code);
-
-
-                SlidingFragment fragment = new SlidingFragment();
-                fragment.setArguments(bun);
-                FragmentManager fragmentManager22 = act.getSupportFragmentManager();
-                fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
-
                 dismiss();
+
+                if(isStationSelected) {
+
+                    isStationSelected = false;
+
+                    PrefUtils.setCurrentStationCode(act, CODE);
+
+                    Bundle bun = new Bundle();
+                    bun.putString("stName", FULL_NAME + " (" + CODE + ")");
+
+
+                    SlidingFragment fragment = new SlidingFragment();
+                    fragment.setArguments(bun);
+                    FragmentManager fragmentManager22 = act.getSupportFragmentManager();
+                    fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                }else{
+                    pringMessage("Please Select Valid Station !!!");
+                }
+
+
 
                 break;
 

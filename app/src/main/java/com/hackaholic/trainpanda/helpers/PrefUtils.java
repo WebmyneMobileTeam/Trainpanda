@@ -23,7 +23,7 @@ public class PrefUtils {
         Prefs.with(ctx).save("Latitude",code);
     }
 
-    public static String setCurrentLatitude(Context ctx){
+    public static String getCurrentLatitude(Context ctx){
         String code = Prefs.with(ctx).getString("Latitude", "");
         return code;
     }

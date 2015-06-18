@@ -50,7 +50,7 @@ public class WeatherFragment extends Fragment
 		View row=inflater.inflate(R.layout.weather, container,false);
 
 
-		LATITUDE = PrefUtils.setCurrentLatitude(getActivity());
+		LATITUDE = PrefUtils.getCurrentLatitude(getActivity());
 		LONGITUDE = PrefUtils.getCurrentLongitude(getActivity());
 
 		initializeTextViews(row);
@@ -90,7 +90,8 @@ public class WeatherFragment extends Fragment
 		pb.setMessage("Loading details...");
 		pb.show();
 
-		ST_CODE = "BRC";
+		ST_CODE = PrefUtils.getCurrentStationCode(getActivity());
+
 		String url= API.BASE_URL+"stations?filter[where][code]="+ST_CODE;
 
 

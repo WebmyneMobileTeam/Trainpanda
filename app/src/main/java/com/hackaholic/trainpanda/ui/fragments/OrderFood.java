@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -80,7 +81,13 @@ public class OrderFood extends Fragment {
     private ImageView pnr_iv_running_status;
 
 
+    ArrayList<String> all_train_station_fullname;
+    ArrayList<String> all_train_station_code;
 
+
+    String FULL_NAME;
+    String CODE;
+    boolean isStationSelected;
     public OrderFood() {
         // Required empty public constructor
     }
@@ -124,19 +131,15 @@ public class OrderFood extends Fragment {
                 }
             }
         });
-      //  buttonPNRSMS = (Button)view.findViewById(R.id.buttonPNRSMS);
 
-       /* buttonGO.setOnClickListener(new View.OnClickListener() {
+        etStnCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-
-                if(etPNR.getText().toString().trim().length()!=0){
-                        processFetchPNR();
-                }else{
-                    Toast.makeText(getActivity(),"Please Enter PNR",Toast.LENGTH_LONG).show();
-                }
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                isStationSelected = true;
+                FULL_NAME = all_train_station_fullname.get(i);
+                CODE = all_train_station_code.get(i);
             }
-        });*/
+        });
 
 
         buttonGO.setOnClickListener(new View.OnClickListener() {
@@ -147,17 +150,24 @@ public class OrderFood extends Fragment {
                     processUpdatePNR();
                 }else{
 
-                    String code = etStnCode.getText().toString().toUpperCase().trim();
-                    PrefUtils.setCurrentStationCode(getActivity(), code);
+                    if(isStationSelected) {
+                        isStationSelected = false;
 
-                    Bundle bun = new Bundle();
-                    bun.putString("stName", code);
+                        PrefUtils.setCurrentStationCode(getActivity(), CODE);
+
+                        Bundle bun = new Bundle();
+                        bun.putString("stName", FULL_NAME + " (" + CODE + ")");
 
 
-                    SlidingFragment fragment = new SlidingFragment();
-                    fragment.setArguments(bun);
-                    FragmentManager fragmentManager22 = getFragmentManager();
-                    fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                        SlidingFragment fragment = new SlidingFragment();
+                        fragment.setArguments(bun);
+                        FragmentManager fragmentManager22 = getFragmentManager();
+                        fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                    }else {
+                        pringMessage("Please Select Valid Station !!!");
+                    }
+
+
                 }
 
 
@@ -201,13 +211,15 @@ public class OrderFood extends Fragment {
                 //Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
                 Log.e("REsponse", "" + result);
 
-                ArrayList<String> al_train_numbers = new ArrayList<String>();
+                all_train_station_fullname = new ArrayList<String>();
+                all_train_station_code = new ArrayList<String>();
 
                 try {
 
                     TRAIN_NAMES tnmames =  new GsonBuilder().create().fromJson(result.toString(), TRAIN_NAMES.class);
                     for(int i=0;i<tnmames.station.size();i++){
-                        al_train_numbers.add(tnmames.station.get(i).code);
+                        all_train_station_code.add(tnmames.station.get(i).code);
+                        all_train_station_fullname.add(tnmames.station.get(i).fullname);
                     }
 
                 } catch (Exception e) {
@@ -218,10 +230,10 @@ public class OrderFood extends Fragment {
 
 
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
-                        R.layout.single_row_textview, R.id.signle_row_textview_tv, al_train_numbers);
-
+                        R.layout.suggestion_station, R.id.txtTitle, all_train_station_code);
 
                 etStnCode.setAdapter(adapter2);
+                etStnCode.showDropDown();
 
 
 

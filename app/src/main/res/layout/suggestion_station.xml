@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addBabyView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -8,6 +7,7 @@
     tools:context="com.example.android.parvarish_nutricalculator.ui.HomeScreen">
 
         <TextView
+            android:id="@+id/txtTitle"
             android:padding="4dp"
             android:layout_gravity="center"
             android:gravity="center"

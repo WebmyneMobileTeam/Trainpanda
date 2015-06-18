@@ -27,4 +27,5 @@ dependencies {
     compile project(':FacebookSDK')
     compile 'com.google.android.gms:play-services:7.0.0'
     compile files('libs/picasso-2.5.2.jar')
+    compile 'com.github.bumptech.glide:glide:3.5.2'
 }

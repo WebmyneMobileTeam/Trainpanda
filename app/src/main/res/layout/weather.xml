@@ -9,10 +9,18 @@
     tools:context="com.hackaholic.trainpanda.ui.activities.SplashActivity">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:orientation="vertical"
        android:layout_gravity="center">
 
@@ -23,7 +31,7 @@
         android:text="Weather Information"
         android:paddingLeft="16dp"
         android:layout_margin="8dp"
-        android:textSize="22dp"
+        android:textSize="@dimen/big_text"
         android:textColor="@color/Orange"
         />
     <LinearLayout
@@ -40,11 +48,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/cloud"
             />
 
 
         <LinearLayout
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -85,21 +93,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center|right"
             android:layout_weight="1">
 
+            />
 
             <TextView
-                android:id="@+id/weather_tv_humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humidity - 40%"
-                android:textSize="12dp"
-                android:textColor="@color/Orange"
-                />
-
-            <TextView
-                android:layout_marginTop="10dp"
                 android:id="@+id/weather_tv_wind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -107,6 +106,57 @@
                 android:textSize="12dp"
                 android:textColor="@color/Orange"
                 />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtPressure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pressure"
+                android:textSize="12dp"
+                android:textColor="@color/Orange"/>
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/weather_tv_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/Orange"
+                />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTemp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTempMIN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
+
+            <TextView
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTempMAX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
+
+
 
 
             </LinearLayout>
@@ -129,25 +179,25 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-      android:layout_gravity="center">
+        android:layout_gravity="center">
 
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Famous For"
-android:paddingLeft="16dp"
+            android:paddingLeft="16dp"
             android:layout_margin="8dp"
-            android:textSize="22dp"
+            android:textSize="@dimen/big_text"
             android:textColor="@color/Orange"
             />
 
 
         <TextView
-
+            android:id="@+id/txtFamousFor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
+
             android:textColor="@color/White"
             android:textSize="14sp"
             android:paddingLeft="16dp"
@@ -155,7 +205,11 @@ android:paddingLeft="16dp"
             />
 
         </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/departure_color"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -171,16 +225,16 @@ android:paddingLeft="16dp"
             android:text="Latest Event"
             android:paddingLeft="16dp"
             android:layout_margin="8dp"
-            android:textSize="22dp"
+            android:textSize="@dimen/big_text"
             android:textColor="@color/Orange"
             />
 
 
         <TextView
-
+            android:id="@+id/txtLetestEvents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
+
             android:textColor="@color/White"
             android:textSize="14sp"
             android:paddingLeft="16dp"
@@ -188,5 +242,9 @@ android:paddingLeft="16dp"
             />
 
     </LinearLayout>
+
+
+            </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

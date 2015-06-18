@@ -101,11 +101,11 @@ public class ExpandableLayout extends RelativeLayout
                 if (!isAnimationRunning)
                 {
                     if (contentLayout.getVisibility() == VISIBLE) {
-                        icon.setBackgroundResource(R.drawable.dd);
+                        icon.setBackgroundResource(R.drawable.finaldown);
                         collapse(contentLayout);
                     }
                     else {
-                        icon.setBackgroundResource(R.drawable.uu);
+                        icon.setBackgroundResource(R.drawable.finalup);
                         expand(contentLayout);
                     }
 

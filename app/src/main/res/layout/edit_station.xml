@@ -3,6 +3,8 @@
     android:id="@+id/addBabyView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="28dp"
     android:orientation="vertical"
     android:background="#fff"
     tools:context="com.example.android.parvarish_nutricalculator.ui.HomeScreen">

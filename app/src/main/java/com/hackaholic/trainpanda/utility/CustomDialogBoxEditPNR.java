@@ -98,6 +98,12 @@ public class CustomDialogBoxEditPNR extends Dialog  implements
 
     }
 
+    public CustomDialogBoxEditPNR(FragmentActivity context, int theme) {
+        super(context, theme);
+        this.act = context;
+
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

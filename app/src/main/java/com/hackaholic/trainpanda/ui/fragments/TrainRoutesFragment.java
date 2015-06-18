@@ -138,13 +138,13 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 		View content = pnrSLider.getHeaderLayout();
 		ImageView icon = (ImageView)content.findViewById(R.id.expand);
 
-		icon.setBackgroundResource(R.drawable.dd);
+		icon.setBackgroundResource(R.drawable.finaldown);
 	}
 
 	private  void openPNRSlider(){
 		View content = pnrSLider.getHeaderLayout();
 		ImageView icon = (ImageView)content.findViewById(R.id.expand);
-		icon.setBackgroundResource(R.drawable.uu);
+		icon.setBackgroundResource(R.drawable.finalup);
 		pnrSLider.show();
 	}
 
@@ -164,7 +164,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 		imgToolbarOption.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity());
+				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
 				cdbox.show();
 			}
 		});
@@ -723,9 +723,10 @@ private void hitServerLiveStatus() {
 
 			SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a");
 
+			try {
 			String traintime = valuesLiveStatus.route.get(position).scharr;
 
-			try {
+
 				Date schTime = sdfTime.parse(traintime);
 
 				Date nowTime = new Date();
@@ -750,7 +751,7 @@ private void hitServerLiveStatus() {
 
 
 			if(position>=STARTPOS && position<=ENDPOS){
-				holder.mainParent.setBackgroundColor(Color.BLUE);
+				holder.mainParent.setBackgroundColor(Color.parseColor("#152846"));
 			}else{
 				holder.mainParent.setBackgroundColor(Color.GRAY);
 			}

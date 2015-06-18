@@ -9,21 +9,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
+import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
+import com.hackaholic.trainpanda.utility.ExpandableLayout;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class WeatherFragment extends Fragment
 {
-	ProgressDialog pb2;
+	ProgressDialog pb2,pb;
 	private TextView weather_tv_description;
 	private TextView weather_tv_humidity;
 	private TextView weather_tv_low;
@@ -31,8 +36,10 @@ public class WeatherFragment extends Fragment
 	private TextView weather_tv_min;
 	private TextView weather_tv_pressure;
 	private TextView weather_tv_rain;
-	private TextView weather_tv_temprature;
-	private TextView weather_tv_wind;
+	private TextView weather_tv_temprature,txtTemp,txtFamousFor;
+	private TextView weather_tv_wind,txtPressure,txtTempMIN,txtTempMAX,txtLetestEvents;
+	ImageView imageCloud;
+	String ST_CODE;
 
 	String LATITUDE,LONGITUDE;
 
@@ -55,6 +62,17 @@ public class WeatherFragment extends Fragment
 	
 	private void initializeTextViews(View row)
 	{
+		txtLetestEvents=(TextView)row.findViewById(R.id.txtLetestEvents);
+		txtFamousFor=(TextView)row.findViewById(R.id.txtFamousFor);
+
+		txtTemp=(TextView)row.findViewById(R.id.txtTemp);
+		txtTempMIN =(TextView)row.findViewById(R.id.txtTempMIN);
+		txtTempMAX =(TextView)row.findViewById(R.id.txtTempMAX);
+
+		imageCloud = (ImageView)row.findViewById(R.id.imageCloud);
+
+		txtPressure=(TextView)row.findViewById(R.id.txtPressure);
+
 		weather_tv_description=(TextView)row.findViewById(R.id.weather_tv_description);
 		weather_tv_humidity=(TextView)row.findViewById(R.id.weather_tv_humidity);
 		//weather_tv_low=(TextView)row.findViewById(R.id.weather_tv_low);
@@ -66,6 +84,65 @@ public class WeatherFragment extends Fragment
 		weather_tv_wind=(TextView)row.findViewById(R.id.weather_tv_wind);
 	}
 
+	private void fetchStationINFO(){
+
+		pb =new ProgressDialog(getActivity());
+		pb.setMessage("Loading details...");
+		pb.show();
+
+		ST_CODE = "BRC";
+		String url= API.BASE_URL+"stations?filter[where][code]="+ST_CODE;
+
+
+		Log.e("Url : ", "" + url);
+
+		new GetPostClass(url, EnumType.GET) {
+			@Override
+			public void response(String result) {
+				pb.dismiss();
+				Log.e("######res station info", result);
+
+				try {
+
+					if(result!=null)
+					{
+						try
+						{
+							JSONArray stationInfoArray = new JSONArray(result);
+							JSONObject jsonObject=stationInfoArray.getJSONObject(0);
+
+							String famousFor = jsonObject.getString("famousFor");
+							txtLetestEvents.setText("No Data Found");
+							txtFamousFor.setText(famousFor);
+						}
+						catch(Exception e)
+						{
+							txtLetestEvents.setText("No Data Found");
+							txtFamousFor.setText("No data Found");
+							Log.e("$$$$$$exc", e.toString());
+
+						}
+					}
+					else
+					{
+						printMessage("Response is null...!");
+					}
+
+
+
+				} catch (Exception e) {
+					Log.e("$$$$$$exc", e.toString());
+				}
+
+			}
+
+			@Override
+			public void error(String error) {
+				pb.dismiss();
+//                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+			}
+		}.call2();
+	}
 
 
 	private void  fetchWeather(){
@@ -137,10 +214,21 @@ public class WeatherFragment extends Fragment
 							String name=jsonObject.getString("name");
 							String code=jsonObject.getString("cod");
 
+
 							//Set Data
-							weather_tv_wind.setText("Wind - "+speed+"KM/H"+" ");
-							weather_tv_humidity.setText("Humidity - "+humidity+"%"+" ");
-							weather_tv_temprature.setText(temp.substring(0,2)+" C");
+
+							Glide.with(getActivity()).load("http://www.openweathermap.org/img/w/"+icon+".png").thumbnail(0.1f).into(imageCloud);
+						//	Picasso.with(getActivity().getBaseContext()).load("http://www.openweathermap.org/img/w/"+icon+".png").placeholder(R.drawable.a6).into(imageCloud);
+
+							weather_tv_wind.setText("Wind - "+speed+" KM/H"+" ");
+							txtPressure.setText("Pressure - "+pressure);
+
+							txtTemp.setText("Temperature -"+temp.substring(0,2)+"\u00b0"+" C");
+							txtTempMIN.setText("Temp Min. -"+temp_min.substring(0,2)+"\u00b0"+" C");
+							txtTempMAX.setText("Temp Max. -"+temp_max.substring(0,2)+"\u00b0"+" C");
+
+							weather_tv_humidity.setText("Humidity - "+humidity+" %"+" ");
+							weather_tv_temprature.setText(temp.substring(0,2)+"\u00b0"+" C");
 							weather_tv_description.setText(""+description.toUpperCase()+" ");
 
 					/*weather_tv_min.setText("Min Temp - "+temp_min.substring(0,2)+" ");
@@ -149,6 +237,9 @@ public class WeatherFragment extends Fragment
 					weather_tv_description.setText("Description - "+description+" ");
 
 					weather_tv_temprature.setText(temp.substring(0,2));*/
+
+
+							fetchStationINFO();
 
 						}
 						catch(Exception e)

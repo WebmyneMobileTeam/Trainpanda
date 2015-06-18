@@ -96,7 +96,7 @@ public class SlidingFragment extends Fragment {
 		imgToolbarOption.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CustomDialogBoxEditStation box = new CustomDialogBoxEditStation(getActivity());
+				CustomDialogBoxEditStation box = new CustomDialogBoxEditStation(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
 				box.show();
 			}
 		});

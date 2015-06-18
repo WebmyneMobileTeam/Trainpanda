@@ -12,7 +12,7 @@
 		android:centerY="0.5"
 		android:angle="90" />-->
 
-	<stroke android:width="3px" android:color="#80696969"/>
+	<stroke android:width="3px" android:color="#696969"/>
 	<solid android:color="@color/my_custom_orange"/>
 
 </shape>

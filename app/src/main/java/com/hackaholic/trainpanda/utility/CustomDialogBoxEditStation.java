@@ -81,6 +81,13 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
     }
 
+    public CustomDialogBoxEditStation(FragmentActivity context, int theme) {
+        super(context, theme);
+        this.act = context;
+
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

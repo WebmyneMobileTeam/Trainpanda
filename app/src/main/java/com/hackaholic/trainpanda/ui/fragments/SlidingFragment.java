@@ -28,6 +28,7 @@ import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.utility.CustomDialogBoxEditPNR;
+import com.hackaholic.trainpanda.utility.CustomDialogBoxEditStation;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -95,7 +96,8 @@ public class SlidingFragment extends Fragment {
 		imgToolbarOption.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Toast.makeText(getActivity(),"Not working",Toast.LENGTH_SHORT).show();
+				CustomDialogBoxEditStation box = new CustomDialogBoxEditStation(getActivity());
+				box.show();
 			}
 		});
 

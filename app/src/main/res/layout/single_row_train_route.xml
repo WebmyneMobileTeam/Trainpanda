@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/mainParent"
     android:layout_height="wrap_content" >
 
     <LinearLayout
@@ -239,18 +240,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
-                    android:text="Avg. Dly. Time"
+                    android:text="Delay Time"
                     android:textColor="@color/average_delay_color"
                     android:textSize="14dp" />
 
                 <TextView
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:id="@+id/train_route_avg_delay_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:text=" - ........"
                     android:textColor="@color/White"
-                    android:textSize="14dp" />
+                    android:textSize="10dp" />
             </LinearLayout>
 
             <LinearLayout

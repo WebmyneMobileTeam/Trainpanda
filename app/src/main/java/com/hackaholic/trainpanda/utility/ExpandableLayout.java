@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hackaholic.trainpanda.R;
@@ -87,6 +88,11 @@ public class ExpandableLayout extends RelativeLayout
         contentView.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         contentLayout.addView(contentView);
         contentLayout.setVisibility(GONE);
+
+
+       final ImageView icon = (ImageView)headerLayout.findViewById(R.id.expand);
+
+
         headerLayout.setOnClickListener(new OnClickListener()
         {
             @Override
@@ -94,10 +100,14 @@ public class ExpandableLayout extends RelativeLayout
             {
                 if (!isAnimationRunning)
                 {
-                    if (contentLayout.getVisibility() == VISIBLE)
+                    if (contentLayout.getVisibility() == VISIBLE) {
+                        icon.setBackgroundResource(R.drawable.dd);
                         collapse(contentLayout);
-                    else
+                    }
+                    else {
+                        icon.setBackgroundResource(R.drawable.uu);
                         expand(contentLayout);
+                    }
 
                     isAnimationRunning = true;
                     new Handler().postDelayed(new Runnable()

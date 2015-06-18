@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -27,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,7 +89,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 	LinearLayout pnr_expand, ll_pnr_third, ll_pnr_fourth;
 	ArrayList<String> al_code;
 	private final String[] array = {"Hello", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome", "World", "Android", "is", "Awesome"};
-
+	PNR cuurentPNR;
 	ArrayList<String> al_lat;
 	ArrayList<String> al_scharr;
 	ArrayList<String> al_fullname;
@@ -95,7 +97,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 	ArrayList<String> al_state;
 	ArrayList<String> al_no1;
 	ArrayList<String> al_lng;
-
+	ExpandableLayout pnrSLider;
 
 
 	@Override
@@ -131,6 +133,21 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 	}
 
+	private  void closePNRSlider(){
+		pnrSLider.hide();
+		View content = pnrSLider.getHeaderLayout();
+		ImageView icon = (ImageView)content.findViewById(R.id.expand);
+
+		icon.setBackgroundResource(R.drawable.dd);
+	}
+
+	private  void openPNRSlider(){
+		View content = pnrSLider.getHeaderLayout();
+		ImageView icon = (ImageView)content.findViewById(R.id.expand);
+		icon.setBackgroundResource(R.drawable.uu);
+		pnrSLider.show();
+	}
+
 	public TrainRoutesFragment() {
 	}
 
@@ -155,12 +172,15 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 		View rootView = inflater.inflate(R.layout.train_route, container, false);
 
+		pnrSLider = (ExpandableLayout)rootView.findViewById(R.id.first);
+
+
 
 		initializeViews(rootView);
 
 
 		ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
-		PNR cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
+		cuurentPNR = complexPreferences.getObject("current-pnr", PNR.class);
 
 
 		ListView pnr_listview1 = (ListView) rootView.findViewById(R.id.pnr_listview);
@@ -169,6 +189,8 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 				new MyAdapterPNR(cuurentPNR, getActivity()));
 
 
+
+		openPNRSlider();
 
 		return rootView;
 
@@ -305,6 +327,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 				startActivity(i);*/
 
 				String code = al_code.get(position);
+				String FullStationName = al_fullname.get(position);
 
 
 				String latitude = al_lat.get(position);
@@ -316,7 +339,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 				PrefUtils.setCurrentLongitude(getActivity(), longitude);
 
 				Bundle bun = new Bundle();
-				bun.putString("stName", code);
+				bun.putString("stName", FullStationName+" ("+code+")");
 
 
 				SlidingFragment fragment = new SlidingFragment();
@@ -369,9 +392,50 @@ private void hitServerLiveStatus() {
 			//Log.e("live status", response.toString());
 			objLive = new GsonBuilder().create().fromJson(response.toString(), LIVE_STATUS.class);
 
+			int startPos=0;
+			int endPos=0;
+			for(int i=0;i<al_code.size();i++){
 
-			train_route_listview.setAdapter(new MyAdapter(getActivity(),objLive,
-					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng));
+				if(cuurentPNR.from_station.code.equalsIgnoreCase(al_code.get(i))){
+					Log.e("PNR ST",cuurentPNR.from_station.code);
+					Log.e("START ST",al_code.get(i));
+					Log.e("START pos", "" + i);
+					startPos = i;
+				}
+
+				if(cuurentPNR.to_station.code.equalsIgnoreCase(al_code.get(i))){
+					Log.e("PNR ST",cuurentPNR.to_station.code);
+					Log.e("END ST",al_code.get(i));
+					Log.e("END pos",""+i);
+					endPos = i;
+				}
+			}
+
+
+
+
+
+
+
+			train_route_listview.setAdapter(new MyAdapter(getActivity(), objLive,
+					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng, startPos, endPos));
+
+
+			// Automatically close the pnr slider after 3 Seconds
+			new CountDownTimer(2500,1000){
+
+				@Override
+				public void onTick(long l) {
+
+				}
+
+				@Override
+				public void onFinish() {
+					closePNRSlider();
+				}
+			}.start();
+
+
 
 		}
 
@@ -524,17 +588,16 @@ private void hitServerLiveStatus() {
 				row=inflater.inflate(R.layout.single_row_pnr,parent,false);
 
 
-			TextView single_row_pnr_tv_passengers=(TextView)row.findViewById(R.id.single_row_pnr_tv_passengers);
-			TextView single_row_pnr_tv_seats=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
-			TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_status);
+				TextView single_row_pnr_tv_passengers=(TextView)row.findViewById(R.id.single_row_pnr_tv_passengers);
+				TextView single_row_pnr_tv_seats=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
+				TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_status);
 
 
-			for(int i=0;i<valuesPNR.passengers.size();i++){
-				single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(i).no+"");
-				single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(i).booking_status+"");
-				single_row_pnr_tv_status.setText(valuesPNR.passengers.get(i).current_status+"");
+				single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(position).no);
+				single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(position).booking_status+"");
+				single_row_pnr_tv_status.setText(valuesPNR.passengers.get(position).current_status+"");
 
-			}
+
 
 			return row;
 		}
@@ -554,6 +617,7 @@ private void hitServerLiveStatus() {
 
 	private class MyAdapter extends BaseAdapter
 	{
+
 		private Context context;
 		private ArrayList<String> al_lat;
 		private ArrayList<String> al_scharr;
@@ -564,10 +628,11 @@ private void hitServerLiveStatus() {
 		private ArrayList<String> al_code;
 		private ArrayList<String> al_lng;
 		LIVE_STATUS valuesLiveStatus;
+		int STARTPOS,ENDPOS;
 
 		public MyAdapter(Context context,LIVE_STATUS obj,ArrayList<String> al_lat,ArrayList<String> al_scharr,
 				ArrayList<String> al_fullname,ArrayList<String> al_schdep,ArrayList<String> al_state,
-				ArrayList<String> al_no,ArrayList<String> al_code,ArrayList<String> al_lng)
+				ArrayList<String> al_no,ArrayList<String> al_code,ArrayList<String> al_lng,int start,int end)
 		{
 			this.valuesLiveStatus = obj;
 			this.context=context;
@@ -579,6 +644,8 @@ private void hitServerLiveStatus() {
 			this.al_no=al_no;
 			this.al_code=al_code;
 			this.al_lng=al_lng;
+			this.STARTPOS = start;
+			this.ENDPOS = end;
 		}
 
 		@Override
@@ -606,11 +673,16 @@ private void hitServerLiveStatus() {
 			boolean isDestination=false;
 			View row=convertView;
 			MyHolder holder;
+
 			if(row==null)
 			{
 				holder=new MyHolder();
+
 				LayoutInflater inflater=(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 				row=inflater.inflate(R.layout.single_row_train_route, parent,false);
+
+
+				holder.mainParent = (RelativeLayout)row.findViewById(R.id.mainParent);
 
 				holder.train_route_arival_time=(TextView) row.findViewById(R.id.train_route_arival_time);
 				holder.train_route_departure_time=(TextView) row.findViewById(R.id.train_route_departure_time);
@@ -619,6 +691,7 @@ private void hitServerLiveStatus() {
 				holder.train_route_halt_time=(TextView) row.findViewById(R.id.train_route_halt_time);
 				holder.train_route_train_name=(TextView) row.findViewById(R.id.train_route_train_name);
 				holder.liveStatus=(TextView) row.findViewById(R.id.liveStatus);
+				holder.train_route_avg_delay_time=(TextView) row.findViewById(R.id.train_route_avg_delay_time);
 
 
 				row.setTag(holder);
@@ -641,11 +714,49 @@ private void hitServerLiveStatus() {
 			{
 				holder=(MyHolder) row.getTag();	
 			}
+
+
 			holder.train_route_arival_time.setText(" - "+al_scharr.get(position)+" ");
 			holder.train_route_departure_time.setText(" - "+al_schdep.get(position)+" ");
 			holder.train_route_train_name.setText(""+al_fullname.get(position)+" ");
 
-			holder.liveStatus.setText(""+valuesLiveStatus.route.get(position).status);
+
+			SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a");
+
+			String traintime = valuesLiveStatus.route.get(position).scharr;
+
+			try {
+				Date schTime = sdfTime.parse(traintime);
+
+				Date nowTime = new Date();
+
+				String strTime = sdfTime.format(nowTime);
+
+				if (schTime.after(nowTime)) {
+					holder.liveStatus.setText("Crossed");
+				} else if (schTime.before(nowTime)) {
+					holder.liveStatus.setText("Upcoming");
+				} else if (schTime.equals(nowTime)) {
+					holder.liveStatus.setText("Current");
+				}
+
+				Log.e("##### MY time",""+strTime);
+			}catch (Exception e){
+				Log.e("---- EXCe",""+ e.toString());
+				holder.liveStatus.setText("" +valuesLiveStatus.route.get(position).scharr);
+			}
+
+
+
+
+			if(position>=STARTPOS && position<=ENDPOS){
+				holder.mainParent.setBackgroundColor(Color.BLUE);
+			}else{
+				holder.mainParent.setBackgroundColor(Color.GRAY);
+			}
+
+
+			holder.train_route_avg_delay_time.setText(""+valuesLiveStatus.route.get(position).status);
 
 
 
@@ -676,6 +787,8 @@ private void hitServerLiveStatus() {
 		TextView train_route_arival_time,train_route_departure_time,
 		train_route_avg_delay_time,train_route_distance_next_station,train_route_halt_time
 		,train_route_train_name,liveStatus;
+
+		RelativeLayout mainParent;
 	}
 
 	private String calculateHaltTime(String start_time,String end_time)

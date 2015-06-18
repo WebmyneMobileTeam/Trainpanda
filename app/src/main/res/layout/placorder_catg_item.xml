@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+
     android:orientation="horizontal">
 
     <TextView
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/White"
-        android:gravity="left|center"
+        android:gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:text="Jain Thali"
@@ -21,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/White"
-        android:gravity="left|center"
+        android:gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:text="x01"
@@ -33,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/White"
-        android:gravity="left|center"
+        android:gravity="center"
         android:layout_margin="10dp"
         android:layout_weight="1"
         android:text="Rs: 180/-"

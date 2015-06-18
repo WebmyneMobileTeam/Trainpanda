@@ -1,8 +1,1420 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg"
-    tools:context="com.hackaholic.trainpanda.ui.fragments.SeatAvailability">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/background" >
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/ll_seat_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ticket_fare_top_bg"
+            android:orientation="vertical"
+            android:padding="8dp" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|left"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.75" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/train_number"
+                            android:text="Train Number"
+                            android:textColor="@color/White"
+                            android:textSize="16dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:gravity="center" >
+
+                        <ProgressBar
+                            android:id="@+id/pb_seat_train_number"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:indeterminate="true"
+                            android:visibility="gone" >
+                        </ProgressBar>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|right" >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/seat_actv_train_number"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center"
+                        android:hint="Train Number"
+                        android:inputType="number"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@color/Dark_Red"
+                        android:textColorHint="@color/White"
+                        android:textSize="12dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|left"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.75" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/train_number"
+                            android:text="Source"
+                            android:textColor="@color/White"
+                            android:textSize="16dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:gravity="center" >
+
+                        <ProgressBar
+                            android:id="@+id/pb_seat_source_station"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:indeterminate="true"
+                            android:visibility="gone" >
+                        </ProgressBar>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|right" >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/seat_actv_source_station"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center"
+                        android:hint="Station Code"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@color/Dark_Red"
+                        android:textColorHint="@color/White"
+                        android:textSize="12dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|left"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.75" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/train_number"
+                            android:text="Destination"
+                            android:textColor="@color/White"
+                            android:textSize="16dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.25"
+                        android:gravity="center" >
+
+                        <ProgressBar
+                            android:id="@+id/pb_seat_destination_station"
+                            style="?android:attr/progressBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:indeterminate="true"
+                            android:visibility="gone" >
+                        </ProgressBar>
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.50"
+                    android:gravity="center|right" >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/seat_actv_destination_station"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center"
+                        android:hint="Station Code"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@color/Dark_Red"
+                        android:textColorHint="@color/White"
+                        android:textSize="12dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.40"
+                    android:gravity="center|left" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/train_number"
+                        android:text="Date of Journey"
+                        android:textColor="@color/White"
+                        android:textSize="16dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.60"
+                    android:gravity="center|right" >
+
+                    <TextView
+                        android:id="@+id/seat_tv_doj"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/edittext_bg"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:text="Select"
+                        android:textColor="@color/Dark_Red"
+                        android:textColorHint="@color/White"
+                        android:textSize="14dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" >
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.40"
+                    android:gravity="center|left" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/train_number"
+                        android:text="Quotas"
+                        android:textColor="@color/White"
+                        android:textSize="16dp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.60"
+                    android:gravity="center|right" >
+
+                    <AutoCompleteTextView
+                        android:id="@+id/seat_actv_quotas"
+                        android:layout_width="125dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center"
+                        android:hint="Quotas"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp"
+                        android:textColor="@color/Dark_Red"
+                        android:textColorHint="@color/White"
+                        android:textSize="14dp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seat_ll_go_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@color/Orange"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp" >
+
+                <TextView
+                    android:id="@+id/train_fare_tv_go_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/train_number"
+                    android:text="Go"
+                    android:textColor="@color/White"
+                    android:textSize="16dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_seat_second"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_seat_first"
+            android:background="@drawable/red_bg"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/seat_tv_train_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#DC7A00"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/seat_tv_train_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#FFFFFF"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_seat_third"
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_below="@+id/ll_seat_second"
+            android:background="@drawable/ticket_fare_top_bg"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp" >
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="2dp"
+                android:src="@drawable/path" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.45"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/seat_tv_from_station"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="................"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="leaves at"
+                            android:textColor="#ffffff"
+                            android:textSize="12dp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/seat_tv_from_station_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="center"
+                            android:text="14:30"
+                            android:textColor="#DC7A00"
+                            android:textSize="12dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.10"
+                    android:orientation="vertical" >
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.45"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/seat_tv_to_station"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="................"
+                        android:textColor="#ffffff"
+                        android:textSize="10dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="arrives at"
+                            android:textColor="#ffffff"
+                            android:textSize="12dp"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/seat_tv_to_station_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:gravity="center"
+                            android:text="01:40"
+                            android:textColor="#DC7A00"
+                            android:textSize="12dp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_seat_fourth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ll_seat_third"
+            android:background="#FF9600"
+            android:orientation="horizontal"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp" >
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="SL"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#5F0000" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="3AC"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#5F0000" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="2AC"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#5F0000" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="2dp"
+                    android:text="1AC"
+                    android:textColor="#000000"
+                    android:textSize="14dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_seat_fifth"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_below="@+id/ll_seat_fourth"
+            android:background="@drawable/ticket_fare_bottom_bg"
+            android:orientation="horizontal"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingTop="8dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/seat_rectangle"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Regret"
+                    android:textColor="@color/White"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/Regret"
+                    android:text="Regret"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/seat_rectangle"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WL-10"
+                    android:textColor="@color/White"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/Wl"
+                    android:text="Regret"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/seat_rectangle"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rac"
+                    android:textColor="@color/White"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/Rac"
+                    android:text="Regret"
+                    android:textSize="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/seat_rectangle"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Available"
+                    android:textColor="@color/White"
+                    android:textSize="10dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@color/Available"
+                    android:text="Regret"
+                    android:textSize="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/seat_ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_below="@+id/ll_seat_fifth"
+            android:background="@drawable/ticket_fare_bottom_bg"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_00"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_0"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_0"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_0"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_0"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_33"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_44"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp" >
+
+                <TextView
+                    android:id="@+id/seat_tv_date_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <TextView
+                    android:id="@+id/seat_tv_date_55"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginTop="16dp"
+                    android:text="A"
+                    android:textColor="@color/Orange"
+                    android:textSize="6dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="9dp"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/dotted_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginRight="32dp"
+                    android:orientation="horizontal" >
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_sl_5"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/red_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_3ac_5"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/purple_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_2ac_5"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/sky_blue_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:gravity="center" >
+
+                        <TextView
+                            android:id="@+id/seat_tv_1ac_5"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:background="@drawable/green_circle"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textColor="#FFFFFF"
+                            android:textSize="10dp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

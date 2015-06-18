@@ -164,7 +164,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 		imgToolbarOption.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
+				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity());
 				cdbox.show();
 			}
 		});
@@ -174,6 +174,19 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 		pnrSLider = (ExpandableLayout)rootView.findViewById(R.id.first);
 
+		pnrSLider.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+				View content = pnrSLider.getHeaderLayout();
+				ImageView icon = (ImageView)content.findViewById(R.id.expand);
+				if(pnrSLider.isOpened()){
+					icon.setBackgroundResource(R.drawable.uu);
+				}else{
+					icon.setBackgroundResource(R.drawable.dd);
+				}
+			}
+		});
 
 
 		initializeViews(rootView);
@@ -723,10 +736,9 @@ private void hitServerLiveStatus() {
 
 			SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a");
 
-			try {
 			String traintime = valuesLiveStatus.route.get(position).scharr;
 
-
+			try {
 				Date schTime = sdfTime.parse(traintime);
 
 				Date nowTime = new Date();

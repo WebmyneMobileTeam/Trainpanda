@@ -79,15 +79,14 @@
                         android:hint="ENTER STATION CODE" />
 
                     <ProgressBar
-                        android:layout_gravity="right"
-                        android:gravity="right"
                         android:id="@+id/progressBar_train_routes"
                         style="?android:attr/progressBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:indeterminate="true"
-                        android:visibility="gone" >
-                    </ProgressBar>
+                        android:layout_gravity="center_vertical|right"
+                        android:layout_marginRight="28dp"
+                        android:visibility="gone"/>
+
 
                 </FrameLayout>
 

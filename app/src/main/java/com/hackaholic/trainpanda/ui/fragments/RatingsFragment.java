@@ -1,7 +1,7 @@
 package com.hackaholic.trainpanda.ui.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.hackaholic.trainpanda.R;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 
 
 public class RatingsFragment extends Fragment
@@ -19,6 +20,12 @@ public class RatingsFragment extends Fragment
 			Bundle savedInstanceState)
 	{
 		View row=inflater.inflate(R.layout.ratings_fragment, container,false);
+
+
+		//Setting that rating is completed for recent order
+		PrefUtils.setRecentOrder(getActivity(),false);
+
+		
 		
 		/*final TextView text = (TextView) row.findViewById(R.id.textView);
 

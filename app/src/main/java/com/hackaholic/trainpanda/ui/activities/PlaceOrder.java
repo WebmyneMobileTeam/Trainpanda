@@ -29,6 +29,7 @@ import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.JSONPost;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -153,6 +154,8 @@ public class PlaceOrder extends FragmentActivity {
                     public String onPost(String msg) {
 
                         Log.e("add order to server", "onPost response: " + msg);
+
+                        PrefUtils.setRecentOrder(PlaceOrder.this,true);
 
                         if(TODO ==0){
                             Intent callIntent = new Intent(Intent.ACTION_CALL);

@@ -229,15 +229,10 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 		pnr_listview = (ListView) rootView.findViewById(R.id.pnr_listview);
 
-		//ll_pnr_third = (LinearLayout)rootView.findViewById(R.id.ll_pnr_third);
-		//ll_pnr_fourth = (LinearLayout)rootView.findViewById(R.id.ll_pnr_fourth);
-
-
 		train_route_tv_go.performClick();
 
-		//panel = (ExpandablePanel) rootView.findViewById(R.id.expandablePanel);
-		// panel.setCollapsedHeight(10);
-		train_route_actv_train_number.addTextChangedListener(new TextWatcher() {
+
+		/*train_route_actv_train_number.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 			}
@@ -253,12 +248,12 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 					new TrainNumberTask().execute(train_route_actv_train_number.getText().toString().trim());
 				}
 			}
-		});
+		});*/
 
 
 	}
 
-	private class TrainNumberTask extends AsyncTask<String, Void, String> {
+	/*private class TrainNumberTask extends AsyncTask<String, Void, String> {
 		@Override
 		protected void onPreExecute() {
 			progressBar_train_routes.setVisibility(View.VISIBLE);
@@ -317,7 +312,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 				Toast.makeText(getActivity(), "Response Is null", Toast.LENGTH_SHORT).show();
 			}
 		}
-	}
+	}*/
 
 
 
@@ -345,6 +340,9 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 				String latitude = al_lat.get(position);
 				String longitude = al_lng.get(position);
+
+				//Setting which tab by default we have to open
+				PrefUtils.setTab(getActivity(), "Tab 1");
 
 				PrefUtils.setCurrentStationCode(getActivity(), code);
 

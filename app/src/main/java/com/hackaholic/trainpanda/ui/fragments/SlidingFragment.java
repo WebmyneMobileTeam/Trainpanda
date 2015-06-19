@@ -121,19 +121,29 @@ public class SlidingFragment extends Fragment {
 		setupTab(new TextView(getActivity()), "Tab 3");
 
 
-		/*if(isHotel) {
-			mTabHost.setCurrentTabByTag("Tab 1");
-		}else{
-			mTabHost.setCurrentTabByTag("Tab 2");
-		}*/
-		mTabHost.setCurrentTabByTag("Tab 1");
+		//getting which tab by default we have to open
+		mTabHost.setCurrentTabByTag(PrefUtils.getTab(getActivity(),"Tab 1"));
 
 
 		if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 1")){
+
 			RestaurantFragmentFilter fragment = new RestaurantFragmentFilter();
 			FragmentManager fragmentManager11 = getFragmentManager();
 			fragmentManager11.beginTransaction().replace(android.R.id.tabcontent, fragment).commit();
-		}
+
+		}else if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 2")){
+
+			HotelBookingWithStationCodeFragment fragment = new HotelBookingWithStationCodeFragment();
+			FragmentManager fragmentManager11 = getFragmentManager();
+			fragmentManager11.beginTransaction().replace(android.R.id.tabcontent, fragment).commit();
+
+		}else if(mTabHost.getCurrentTabTag().equalsIgnoreCase("Tab 3")){
+
+			WeatherFragment fragment = new WeatherFragment();
+			FragmentManager fragmentManager11 = getFragmentManager();
+			fragmentManager11.beginTransaction().replace(android.R.id.tabcontent, fragment).commit();
+	}
+
 
 
 

@@ -74,15 +74,16 @@
             android:layout_marginTop="4dp"/>
 
 
+<com.hackaholic.trainpanda.utility.ExpandableTextView
+    android:id="@+id/txtDesc"
+    android:textColor="@color/Orange"
+    android:textSize="10sp"
+    android:layout_margin="4dp"
+    android:text="Highest quality sealed pack Food It is long time established fact that a reader will be distrected by the readable content of a page when looking at its layout "
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="Hioghest quality sealed pack Food It is long time established fact that a reader will be distrected by the readable content of a page when looking at its layout "
-            android:textColor="@color/Orange"
-            android:textSize="10sp"
-            android:layout_margin="4dp"/>
+
 
         <LinearLayout
             android:layout_width="match_parent"

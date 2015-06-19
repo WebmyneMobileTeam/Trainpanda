@@ -86,20 +86,25 @@ public class StationInfo extends Fragment {
     String FULL_NAME;
     String CODE;
     boolean isStationSelected;
-
+    ImageView imgToolbarOption;
     public StationInfo() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        imgToolbarOption.setVisibility(View.GONE);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
+        imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
         imgToolbarOption.setVisibility(View.GONE);
-
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_order_food, container, false);
         etStnCode= (AutoCompleteTextView)view.findViewById(R.id.etStnCode);
@@ -162,6 +167,9 @@ public class StationInfo extends Fragment {
                         isStationSelected = false;
 
                         PrefUtils.setCurrentStationCode(getActivity(), CODE);
+
+                        //Setting which tab by default we have to open
+                        PrefUtils.setTab(getActivity(), "Tab 3");
 
                         Bundle bun = new Bundle();
                         bun.putString("stName", FULL_NAME + " (" + CODE + ")");
@@ -237,11 +245,15 @@ public class StationInfo extends Fragment {
                 }
 
 
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
-                        R.layout.suggestion_station, R.id.txtTitle, station_fullNAme_shortCode);
+                try {
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
+                            R.layout.suggestion_station, R.id.txtTitle, station_fullNAme_shortCode);
 
-                etStnCode.setAdapter(adapter2);
-                etStnCode.showDropDown();
+                    etStnCode.setAdapter(adapter2);
+                    etStnCode.showDropDown();
+                }catch (Exception e){
+                    Log.e("@@@@@@ Exception",e.toString());
+                }
 
 
 

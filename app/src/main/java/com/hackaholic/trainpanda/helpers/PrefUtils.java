@@ -9,6 +9,18 @@ import android.graphics.Typeface;
  */
 public class PrefUtils {
 
+
+    public static void setRecentOrder(Context ctx,boolean code){
+        Prefs.with(ctx).save("isRecentOrder",code);
+    }
+
+    public static boolean isRecentOrder(Context ctx){
+        boolean ans = Prefs.with(ctx).getBoolean("isRecentOrder", false);
+        return ans;
+    }
+
+
+
     public static Typeface getTypeFace(Context ctx){
         Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Regular.ttf");
         return  typeface;
@@ -17,6 +29,15 @@ public class PrefUtils {
 
     public static void setCurrentStationCode(Context ctx,String code){
         Prefs.with(ctx).save("stCode",code);
+    }
+
+    public static void setTab(Context ctx,String code){
+        Prefs.with(ctx).save("Tab",code);
+    }
+
+    public static String getTab(Context ctx,String code){
+        String tab = Prefs.with(ctx).getString("Tab", "");
+        return tab;
     }
 
     public static String getCurrentStationCode(Context ctx){

@@ -30,5 +30,7 @@ public class FETCH_SUB_ORDER {
 	@SerializedName("id")
 	public String id;
 
+	public String restaurantName;
+
 
 }

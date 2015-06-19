@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +101,9 @@ private void fetchfoodORder(){
 
                     objOrder =  new GsonBuilder().create().fromJson(mainObject.toString(), FETCH_ORDER.class);
 
-                  //  fetchRestrauntDetails();
+                   /* for(int i=0;i<objOrder.orders.size();i++) {
+                        fetchRestrauntDetails(objOrder.orders.get(i).restaurantId,objOrder.orders.size(),i);
+                    }*/
 
                     MyAdapter adp = new MyAdapter(objOrder,getActivity());
                     foodorderList.setAdapter(adp);
@@ -129,21 +132,21 @@ private void fetchfoodORder(){
 
 
 
-   /* private void  fetchRestrauntDetails(){
+   private void  fetchRestrauntDetails(String restID, final int totalSize,final int cuurrentSize){
 
         pb2 =new ProgressDialog(getActivity());
         pb2.setMessage("Loading details...");
         pb2.show();
 
 
-        String url= API.BASE_URL+"items?filter[where][restaurantId]="+objOrder.orders.;
+        String url= API.BASE_URL+"items?filter[where][restaurantId]="+restID;
         Log.e("link",url);
 
         new GetPostClass(url, EnumType.GET) {
             @Override
             public void response(String response) {
                 pb2.dismiss();
-                Log.e("response ", response);
+                Log.e("####restraunt data ", response);
 
                 try {
 
@@ -165,8 +168,12 @@ private void fetchfoodORder(){
 
 
 
-                        MyAdapter adp = new MyAdapter(objOrder,getActivity());
-                        foodorderList.setAdapter(adp);
+                        if(totalSize==cuurrentSize){
+
+                        }else {
+                            MyAdapter adp = new MyAdapter(objOrder, getActivity());
+                            foodorderList.setAdapter(adp);
+                        }
 
 
                     }
@@ -188,7 +195,7 @@ private void fetchfoodORder(){
             }
         }.call2();
     }
-*/
+
     class MyAdapter extends BaseAdapter {
         private Context context;
         FETCH_ORDER valuesOrder;
@@ -247,6 +254,16 @@ private void fetchfoodORder(){
             //txtFoodType.setText(""+valuesOrder.orders.get(position).restaurantId);
             txtRating.setText("GIVE RATING");
             txtRatingBox.setText("4.5");
+
+            txtRating.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    RatingsFragment fragment = new RatingsFragment();
+                    FragmentManager fragmentManager22 = getFragmentManager();
+                    fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                }
+            });
 
 
 

@@ -28,6 +28,7 @@ import com.hackaholic.trainpanda.ui.fragments.MyFoodOrder;
 import com.hackaholic.trainpanda.ui.fragments.MySearchedPNR;
 import com.hackaholic.trainpanda.ui.fragments.OrderFood;
 import com.hackaholic.trainpanda.ui.fragments.PNRFragment;
+import com.hackaholic.trainpanda.ui.fragments.RatingsFragment;
 import com.hackaholic.trainpanda.ui.fragments.RunningStatus;
 import com.hackaholic.trainpanda.ui.fragments.SearchTrain;
 import com.hackaholic.trainpanda.ui.fragments.SeatAvailability;
@@ -136,9 +137,14 @@ public class MainActivity extends FragmentActivity {
         button_back.setVisibility(View.INVISIBLE);
 
 
-
-        PNRFragment fragment = new PNRFragment();
-        start_fragment(fragment);
+        //Checking that is there any recent order
+        if(PrefUtils.isRecentOrder(MainActivity.this)) {
+            RatingsFragment fragment = new RatingsFragment();
+            start_fragment(fragment);
+        }else{
+            PNRFragment fragment = new PNRFragment();
+            start_fragment(fragment);
+        }
 
 
 

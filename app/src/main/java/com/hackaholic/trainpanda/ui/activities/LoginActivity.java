@@ -35,6 +35,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -53,8 +54,15 @@ import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
+import com.hackaholic.trainpanda.helpers.EnumType;
+import com.hackaholic.trainpanda.helpers.GetPostClass;
+import com.hackaholic.trainpanda.utility.ExpandableLayout;
+
+import Model.FETCH_PNR;
+import Model.FETCH_SUB_PNR;
 
 
 public class LoginActivity extends Activity implements OnClickListener, ConnectionCallbacks, OnConnectionFailedListener
@@ -67,7 +75,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	LoginButton iv_facebook;
 	private SignInButton iv_google_plus;
 	//private ImageView iv_google_plus;
-	private ProgressDialog mDialog;
+	private ProgressDialog mDialog,pb;
 	private static final String TAG = "LoginActivity";
 
 	private static final String String = null;
@@ -165,30 +173,25 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	@SuppressWarnings({ "unused", "deprecation" })
 	private void getFacebookUserData(Session session)
 	{
-		Request.executeMeRequestAsync(session,new Request.GraphUserCallback()
-		{
+		Request.executeMeRequestAsync(session, new Request.GraphUserCallback() {
 			private String user_id;
 
 			@Override
-			public void onCompleted(GraphUser user, Response response)
-			{
-				if(user!=null)
-				{
-					if(flag==0)
-					{
-						flag=1;
-						checkLoginStatus((String) user.getProperty("email"),user.getInnerJSONObject());
+			public void onCompleted(GraphUser user, Response response) {
+				if (user != null) {
+					if (flag == 0) {
+						flag = 1;
+						checkLoginStatus((String) user.getProperty("email"), user.getInnerJSONObject());
 					}
 				}
 			}
 
-			private void checkLoginStatus(String email,	JSONObject innerJSONObject) 
-			{
-				String url="http://admin.trainpanda.com/api/customers?filter[where][email]="+email;
+			private void checkLoginStatus(String email, JSONObject innerJSONObject) {
+				String url = "http://admin.trainpanda.com/api/customers?filter[where][email]=" + email;
 				//String url="http://admin.trainpanda.com/api/customers?filter[where][email]=vikas0dhar@gmail.com";
-				new FBLoginStatusAsync().execute(new String[]{url,String.valueOf(innerJSONObject)});
-				
-				System.out.println("*&*&*&*&*&*&*&*&*&*&*&"+String.valueOf(innerJSONObject));
+				new FBLoginStatusAsync().execute(new String[]{url, String.valueOf(innerJSONObject)});
+
+				System.out.println("*&*&*&*&*&*&*&*&*&*&*&" + String.valueOf(innerJSONObject));
 			}
 		});
 	}
@@ -215,43 +218,78 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		@Override
 		protected String doInBackground(String... params) 
 		{
-			int length=hitServer(params[0]);
-			Log.e("length : ",""+length);
-			/*if(length>1)
+			final String res=MYhitServer(params[0]);
+			int length=0;
+			Log.e("$$$$$$ RESPONSE", res);
+			try {
+			JSONArray jsonArray = new JSONArray(res);
+			length = jsonArray.length();
+			}catch (Exception e){
+				Log.e("exc parsing",e.toString());
+			}
+
+			Log.e("length : ", "" + length);
+			if(length>=1)
 			{
 
-				Log.e("fb nam","inside before");
-				//Perform Login
+				Log.e("fb nam", "inside before");
+				try {
+
+					JSONArray jsonArray = new JSONArray(res);
+					JSONObject CustomerOBJ = jsonArray.getJSONObject(0);
+
+					String custID = CustomerOBJ.getString("id");
+					String FBID = CustomerOBJ.getString("facebook");
+					String custName = CustomerOBJ.getString("name");
+					String custCode = CustomerOBJ.getString("code");
+
+					String url = "https://graph.facebook.com/" + FBID + "/picture?type=small";
+					System.out.println("URL :" + url);
+					editor.putString("image_url", url);
+					editor.putString("customer_id", custID);
+					editor.putString("customerCode", custCode);
+					editor.putString("idd", custID);
+					editor.putString("name", "" + custName);
+					editor.commit();
+
+					Log.e("####image url", url);
+
+					System.out.println(editor);
+				}catch (Exception e) {
+					Log.e("####exception", e.toString());
+				}
+
 				//Call Next Activity
 				Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				startActivity(intent);
 				finish();
 
-			}*/
-		//	else
-		//	{
+
+			}
+			else
+			{
 				//Perform Registration
 				String jsonResponse=params[1];
 				//Log.e("Json Object : ",""+jsonResponse);
 				try
 				{
 					JSONObject jsonObject=new JSONObject(jsonResponse);
-					System.out.println("Response "+jsonResponse);
+					System.out.println("Response " + jsonResponse);
 					id=jsonObject.getString("id");
 					String first_name=jsonObject.getString("first_name");
 					String timezone=jsonObject.getString("timezone");
 					email=jsonObject.getString("email");
 					String verified=jsonObject.getString("verified");
 					name=jsonObject.getString("name");
-					Log.e("###########",""+name);
+					Log.e("###########", "" + name);
 					String locale=jsonObject.getString("locale");
 					String link=jsonObject.getString("link");
 					String last_name=jsonObject.getString("last_name");
 					gender=jsonObject.getString("gender");
 					String updated_time=jsonObject.getString("updated_time");
 
-					Log.e("fb nam",name);
+					Log.e("fb nam", name);
 					if(jsonObject.has("hometown")){
 						
 						String stateFetch = jsonObject.getString("hometown");
@@ -265,7 +303,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				}
 				catch(Exception e)
 				{
-					Log.e("fb login",e.toString());
+					Log.e("fb login", e.toString());
 					e.printStackTrace();
 				}
 
@@ -287,9 +325,9 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					nameValuePair.add(new BasicNameValuePair("[state][name]",state));
 					nameValuePair.add(new BasicNameValuePair("phone","0"));
 					nameValuePair.add(new BasicNameValuePair("pinCode","0"));
+					nameValuePair.add(new BasicNameValuePair("facebook",id));
 					nameValuePair.add(new BasicNameValuePair("loginType","facebook"));
-					//nameValuePair.add(new BasicNameValuePair("addedOn","2015-04-09T15:33:03.559Z"));
-					//nameValuePair.add(new BasicNameValuePair("updatedOn","2015-03-10T15:33:03.559Z"));
+
 					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
 					
 					HttpResponse response = httpClient.execute(httpPost);
@@ -329,7 +367,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				{
 					e.printStackTrace();
 				}
-			//}
+			}
 			return null;
 		}
 
@@ -352,15 +390,19 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 		{
 			String url= "https://graph.facebook.com/"+id+"/picture?type=small";
 			System.out.println("URL :"+url);
-			editor.putString("image_url",url);
+			editor.putString("image_url", url);
 			editor.putString("customer_id",customer_id);
 			editor.putString("customerCode",customerCode);
 			editor.putString("idd", id);
 			editor.putString("name", ""+name);
 			editor.commit();
 
+			Log.e("####image url",url);
+
 			System.out.println(editor);
 		}
+
+
 
 		private String getCustomerId(String json) 
 		{
@@ -383,6 +425,25 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			return random.nextInt(i);
 		}
 
+		private String MYhitServer(String url)
+		{
+			int length=0;
+			String response="";
+			try
+			{
+				ServiceHandler handler=new ServiceHandler();
+				response=handler.makeServiceCall(url, ServiceHandler.GET);
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			return response;
+		}
+
+
+
+
 		private int hitServer(String url)
 		{
 			int length=0;
@@ -390,6 +451,8 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			{
 				ServiceHandler handler=new ServiceHandler();
 				String response=handler.makeServiceCall(url, ServiceHandler.GET);
+
+				Log.e("$$$$$$ RESPONSE",response);
 				JSONArray jsonArray=new JSONArray(response);
 				length=jsonArray.length();
 			}

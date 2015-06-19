@@ -21,6 +21,7 @@ import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.utility.ExpandableLayout;
+import com.hackaholic.trainpanda.utility.ExpandableTextView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -36,11 +37,11 @@ public class WeatherFragment extends Fragment
 	private TextView weather_tv_min;
 	private TextView weather_tv_pressure;
 	private TextView weather_tv_rain;
-	private TextView weather_tv_temprature,txtTemp,txtFamousFor;
-	private TextView weather_tv_wind,txtPressure,txtTempMIN,txtTempMAX,txtLetestEvents;
+	private TextView weather_tv_temprature,txtTemp;
+	private TextView weather_tv_wind,txtPressure,txtTempMIN,txtTempMAX;
 	ImageView imageCloud;
 	String ST_CODE;
-
+	ExpandableTextView txtFamousFor,txtLetestEvents;
 	String LATITUDE,LONGITUDE;
 
 	@Override
@@ -63,8 +64,8 @@ public class WeatherFragment extends Fragment
 	
 	private void initializeTextViews(View row)
 	{
-		txtLetestEvents=(TextView)row.findViewById(R.id.txtLetestEvents);
-		txtFamousFor=(TextView)row.findViewById(R.id.txtFamousFor);
+		txtLetestEvents=(ExpandableTextView)row.findViewById(R.id.txtLetestEvents);
+		txtFamousFor=(ExpandableTextView)row.findViewById(R.id.txtFamousFor);
 
 		txtTemp=(TextView)row.findViewById(R.id.txtTemp);
 		txtTempMIN =(TextView)row.findViewById(R.id.txtTempMIN);

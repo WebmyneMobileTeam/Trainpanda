@@ -29,6 +29,7 @@ import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.utility.ExpandableLayout;
 
 import org.json.JSONArray;
@@ -374,6 +375,11 @@ public class MySearchedPNR extends Fragment {
             TextView pnrName = (TextView)row.findViewById(R.id.txtPNRNUmber);
             TextView pnrDate = (TextView)row.findViewById(R.id.pnrDate);
             TextView pnrStatus = (TextView)row.findViewById(R.id.pnrStatus);
+
+            pnrName.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            pnrDate.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            pnrStatus.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
 
             pnrName.setText(valuesPNR.get(position).pnr);
 

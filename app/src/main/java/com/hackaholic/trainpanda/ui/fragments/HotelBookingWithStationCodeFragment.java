@@ -36,7 +36,7 @@ import java.util.ArrayList;
 public class HotelBookingWithStationCodeFragment extends Fragment implements OnClickListener
 {
 
-	private TextView hotel_fragment_filter_tv_go;
+	private TextView hotel_fragment_filter_tv_go,txtNoData;
 	private ProgressBar hotel_fragment_filter_progressBar;
 	private AutoCompleteTextView hotel_fragment_filter_actv_source_station;
 	private ListView hotel_fragment_filter_listview;
@@ -70,6 +70,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 
 	private void initializeACTV(View row)
 	{
+		txtNoData=(TextView)row.findViewById(R.id.txtNoData);
 		hotel_fragment_filter_listview=(ListView)row.findViewById(R.id.hotel_fragment_filter_listview);
 		//Go Button
 		hotel_fragment_filter_tv_go=(TextView)row.findViewById(R.id.hotel_fragment_filter_tv_go);
@@ -312,19 +313,49 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 			}
 
 			dialog.dismiss();
-			hotel_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(),
-					al_name, 
-					al_mobileNo,
-					al_email,
-					al_stationCode,
-					al_text,
-					al_distanceFromStation,
-					al_avgCostPerDay,
-					al_24HoursCheckIn, 
-					al_hotelCategory,
-					al_addedOn, 
-					al_updatedOn,
-					al_id));
+
+			try {
+				if (al_name.size() == 0) {
+					hotel_fragment_filter_listview.setVisibility(View.GONE);
+					txtNoData.setVisibility(View.VISIBLE);
+					txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+					txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
+
+				} else {
+
+					txtNoData.setVisibility(View.GONE);
+					hotel_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(),
+							al_name,
+							al_mobileNo,
+							al_email,
+							al_stationCode,
+							al_text,
+							al_distanceFromStation,
+							al_avgCostPerDay,
+							al_24HoursCheckIn,
+							al_hotelCategory,
+							al_addedOn,
+							al_updatedOn,
+							al_id));
+				}
+			}catch (NullPointerException e){
+				hotel_fragment_filter_listview.setVisibility(View.GONE);
+				txtNoData.setVisibility(View.VISIBLE);
+				txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
+			}catch (Exception e){
+				hotel_fragment_filter_listview.setVisibility(View.GONE);
+				txtNoData.setVisibility(View.VISIBLE);
+				txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
+			}
+
+
+
+
 		}
 	}
 

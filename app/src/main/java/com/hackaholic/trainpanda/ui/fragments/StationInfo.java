@@ -110,6 +110,14 @@ public class StationInfo extends Fragment {
         buttonGO = (Button)view.findViewById(R.id.buttonGO);
 
 
+        TextView txtOR = (TextView)view.findViewById(R.id.txtOR);
+        txtOR.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        TextView tv_detail = (TextView)view.findViewById(R.id.tv_detail);
+        tv_detail.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        etPNR.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        etStnCode.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        buttonGO.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
 
         etStnCode.addTextChangedListener(new TextWatcher() {
             @Override
@@ -213,6 +221,7 @@ public class StationInfo extends Fragment {
 
                 all_train_station_fullname = new ArrayList<String>();
                 all_train_station_code = new ArrayList<String>();
+                ArrayList<String> station_fullNAme_shortCode = new ArrayList<String>();
 
                 try {
 
@@ -220,6 +229,7 @@ public class StationInfo extends Fragment {
                     for(int i=0;i<tnmames.station.size();i++){
                         all_train_station_code.add(tnmames.station.get(i).code);
                         all_train_station_fullname.add(tnmames.station.get(i).fullname);
+                        station_fullNAme_shortCode.add(tnmames.station.get(i).fullname+" ("+tnmames.station.get(i).code+")");
                     }
 
                 } catch (Exception e) {
@@ -227,10 +237,8 @@ public class StationInfo extends Fragment {
                 }
 
 
-
-
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
-                        R.layout.suggestion_station, R.id.txtTitle, all_train_station_code);
+                        R.layout.suggestion_station, R.id.txtTitle, station_fullNAme_shortCode);
 
                 etStnCode.setAdapter(adapter2);
                 etStnCode.showDropDown();

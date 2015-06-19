@@ -32,6 +32,7 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.fragments.TrainRoutesFragment;
 
 import org.apache.http.NameValuePair;
@@ -114,6 +115,13 @@ public class CustomDialogBoxEditPNR extends Dialog  implements
         edPNR =  (EditText)findViewById(R.id.edPNR);
         txtUpdate = (TextView) findViewById(R.id.txtUpdate);
         txtClose = (TextView) findViewById(R.id.txtClose);
+
+        TextView txtTiltle = (TextView)findViewById(R.id.txtTiltle);
+        txtTiltle.setTypeface(PrefUtils.getTypeFace(act));
+
+        edPNR.setTypeface(PrefUtils.getTypeFace(act));
+        txtUpdate.setTypeface(PrefUtils.getTypeFace(act));
+        txtClose.setTypeface(PrefUtils.getTypeFace(act));
 
         txtUpdate.setOnClickListener(this);
         txtClose.setOnClickListener(this);

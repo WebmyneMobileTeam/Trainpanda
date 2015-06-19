@@ -91,11 +91,24 @@
     </LinearLayout>
 
     <ListView
+
         android:background="@color/pnr_bg"
         android:id="@+id/restaurant_fragment_filter_listview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-    >
+        android:layout_height="match_parent">
     </ListView>
+
+    <TextView
+        android:visibility="gone"
+        android:padding="16dp"
+        android:textColor="@color/White"
+        android:textSize="@dimen/normal_text"
+        android:gravity="center"
+        android:text="No"
+        android:id="@+id/txtNoData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <include layout="@layout/emptylistview"/>
 
 </LinearLayout>

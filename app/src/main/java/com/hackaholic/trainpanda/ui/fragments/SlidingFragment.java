@@ -27,6 +27,7 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.utility.CustomDialogBoxEditPNR;
 import com.hackaholic.trainpanda.utility.CustomDialogBoxEditStation;
 
@@ -88,6 +89,7 @@ public class SlidingFragment extends Fragment {
 
 		TextView title = (TextView)getActivity(). findViewById(R.id.lk_profile_header_textview);
 		title.setText(stName);
+		title.setTypeface(PrefUtils.getTypeFace(getActivity()));
 
 
 		ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
@@ -182,11 +184,12 @@ public class SlidingFragment extends Fragment {
 	}
 
 
-	private static View createTabView(final Context context, final String text) {
+	private  View createTabView(final Context context, final String text) {
 
 		View view = LayoutInflater.from(context).inflate(R.layout.tabs_bg, null);
 
 		TextView tv = (TextView) view.findViewById(R.id.tabsText);
+		tv.setTypeface(PrefUtils.getTypeFace(getActivity()));
 		ImageView imgIcon= (ImageView) view.findViewById(R.id.imgIcon);
 		switch (text) {
 

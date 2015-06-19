@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hackaholic.trainpanda.R;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 
 
 public class ListAdapter extends ArrayAdapter<String>{
@@ -43,6 +44,8 @@ public class ListAdapter extends ArrayAdapter<String>{
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
 
         txtTitle.setText(web[position]);
+        txtTitle.setTypeface(PrefUtils.getTypeFace(context));
+
         if(drawerPos==position)
             rowView.setBackgroundColor(Color.parseColor("#8B0001"));
 

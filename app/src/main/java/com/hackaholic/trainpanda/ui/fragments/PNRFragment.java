@@ -36,6 +36,7 @@ import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
 import com.hackaholic.trainpanda.helpers.JSONPost;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.activities.MainActivity;
 import com.hackaholic.trainpanda.utility.CustomDialogPNRList;
 
@@ -77,7 +78,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     private ImageView pnr_iv_cab_booking;
     private ImageView pnr_iv_restaurant_booking;
     private ImageView pnr_iv_train_route;
-    private TextView pnr_tv_add, pnr_tv_sdl_dep;
+    private TextView pnr_tv_add, pnr_tv_sdl_dep,tv_detail;
     private SharedPreferences sharedPreferences;
 
     private String fromStationCode = "", fromStationName = "", pnr = "", doj = "",
@@ -196,6 +197,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
 
     void initializeEditTexts(View rootView) {
         pnr_ed_pnr_no = (EditText) rootView.findViewById(R.id.ed_pnr_no_input);
+        pnr_ed_pnr_no.setTypeface(PrefUtils.getTypeFace(getActivity()));
     }
 
     public static void updateMessageBox(String msg) {
@@ -203,6 +205,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     }
 
     private void initializeTextViews(View rootView) {
+        tv_detail = (TextView)rootView.findViewById(R.id.tv_detail);
         buttonPNRSMS= (TextView) rootView.findViewById(R.id.buttonPNRSMS);
         pnr_tv_go = (TextView) rootView.findViewById(R.id.pnr_tv_go);
         pnr_tv_go.setOnClickListener(this);
@@ -220,6 +223,10 @@ public class PNRFragment extends Fragment implements OnClickListener {
         pnr_tv_to_code = (TextView) rootView.findViewById(R.id.pnr_tv_to_code);
         pnr_tv_to_date = (TextView) rootView.findViewById(R.id.pnr_tv_to_date);
         pnr_tv_to_time = (TextView) rootView.findViewById(R.id.pnr_tv_to_time);
+
+        tv_detail.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        buttonPNRSMS.setTypeface(PrefUtils.getTypeFace(getActivity()));
+        pnr_tv_go.setTypeface(PrefUtils.getTypeFace(getActivity()));
     }
 
     @Override

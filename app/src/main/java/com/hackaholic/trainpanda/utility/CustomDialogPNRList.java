@@ -29,6 +29,7 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.fragments.PNRFragment;
 import com.hackaholic.trainpanda.ui.fragments.TrainRoutesFragment;
 
@@ -317,7 +318,7 @@ public class CustomDialogPNRList extends Dialog {
             View row = inflater.inflate(R.layout.pnr_list_item, parent,false);;
 
             TextView pnrNo = (TextView)row.findViewById(R.id.pnrNumber);
-
+            pnrNo.setTypeface(PrefUtils.getTypeFace(act));
             pnrNo.setText(valuesPNR.SMSData.get(position).PNR);
 
 

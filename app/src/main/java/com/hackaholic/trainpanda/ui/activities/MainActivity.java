@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.adapter.ListAdapter;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
@@ -112,6 +113,7 @@ public class MainActivity extends FragmentActivity {
         txtprofileName = (TextView) findViewById(R.id.txtprofileName);
         title = (TextView) findViewById(R.id.lk_profile_header_textview);
         title.setText("TRAIN PANDA");
+        title.setTypeface(PrefUtils.getTypeFace(this));
 
         sharedPreferences = getSharedPreferences("TrainPanda",MODE_PRIVATE);
         System.out.println(sharedPreferences.getString("name", "no name"));
@@ -119,13 +121,13 @@ public class MainActivity extends FragmentActivity {
 
 
         txtprofileName.setText(sharedPreferences.getString("name", "no name"));
-
+        txtprofileName.setTypeface(PrefUtils.getTypeFace(this));
         try {
             String url = sharedPreferences.getString("image_url", null).toString();
             System.out.println("Url Profile_image " + url);
             String id = sharedPreferences.getString("idd", "not found").toString();
 
-            Picasso.with(getBaseContext()).load(url).placeholder(R.drawable.a6).into(leftNavLogoImageView);
+             Picasso.with(getBaseContext()).load(url).placeholder(R.drawable.a6).into(leftNavLogoImageView);
         }catch (Exception e){
             Log.e("exc in profile image",e.toString());
         }

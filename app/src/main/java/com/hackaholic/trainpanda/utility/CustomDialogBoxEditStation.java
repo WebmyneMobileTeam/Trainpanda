@@ -117,6 +117,19 @@ public class CustomDialogBoxEditStation extends Dialog  implements
         edStat =  (AutoCompleteTextView)findViewById(R.id.edStat);
 
 
+        txtUpdate = (TextView) findViewById(R.id.txtUpdate);
+        txtClose = (TextView) findViewById(R.id.txtClose);
+        txtUpdate.setTypeface(PrefUtils.getTypeFace(act));
+        txtClose.setTypeface(PrefUtils.getTypeFace(act));
+
+        txtUpdate.setOnClickListener(this);
+        txtClose.setOnClickListener(this);
+
+
+        TextView txtTiltle = (TextView)findViewById(R.id.txtTiltle);
+        edStat.setTypeface(PrefUtils.getTypeFace(act));
+        txtTiltle.setTypeface(PrefUtils.getTypeFace(act));
+
 
         edStat.setThreshold(2);
         edStat.addTextChangedListener(new TextWatcher() {
@@ -153,12 +166,6 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
 
 
-
-        txtUpdate = (TextView) findViewById(R.id.txtUpdate);
-        txtClose = (TextView) findViewById(R.id.txtClose);
-
-        txtUpdate.setOnClickListener(this);
-        txtClose.setOnClickListener(this);
     }
 
 
@@ -194,6 +201,8 @@ public class CustomDialogBoxEditStation extends Dialog  implements
                 //Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
                 Log.e("REsponse", "" + result);
 
+                ArrayList<String> station_fullNAme_shortCode = new ArrayList<String>();
+
                 all_train_station_code = new ArrayList<String>();
                 all_train_station_fullname = new ArrayList<String>();
                 try {
@@ -203,6 +212,7 @@ public class CustomDialogBoxEditStation extends Dialog  implements
 
                         all_train_station_code.add(tnmames.station.get(i).code);
                         all_train_station_fullname.add(tnmames.station.get(i).fullname);
+                        station_fullNAme_shortCode.add(tnmames.station.get(i).fullname+" ("+tnmames.station.get(i).code+")");
                     }
 
                 } catch (Exception e) {
@@ -210,11 +220,8 @@ public class CustomDialogBoxEditStation extends Dialog  implements
                 }
 
 
-
-
                 ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(act,
-                        R.layout.single_row_textview, R.id.signle_row_textview_tv, all_train_station_code);
-
+                        R.layout.suggestion_station, R.id.txtTitle, station_fullNAme_shortCode);
 
                 edStat.setAdapter(adapter2);
                 edStat.showDropDown();

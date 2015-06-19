@@ -9,6 +9,12 @@ import android.graphics.Typeface;
  */
 public class PrefUtils {
 
+    public static Typeface getTypeFace(Context ctx){
+        Typeface typeface = Typeface.createFromAsset(ctx.getAssets(), "fonts/Roboto-Regular.ttf");
+        return  typeface;
+    }
+
+
     public static void setCurrentStationCode(Context ctx,String code){
         Prefs.with(ctx).save("stCode",code);
     }

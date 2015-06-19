@@ -229,6 +229,14 @@ private void fetchfoodORder(){
             TextView txtRatingBox = (TextView)row.findViewById(R.id.txtRatingBox);
 
 
+            txtHotelName.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            txtStaionName.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            txtDate.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            txtPrice.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            txtRating.setTypeface(PrefUtils.getTypeFace(getActivity()));
+            txtRatingBox.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
+
             txtHotelName.setText(""+valuesOrder.orders.get(position).restaurantId);
             txtStaionName.setText("Station - "+valuesOrder.orders.get(position).stationCode);
 
@@ -239,6 +247,10 @@ private void fetchfoodORder(){
             //txtFoodType.setText(""+valuesOrder.orders.get(position).restaurantId);
             txtRating.setText("GIVE RATING");
             txtRatingBox.setText("4.5");
+
+
+
+
 
             return row;
         }

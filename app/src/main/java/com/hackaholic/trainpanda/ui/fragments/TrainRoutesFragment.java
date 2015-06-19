@@ -605,6 +605,9 @@ private void hitServerLiveStatus() {
 				TextView single_row_pnr_tv_seats=(TextView)row.findViewById(R.id.single_row_pnr_tv_seats);
 				TextView single_row_pnr_tv_status=(TextView)row.findViewById(R.id.single_row_pnr_tv_status);
 
+				single_row_pnr_tv_passengers.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				single_row_pnr_tv_seats.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				single_row_pnr_tv_status.setTypeface(PrefUtils.getTypeFace(getActivity()));
 
 				single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(position).no);
 				single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(position).booking_status+"");
@@ -706,21 +709,20 @@ private void hitServerLiveStatus() {
 				holder.liveStatus=(TextView) row.findViewById(R.id.liveStatus);
 				holder.train_route_avg_delay_time=(TextView) row.findViewById(R.id.train_route_avg_delay_time);
 
+				holder.train_route_arival_time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_departure_time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_avg_delay_time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_distance_next_station.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_halt_time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_train_name.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.liveStatus.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.train_route_avg_delay_time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
 
 				row.setTag(holder);
 				//Log.e("ALCODE ",""+al_code);
 				LinearLayout linearRoute = (LinearLayout)row.findViewById(R.id.linearRoute);
 
-/*
-				if(al_code.get(position).equalsIgnoreCase("BRC")){
-					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
-				}else if(al_code.get(position).equalsIgnoreCase("VSKP")){
-					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
-					isDestination=true;
-				}*//*else if(!isDestination){
-					linearRoute.setBackgroundColor(Color.parseColor("#152846"));
-				}
-*/
 
 			}
 			else
@@ -765,7 +767,7 @@ private void hitServerLiveStatus() {
 			if(position>=STARTPOS && position<=ENDPOS){
 				holder.mainParent.setBackgroundColor(Color.parseColor("#152846"));
 			}else{
-				holder.mainParent.setBackgroundColor(Color.GRAY);
+				holder.mainParent.setBackgroundColor(Color.parseColor("#424c53"));
 			}
 
 

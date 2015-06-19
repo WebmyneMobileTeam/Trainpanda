@@ -3,6 +3,7 @@ package com.hackaholic.trainpanda.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.opengl.Visibility;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -45,7 +46,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 {
 	Restraunt currRestr;
 	private ListView restaurant_fragment_filter_listview;
-	private TextView restaurant_fragment_filter_tv_go;
+	private TextView restaurant_fragment_filter_tv_go,txtNoData;
 	private ProgressBar restaurant_fragment_filter_progressBar;
 	private AutoCompleteTextView restaurant_fragment_filter_actv_source_station;
 
@@ -161,6 +162,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 
 	private void initializeTextViews(View row)
 	{
+		txtNoData=(TextView)row.findViewById(R.id.txtNoData);
 		restaurant_fragment_filter_tv_go=(TextView)row.findViewById(R.id.restaurant_fragment_filter_tv_go);
 		restaurant_fragment_filter_tv_go.setOnClickListener(this);
 	}
@@ -236,6 +238,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				}
 				ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(),
 						R.layout.single_row_textview,R.id.signle_row_textview_tv,al_fullname);
+
 				restaurant_fragment_filter_actv_source_station.setAdapter(adapter);
 			}
 			else
@@ -399,13 +402,29 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 
 			try {
 				if (currRestr.Restraunt.size() == 0) {
-					Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
-				} else
+					restaurant_fragment_filter_listview.setVisibility(View.GONE);
+					txtNoData.setVisibility(View.VISIBLE);
+					txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+					txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
+
+				} else {
+
+					txtNoData.setVisibility(View.GONE);
 					restaurant_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(), currRestr));
+				}
 			}catch (NullPointerException e){
-				Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
+				restaurant_fragment_filter_listview.setVisibility(View.GONE);
+				txtNoData.setVisibility(View.VISIBLE);
+				txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
 			}catch (Exception e){
-				Toast.makeText(getActivity(), "No Restraunt Found !!!", Toast.LENGTH_SHORT).show();
+				restaurant_fragment_filter_listview.setVisibility(View.GONE);
+				txtNoData.setVisibility(View.VISIBLE);
+				txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				txtNoData.setText("India is big! And we are trying hard to cover all stations across country. We will let you know as soon as we cover this station.");
+
 			}
 
 		}
@@ -462,6 +481,15 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder.delivery=(TextView)row.findViewById(R.id.delivery);
 				holder.veg=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
 				holder.nonveg=(LinearLayout)row.findViewById(R.id.ll_nonveg_boundry);
+
+
+				holder.tv_restaurant_name.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.tv_restaurant_mobile.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.menu.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.time.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.minOrder.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.delivery.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
 
 				//holder.ll_give_ratings=(LinearLayout)row.findViewById(R.id.ll_give_ratings);
 				row.setTag(holder);

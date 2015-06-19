@@ -55,7 +55,8 @@ public class WeatherFragment extends Fragment
 
 		initializeTextViews(row);
 
-		fetchWeather();
+
+		fetchStationINFO();
 
 		return row;
 	}
@@ -82,6 +83,20 @@ public class WeatherFragment extends Fragment
 		//weather_tv_rain=(TextView)row.findViewById(R.id.weather_tv_rain);
 		weather_tv_temprature=(TextView)row.findViewById(R.id.weather_tv_temprature);
 		weather_tv_wind=(TextView)row.findViewById(R.id.weather_tv_wind);
+
+
+		txtLetestEvents.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		txtFamousFor.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		txtTemp.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		txtTempMIN.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		txtTempMAX.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
+		txtPressure.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		weather_tv_description.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		weather_tv_humidity.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
+		weather_tv_temprature.setTypeface(PrefUtils.getTypeFace(getActivity()));
+		weather_tv_wind.setTypeface(PrefUtils.getTypeFace(getActivity()));
 	}
 
 	private void fetchStationINFO(){
@@ -113,8 +128,15 @@ public class WeatherFragment extends Fragment
 							JSONObject jsonObject=stationInfoArray.getJSONObject(0);
 
 							String famousFor = jsonObject.getString("famousFor");
+
+							if(famousFor.toString().trim().length()==0){
+								txtFamousFor.setText("No Data Found");
+							}
 							txtLetestEvents.setText("No Data Found");
 							txtFamousFor.setText(famousFor);
+
+							fetchWeather(jsonObject.getString("latitude"),jsonObject.getString("longitude"));
+
 						}
 						catch(Exception e)
 						{
@@ -146,14 +168,14 @@ public class WeatherFragment extends Fragment
 	}
 
 
-	private void  fetchWeather(){
+	private void  fetchWeather(String latitude,String longtitude){
 
         pb2 =new ProgressDialog(getActivity());
         pb2.setMessage("Loading details...");
         pb2.show();
 
 
-		String url="http://api.openweathermap.org/data/2.5/weather?lat="+LATITUDE+"&lon=" + LONGITUDE;
+		String url="http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon=" + longtitude;
 		Log.e("Url : ", "" + url);
 
         new GetPostClass(url, EnumType.GET) {
@@ -224,13 +246,13 @@ public class WeatherFragment extends Fragment
 							weather_tv_wind.setText("Wind - "+speed+" KM/H"+" ");
 							txtPressure.setText("Pressure - "+pressure);
 
-							txtTemp.setText("Temperature -"+temp.substring(0,2)+"\u00b0"+" C");
-							txtTempMIN.setText("Temp Min. -"+temp_min.substring(0,2)+"\u00b0"+" C");
-							txtTempMAX.setText("Temp Max. -"+temp_max.substring(0,2)+"\u00b0"+" C");
+							txtTemp.setText("Temperature "+temp.substring(0,2)+"\u00b0"+" C");
+							txtTempMIN.setText("Temp Min. "+temp_min.substring(0,2)+"\u00b0"+" C");
+							txtTempMAX.setText("Temp Max. "+temp_max.substring(0,2)+"\u00b0"+" C");
 
 							weather_tv_humidity.setText("Humidity - "+humidity+" %"+" ");
 							weather_tv_temprature.setText(temp.substring(0,2)+"\u00b0"+" C");
-							weather_tv_description.setText(""+description.toUpperCase()+" ");
+							weather_tv_description.setText("" + description.toUpperCase()+" ");
 
 					/*weather_tv_min.setText("Min Temp - "+temp_min.substring(0,2)+" ");
 					weather_tv_max.setText("Max Temp - "+temp_max.substring(0,2)+" ");
@@ -240,7 +262,7 @@ public class WeatherFragment extends Fragment
 					weather_tv_temprature.setText(temp.substring(0,2));*/
 
 
-							fetchStationINFO();
+
 
 						}
 						catch(Exception e)

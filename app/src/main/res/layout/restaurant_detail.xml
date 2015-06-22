@@ -50,10 +50,11 @@
 
 
         <ImageView
+            android:id="@+id/imgRest"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="120dp"
             android:src="@drawable/hotel_booking_img"
-            android:scaleType="centerCrop"/>
+            android:scaleType="fitXY"/>
 
     <LinearLayout
         android:id="@+id/ll_hotel_kunal_top1"

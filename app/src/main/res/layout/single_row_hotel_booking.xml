@@ -23,13 +23,39 @@
             android:orientation="vertical"
             android:padding="4dp">
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
             <TextView
+                android:singleLine="true"
+                android:layout_weight="1"
                 android:id="@+id/nameHotel"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hotel Krunal"
                 android:textColor="@color/Orange"
                 android:textSize="22dp" />
+
+
+                <TextView
+                    android:id="@+id/tvRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@color/Orange"
+                    android:drawableRight="@drawable/ic_toggle_star"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingTop="5dp"
+                    android:text=" 4.5"
+                    android:textColor="@color/Red"
+                    android:textSize="16dp" />
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/mobile"
@@ -38,6 +64,17 @@
                 android:text="+91 9737388786"
                 android:textColor="@color/Orange"
                 android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:gravity="center"
+                android:paddingTop="4dp"
+                android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
+                android:textColor="@color/departure_color"
+                android:textSize="@dimen/small_text" />
 
 
             <LinearLayout
@@ -62,16 +99,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="4dp"
                     android:gravity="center"
-                    android:paddingTop="4dp"
+                    android:layout_margin="4dp"
                     android:text="733 59th Street,Bruklyn, Raja Park,Jaipur "
                     android:textColor="@color/White"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/small_text" />
             </LinearLayout>
 
 
             <LinearLayout
+                android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -80,9 +117,9 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price Range :"
+                    android:text="Price Range : "
                     android:textColor="@color/Orange"
-                    android:textSize="14dp" />
+                    android:textSize="@dimen/small_text" />
 
                 <TextView
                     android:id="@+id/priceRange"
@@ -90,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:text="1000 - 5000 INR"
                     android:textColor="@color/White"
-                    android:textSize="14dp" />
+                    android:textSize="@dimen/small_text" />
 
             </LinearLayout>
 
@@ -98,34 +135,7 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:orientation="vertical">
 
-
-            <TextView
-
-                android:id="@+id/tvRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_margin="4dp"
-                android:background="@color/Orange"
-                android:drawableRight="@drawable/ic_toggle_star"
-                android:paddingBottom="10dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="10dp"
-                android:text=" 4.5 "
-                android:textColor="@color/Red"
-                android:textSize="16dp" />
-
-
-            <include layout="@layout/veglayout" />
-
-        </LinearLayout>
 
     </LinearLayout>
 

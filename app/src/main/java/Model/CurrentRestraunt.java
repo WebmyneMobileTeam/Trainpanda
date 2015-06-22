@@ -2,6 +2,8 @@ package Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 public class CurrentRestraunt {
 
 	@SerializedName("morningClosingTime")
@@ -9,6 +11,9 @@ public class CurrentRestraunt {
 
 	@SerializedName("stationCode")
 	public String stationCode;
+
+	@SerializedName("text")
+	public String text;
 
 	@SerializedName("railwayVendor")
 	public boolean railwayVendor;
@@ -63,6 +68,9 @@ public class CurrentRestraunt {
 
 	@SerializedName("mobileNo")
 	public long mobileNo;
+
+	@SerializedName("images")
+	public ArrayList<ALLImages> images;
 
 
 }

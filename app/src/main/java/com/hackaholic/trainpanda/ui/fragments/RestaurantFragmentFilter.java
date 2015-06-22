@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
@@ -362,6 +364,14 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				try
 				{
 
+
+
+					JSONObject mainObject=new JSONObject();
+					JSONArray jsonArray=new JSONArray(result);
+					mainObject.put("Restraunt",jsonArray);
+					Log.e("final resturnrt list", mainObject.toString());
+
+/*
 					JSONObject mainObject = new JSONObject();
 					JSONArray subArray = new JSONArray();
 
@@ -378,19 +388,17 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 						}
 
 						mainObject.put("Restraunt", subArray);
-						Log.e("final resturnr list", mainObject.toString());
+						Log.e("final resturnr list", mainObject.toString());*/
 
 						currRestr  = new GsonBuilder().create().fromJson(mainObject.toString(), Restraunt.class);
 
 
-					}
-					else
-					{
-						//printMessage("No Records Found...!");
-					}
+				//	}
+
 				}
 				catch(Exception e)
 				{
+					Log.e("exc ",e.toString());
 					e.printStackTrace();
 				}
 			}
@@ -481,6 +489,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder.delivery=(TextView)row.findViewById(R.id.delivery);
 				holder.veg=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
 				holder.nonveg=(LinearLayout)row.findViewById(R.id.ll_nonveg_boundry);
+				holder.imgRestraunt=(ImageView)row.findViewById(R.id.imgRestraunt);
 
 
 				holder.tv_restaurant_name.setTypeface(PrefUtils.getTypeFace(getActivity()));
@@ -538,6 +547,14 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder.nonveg.setVisibility(View.VISIBLE);
 			}
 
+			try {
+				if (valuesRestraunt.Restraunt.get(position).images.size() != 0) {
+					Glide.with(context).load(API.BASE_IMAGE_URL + valuesRestraunt.Restraunt.get(position).images.get(0).url).thumbnail(0.1f).into(holder.imgRestraunt);
+				}
+			}catch (Exception e){
+				Log.e("exc null images",e.toString());
+			}
+
 
 			return row;
 		}
@@ -547,6 +564,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 	{
 		TextView tv_restaurant_name,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile;
 		LinearLayout nonveg,veg;
+		ImageView imgRestraunt;
 	}
 
 

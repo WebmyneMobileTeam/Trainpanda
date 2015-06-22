@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.helpers.API;
@@ -33,6 +36,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import Model.MainHotel;
+import Model.Restraunt;
+
 public class HotelBookingWithStationCodeFragment extends Fragment implements OnClickListener
 {
 
@@ -40,6 +46,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 	private ProgressBar hotel_fragment_filter_progressBar;
 	private AutoCompleteTextView hotel_fragment_filter_actv_source_station;
 	private ListView hotel_fragment_filter_listview;
+	MainHotel curr_hotel;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -204,6 +211,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 
 			String url= API.BASE_URL+"hotels?filter[where][stationCode]="+station_code.trim();
 			String response=hitUrl(url);
+			Log.e("response hotel : ", "" + response);
 			return response;
 		}
 
@@ -260,50 +268,22 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 		protected void onPostExecute(String result)
 		{
 			super.onPostExecute(result);
-			//Declares arraylist
-			ArrayList<String> al_name=new ArrayList<String>();
-			ArrayList<String> al_mobileNo=new ArrayList<String>();
-			ArrayList<String> al_email=new ArrayList<String>();
-			ArrayList<String> al_stationCode=new ArrayList<String>();
-			ArrayList<String> al_text=new ArrayList<String>();
-			ArrayList<String> al_distanceFromStation=new ArrayList<String>();
-			ArrayList<String> al_avgCostPerDay=new ArrayList<String>();
-			ArrayList<String> al_24HoursCheckIn=new ArrayList<String>();
-			ArrayList<String> al_hotelCategory=new ArrayList<String>();
-			ArrayList<String> al_addedOn=new ArrayList<String>();
-			ArrayList<String> al_updatedOn=new ArrayList<String>();
-			ArrayList<String> al_id=new ArrayList<String>();
+
 			if(result!=null)
 			{
 				try
 				{
+					JSONObject mainObject=new JSONObject();
 					JSONArray jsonArray=new JSONArray(result);
-					if(jsonArray.length()>0)
-					{
-						for(int i=0;i<jsonArray.length();i++)
-						{
-							JSONObject jsonObject=jsonArray.getJSONObject(i);
-							al_name.add(jsonObject.getString("name"));
-							al_mobileNo.add(jsonObject.getString("mobileNo"));
-							al_email.add(jsonObject.getString("email"));
-							al_stationCode.add(jsonObject.getString("stationCode"));
-							al_text.add(jsonObject.getString("text"));
-							al_distanceFromStation.add(jsonObject.getString("distanceFromStation"));
-							al_avgCostPerDay.add(jsonObject.getString("avgCostPerDay"));
-							al_24HoursCheckIn.add(jsonObject.getString("24HoursCheckIn"));
-							al_hotelCategory.add(jsonObject.getString("hotelCategory"));
-							al_addedOn.add(jsonObject.getString("addedOn"));
-							al_updatedOn.add(jsonObject.getString("updatedOn"));
-							al_id.add(jsonObject.getString("id"));
-						}
-					}
-					else
-					{
-						printMessage("No Records Found...!");
-					}
+					mainObject.put("Hotels",jsonArray);
+					Log.e("final hotel list", mainObject.toString());
+
+					curr_hotel  = new GsonBuilder().create().fromJson(mainObject.toString(), MainHotel.class);
+
 				}
 				catch(Exception e)
 				{
+					Log.e("exc ",e.toString());
 					e.printStackTrace();
 				}
 			}
@@ -315,7 +295,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 			dialog.dismiss();
 
 			try {
-				if (al_name.size() == 0) {
+				if (curr_hotel.Hotels.size() == 0) {
 					hotel_fragment_filter_listview.setVisibility(View.GONE);
 					txtNoData.setVisibility(View.VISIBLE);
 					txtNoData.setTypeface(PrefUtils.getTypeFace(getActivity()));
@@ -325,19 +305,7 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 				} else {
 
 					txtNoData.setVisibility(View.GONE);
-					hotel_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(),
-							al_name,
-							al_mobileNo,
-							al_email,
-							al_stationCode,
-							al_text,
-							al_distanceFromStation,
-							al_avgCostPerDay,
-							al_24HoursCheckIn,
-							al_hotelCategory,
-							al_addedOn,
-							al_updatedOn,
-							al_id));
+					hotel_fragment_filter_listview.setAdapter(new MyAdapter(getActivity(),curr_hotel));
 				}
 			}catch (NullPointerException e){
 				hotel_fragment_filter_listview.setVisibility(View.GONE);
@@ -396,56 +364,22 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 	private class MyAdapter extends BaseAdapter
 	{
 		private Context context;
-		private ArrayList<String> al_name;
-		private ArrayList<String> al_mobileNo;
-		private ArrayList<String> al_email;
-		private ArrayList<String> al_stationCode;
-		private ArrayList<String> al_text;
-		private ArrayList<String> al_distanceFromStation;
-		private ArrayList<String> al_avgCostPerDay;
-		private ArrayList<String> al_24HoursCheckIn;
-		private ArrayList<String> al_hotelCategory;
-		private ArrayList<String> al_addedOn;
-		private ArrayList<String> al_updatedOn;
-		private ArrayList<String> al_id;
+		private MainHotel valuesHotel;
 
-		public MyAdapter(Context context,
-				ArrayList<String> al_name,
-				ArrayList<String> al_mobileNo,
-				ArrayList<String> al_email,
-				ArrayList<String> al_stationCode,
-				ArrayList<String> al_text,
-				ArrayList<String> al_distanceFromStation,
-				ArrayList<String> al_avgCostPerDay,
-				ArrayList<String> al_24HoursCheckIn,
-				ArrayList<String> al_hotelCategory,
-				ArrayList<String> al_addedOn,
-				ArrayList<String> al_updatedOn,
-				ArrayList<String> al_id)
+		public MyAdapter(Context context,MainHotel values)
 		{
 			this.context=context;
-			this.al_name=al_name;
-			this.al_mobileNo=al_mobileNo;
-			this.al_email=al_email;
-			this.al_stationCode=al_stationCode;
-			this.al_text=al_text;
-			this.al_distanceFromStation=al_distanceFromStation;
-			this.al_avgCostPerDay=al_avgCostPerDay;
-			this.al_24HoursCheckIn=al_24HoursCheckIn;
-			this.al_hotelCategory=al_hotelCategory;
-			this.al_addedOn=al_addedOn;
-			this.al_updatedOn=al_updatedOn;
-			this.al_id=al_id;
+			this.valuesHotel = values;
 		}
 		@Override
 		public int getCount() 
 		{
-			return al_name.size();
+			return valuesHotel.Hotels.size();
 		}
 		@Override
 		public Object getItem(int position)
 		{
-			return al_name.get(position);
+			return valuesHotel.Hotels.get(position);
 		}
 		@Override
 		public long getItemId(int position)
@@ -465,15 +399,43 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 
 				holder.hotel_name=(TextView)row.findViewById(R.id.nameHotel);
 				holder.mobile=(TextView)row.findViewById(R.id.mobile);
+				holder.address=(TextView)row.findViewById(R.id.address);
+				holder.priceRange=(TextView)row.findViewById(R.id.priceRange);
+				holder.distance=(TextView)row.findViewById(R.id.distance);
+				holder.imgHotel = (ImageView)row.findViewById(R.id.imgHotel);
+				holder.tvRating=(TextView)row.findViewById(R.id.tvRating);
+
+
+				holder.hotel_name.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.tvRating.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.mobile.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.address.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.priceRange.setTypeface(PrefUtils.getTypeFace(getActivity()));
+				holder.distance.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
+
 				row.setTag(holder);
 			}
 			else
 			{
 				holder=(MyHolder) row.getTag();
 			}
-			holder.hotel_name.setText(al_name.get(position));
-			//holder.hotel_name.setText(al_mobileNo.get(position));
+			holder.hotel_name.setText(valuesHotel.Hotels.get(position).name);
+			holder.mobile.setText(""+valuesHotel.Hotels.get(position).mobileNo);
 
+			holder.distance.setText(""+valuesHotel.Hotels.get(position).distanceFromStation+" Km from station");
+			holder.address.setText(valuesHotel.Hotels.get(position).email);
+			holder.priceRange.setText(""+valuesHotel.Hotels.get(position).priceRange+" INR");
+			holder.tvRating.setText(""+valuesHotel.Hotels.get(position).hotelCategory);
+
+
+			try {
+				if (valuesHotel.Hotels.get(position).images.size() != 0) {
+					Glide.with(context).load(API.BASE_IMAGE_URL + valuesHotel.Hotels.get(position).images.get(0).url).thumbnail(0.1f).into(holder.imgHotel);
+				}
+			}catch (Exception e){
+					Log.e("exc null images",e.toString());
+			}
 
 			return row;
 		}
@@ -481,8 +443,9 @@ public class HotelBookingWithStationCodeFragment extends Fragment implements OnC
 
 	private static class MyHolder
 	{
-		TextView hotel_name,mobile;
+		TextView hotel_name,mobile,address,priceRange,distance,tvRating;
 		LinearLayout ll_call_now,ll_booking_now;
+		ImageView imgHotel;
 	}
 
 

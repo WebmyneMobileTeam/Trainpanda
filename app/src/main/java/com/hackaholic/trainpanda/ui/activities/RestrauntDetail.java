@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.Cells.CategoryCell;
 import com.hackaholic.trainpanda.Cells.CheckType;
@@ -79,7 +80,7 @@ public class RestrauntDetail extends FragmentActivity {
     int counter=0;
     RestrauntMenuAdapter resAdapter;
     ArrayList<CheckType> checkTypeList;
-    ImageView imgBack;
+    ImageView imgBack,imgRest;
     ExpandableTextView txtDesc;
 
     @Override
@@ -100,19 +101,20 @@ public class RestrauntDetail extends FragmentActivity {
             }
         });
 
-        String yourText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. " +
-                "Ut volutpat interdum interdum. Nulla laoreet lacus diam, vitae " +
-                "sodales sapien commodo faucibus. Vestibulum et feugiat enim. Donec " +
-                "semper mi et euismod tempor. Sed sodales eleifend mi id varius. Nam " +
-                "et ornare enim, sit amet gravida sapien. Quisque gravida et enim vel " +
-                "volutpat. Vivamus egestas ut felis a blandit. Vivamus fringilla " +
-                "dignissim mollis. Maecenas imperdiet interdum hendrerit. Aliquam" +
-                " dictum hendrerit ultrices. Ut vitae vestibulum dolor. Donec auctor ante" +
-                " eget libero molestie porta. Nam tempor fringilla ultricies. Nam sem " +
-                "lectus, feugiat eget ullamcorper vitae, ornare et sem. Fusce dapibus ipsum" +
-                " sed laoreet suscipit. ";
+        try {
 
-        txtDesc.setText(yourText);
+            txtDesc.setText(valuesRestraunt.Restraunt.get(listPosition).text);
+
+            if (valuesRestraunt.Restraunt.get(listPosition).images.size() != 0) {
+                Glide.with(RestrauntDetail.this).load(API.BASE_IMAGE_URL + valuesRestraunt.Restraunt.get(listPosition).images.get(0).url).thumbnail(0.1f).into(imgRest);
+            }
+        }catch (Exception e){
+            Log.e("exc null images",e.toString());
+        }
+
+
+
+
 
 
         callWebServices();
@@ -143,7 +145,7 @@ public class RestrauntDetail extends FragmentActivity {
 
     void initViews(){
 
-
+        imgRest = (ImageView)findViewById(R.id.imgRest);
         txtDesc = (ExpandableTextView)findViewById(R.id.txtDesc);
         imgBack = (ImageView)findViewById(R.id.imgBack);
         tv_hotel_kunal_place_order = (TextView)findViewById(R.id.tv_hotel_kunal_place_order);

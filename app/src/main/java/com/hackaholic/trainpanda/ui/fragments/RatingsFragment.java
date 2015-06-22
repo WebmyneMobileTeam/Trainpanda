@@ -100,7 +100,6 @@ public class RatingsFragment extends Fragment
 			jsonObject.put("feedback", "test");
 			jsonObject.put("rating",RATING);
 
-
 			Log.e("FINAL rating JSON : ", "" + jsonObject);
 
 

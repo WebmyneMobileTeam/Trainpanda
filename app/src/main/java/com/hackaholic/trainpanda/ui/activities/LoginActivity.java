@@ -645,7 +645,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				String personGooglePlusProfile = currentPerson.getUrl();
 				String email = Plus.AccountApi.getAccountName(mGoogleApiClient);
 
-				Log.e(TAG, "Name: " + personName + ", plusProfile: "
+				Log.e("$$$$$$ GOOGLE RESPONSe", "Name: " + personName + ", plusProfile: "
 						+ personGooglePlusProfile + ", email: " + email
 						+ ", Image: " + personPhotoUrl);
 
@@ -707,16 +707,51 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			@Override
 			protected String doInBackground(String... params) 
 			{
-				int length=hitGPServer(params[0]);
-				Log.e("length : ",""+length);
-				if(length>1)
+				final String res=MYhitServer(params[0]);
+				int length=0;
+				Log.e("$$$$$$ RESPONSE", res);
+				try {
+					JSONArray jsonArray = new JSONArray(res);
+					length = jsonArray.length();
+				}catch (Exception e){
+					Log.e("exc parsing",e.toString());
+				}
+
+				Log.e("length : ", "" + length);
+				if(length>=1)
 				{
-					//Perform Login
+
+					Log.e("google nam", "inside before");
+					try {
+
+						JSONArray jsonArray = new JSONArray(res);
+						JSONObject CustomerOBJ = jsonArray.getJSONObject(0);
+
+						String custID = CustomerOBJ.getString("id");
+						String googleProfileImage = CustomerOBJ.getString("google");
+						String custName = CustomerOBJ.getString("name");
+						String custCode = CustomerOBJ.getString("code");
+
+						editor.putString("image_url", googleProfileImage);
+						editor.putString("customer_id", custID);
+						editor.putString("customerCode", custCode);
+						editor.putString("idd", custID);
+						editor.putString("name", "" + custName);
+						editor.commit();
+
+						Log.e("####image url", googleProfileImage);
+
+						System.out.println(editor);
+					}catch (Exception e) {
+						Log.e("####exception", e.toString());
+					}
+
 					//Call Next Activity
 					Intent intent=new Intent(LoginActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 					startActivity(intent);
 					finish();
+
 
 				}
 				else
@@ -726,35 +761,14 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					//Log.e("Json Object : ",""+jsonResponse);
 					try
 					{
-						/*JSONObject jsonObject=new JSONObject(jsonResponse);
-						System.out.println("Response "+jsonResponse);
-						id=jsonObject.getString("id");
-						String first_name=jsonObject.getString("first_name");
-						String timezone=jsonObject.getString("timezone");
-						email=jsonObject.getString("email");
-						String verified=jsonObject.getString("verified");
-						name=jsonObject.getString("name");
-						Log.e("###########",""+name);
-						String locale=jsonObject.getString("locale");
-						String link=jsonObject.getString("link");
-						String last_name=jsonObject.getString("last_name");
-						gender=jsonObject.getString("gender");
-						String updated_time=jsonObject.getString("updated_time");
-						if(jsonObject.has("hometown")){
-							
-							String stateFetch = jsonObject.getString("hometown");
-							JSONObject newJsonObj = jsonObject.getJSONObject("hometown");
-							String statef = newJsonObj.getString("name");
-							state = newJsonObj.getString("name");
-							
-							System.out.println("State "+statef);
-						}*/
-						
+						String personPhotoUrl="";
 						if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 							Person currentPerson = Plus.PeopleApi
 									.getCurrentPerson(mGoogleApiClient);
 							 g_name = currentPerson.getDisplayName();
-							String personPhotoUrl = currentPerson.getImage().getUrl();
+
+
+							personPhotoUrl = currentPerson.getImage().getUrl();
 							String personGooglePlusProfile = currentPerson.getUrl();
 							System.out.println("Profile :: "+personGooglePlusProfile );
 							g_email = Plus.AccountApi.getAccountName(mGoogleApiClient);
@@ -764,16 +778,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 							
 						}
 
-					}
-					catch(Exception e)
-					{
-						e.printStackTrace();
-					}
 
 
 					//finallyPostData(main);
-					try
-					{
+
 						HttpClient httpClient = new DefaultHttpClient();
 						HttpPost httpPost = new HttpPost("http://admin.trainpanda.com/api/customers");
 						List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>();
@@ -783,7 +791,10 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 						nameValuePair.add(new BasicNameValuePair("sex","Nil"));
 						nameValuePair.add(new BasicNameValuePair("email",g_email));
 						nameValuePair.add(new BasicNameValuePair("address","Unavailable"));
-						
+
+						//saving the profile image in this field
+						nameValuePair.add(new BasicNameValuePair("google",personPhotoUrl));
+
 						nameValuePair.add(new BasicNameValuePair("[city][name]","Unavailable"));
 						nameValuePair.add(new BasicNameValuePair("[state][name]","Unavailable"));
 						nameValuePair.add(new BasicNameValuePair("phone","0"));
@@ -847,6 +858,24 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 				}
 				return id;
 			}
+
+			private String MYhitServer(String url)
+			{
+				int length=0;
+				String response="";
+				try
+				{
+					ServiceHandler handler=new ServiceHandler();
+					response=handler.makeServiceCall(url, ServiceHandler.GET);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+				return response;
+			}
+
+
 
 			private void saveIdToSP(String customer_id,String customerCode) 
 			{

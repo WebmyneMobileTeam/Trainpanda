@@ -187,7 +187,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 			}
 
 			private void checkLoginStatus(String email, JSONObject innerJSONObject) {
-				String url = "http://admin.trainpanda.com/api/customers?filter[where][email]=" + email;
+				String url = "http://admin.trainpanda.com/api/customers?filter[where][email]=" + email+"&filter[where][loginType]=Facebook";
 				//String url="http://admin.trainpanda.com/api/customers?filter[where][email]=vikas0dhar@gmail.com";
 				new FBLoginStatusAsync().execute(new String[]{url, String.valueOf(innerJSONObject)});
 
@@ -326,7 +326,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 					nameValuePair.add(new BasicNameValuePair("phone","0"));
 					nameValuePair.add(new BasicNameValuePair("pinCode","0"));
 					nameValuePair.add(new BasicNameValuePair("facebook",id));
-					nameValuePair.add(new BasicNameValuePair("loginType","facebook"));
+					nameValuePair.add(new BasicNameValuePair("loginType","Facebook"));
 
 					httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
 					
@@ -679,7 +679,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	private void checkGoogleLogin(String gmail) {
 		// TODO Auto-generated method stub
 		
-		String url="http://admin.trainpanda.com/api/customers?filter[where][email]="+gmail;
+		String url="http://admin.trainpanda.com/api/customers?filter[where][email]="+gmail+"&filter[where][loginType]=Google Plus";
 		
 		new GPLoginStatusAsync().execute(new String[]{url});
 		

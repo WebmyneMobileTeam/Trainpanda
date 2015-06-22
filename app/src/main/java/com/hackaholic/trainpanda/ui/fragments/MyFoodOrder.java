@@ -247,7 +247,20 @@ private void fetchfoodORder(){
             txtHotelName.setText(""+valuesOrder.orders.get(position).restaurantId);
             txtStaionName.setText("Station - "+valuesOrder.orders.get(position).stationCode);
 
-            txtDate.setText(""+valuesOrder.orders.get(position).date);
+            String tempDate = valuesOrder.orders.get(position).date;
+            String TrimmedDate = tempDate.substring(0,valuesOrder.orders.get(position).date.indexOf("T"));
+
+
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                Date newdate = sdf.parse(TrimmedDate);
+
+                txtDate.setText(""+new SimpleDateFormat("dd-MMM-yyyy").format(newdate));
+
+            }catch (Exception e){
+                Log.e("exc in date conv",e.toString());
+            }
+
 
             txtPrice.setText("INR "+valuesOrder.orders.get(position).totalAmount);
 

@@ -135,7 +135,6 @@ public class PlaceOrder extends FragmentActivity {
 
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("orderId", 0);
             jsonObject.put("totalAmount",finalPrice);
             jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
             jsonObject.put("date",todayDate );

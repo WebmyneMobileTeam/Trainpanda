@@ -6,9 +6,10 @@
     android:orientation="vertical" >
 
     <TextView
+        android:textStyle="bold"
         android:textSize="@dimen/normal_text"
         android:padding="8dp"
-        android:textColor="@color/White"
+        android:textColor="#60abd9"
         android:gravity="center"
         android:text="YOU RECENTLY ORDERED FOOD FROM"
         android:id="@+id/txtRecntly"
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:textStyle="bold"
         android:textSize="@dimen/big_text"
         android:padding="8dp"
         android:textColor="@color/my_custom_orange"
@@ -25,12 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <RatingBar
-        android:id="@+id/ratingbar_default"
-
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginBottom="20dp" />
 
     <TextView
         android:textSize="@dimen/normal_text"
@@ -39,6 +35,80 @@
         android:gravity="center"
         android:text="Station Name"
         android:id="@+id/txtStaionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:background="@drawable/icon_calendar_orange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    <TextView
+        android:paddingLeft="5dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textSize="@dimen/small_text"
+        android:textColor="@color/White"
+        android:text="Station Name"
+        android:id="@+id/txtorderdate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <TextView
+        android:textStyle="bold"
+        android:textSize="@dimen/big_text"
+        android:padding="8dp"
+        android:textColor="#60abd9"
+        android:gravity="center"
+        android:text="ORDER AMOUNT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:textStyle="bold"
+        android:textSize="@dimen/big_text"
+        android:padding="8dp"
+        android:textColor="@color/my_custom_orange"
+        android:gravity="center"
+        android:text="amount"
+        android:id="@+id/txtAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:textSize="@dimen/big_text"
+        android:padding="8dp"
+        android:textColor="@color/White"
+        android:gravity="center"
+        android:text="SUBMIT US YOUR FEEDBACK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RatingBar
+        style="@style/foodRatingBar"
+        android:numStars="5"
+        android:stepSize="1.0"
+        android:id="@+id/ratingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"/>
+
+    <TextView
+        android:id="@+id/txtSubmit"
+        android:layout_margin="16dp"
+        android:padding="16dp"
+        android:background="@color/my_custom_orange"
+        android:gravity="center"
+        android:text="SUBMIT"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/normal_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

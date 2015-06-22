@@ -3,6 +3,10 @@ package com.hackaholic.trainpanda.helpers;
 import android.content.Context;
 import android.graphics.Typeface;
 
+import com.hackaholic.trainpanda.custom.ComplexPreferences;
+
+import Model.RecentOrder;
+
 
 /**
  * Created by xitij on 17-03-2015.
@@ -72,6 +76,22 @@ public class PrefUtils {
     public static int getDrawerClick(Context ctx){
         int code = Prefs.with(ctx).getInt("pos", 0);
         return code;
+    }
+
+
+    public static void setRecentOrederObject(Context ctx, RecentOrder obj){
+
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "user_pref",0);
+        complexPreferences.putObject("recentOrder", obj);
+        complexPreferences.commit();
+
+    }
+
+    public static RecentOrder getRecentOrederObject(Context ctx){
+
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "user_pref",0);
+        RecentOrder order = complexPreferences.getObject("recentOrder", RecentOrder.class);
+        return  order;
     }
 
 }

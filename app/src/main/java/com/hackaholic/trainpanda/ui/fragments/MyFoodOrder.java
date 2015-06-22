@@ -4,6 +4,7 @@ package com.hackaholic.trainpanda.ui.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
@@ -21,6 +23,7 @@ import com.hackaholic.trainpanda.helpers.API;
 import com.hackaholic.trainpanda.helpers.EnumType;
 import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
+import com.hackaholic.trainpanda.utility.CustomDialogRating;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -32,13 +35,14 @@ import java.util.Date;
 import Model.FETCH_ORDER;
 import Model.FETCH_PNR;
 import Model.FETCH_SUB_PNR;
+import Model.MainRating;
 import Model.Restraunt;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MyFoodOrder extends Fragment {
-    ProgressDialog pb,pb2;
+    ProgressDialog pb,pb2,pb3;
     TextView txtPNRNUmber,pnrDate,pnrStatus;
     FETCH_ORDER objOrder;
     private SharedPreferences sharedPreferences;
@@ -101,12 +105,18 @@ private void fetchfoodORder(){
 
                     objOrder =  new GsonBuilder().create().fromJson(mainObject.toString(), FETCH_ORDER.class);
 
-                   /* for(int i=0;i<objOrder.orders.size();i++) {
-                        fetchRestrauntDetails(objOrder.orders.get(i).restaurantId,objOrder.orders.size(),i);
+                    ProgressDialog pb =  new ProgressDialog(getActivity());
+
+                    fetchRestrauntRatings(pb);
+
+                    /*for(int i=0;i<objOrder.orders.size();i++) {
+
+                        ProgressDialog pb3 =  new ProgressDialog(getActivity());
+                        fetchRestrauntDetails(pb3,objOrder.orders.get(i).restaurantId,objOrder.orders.size(),i);
                     }*/
 
-                    MyAdapter adp = new MyAdapter(objOrder,getActivity());
-                    foodorderList.setAdapter(adp);
+                   /* MyAdapter adp = new MyAdapter(objOrder,getActivity());
+                    foodorderList.setAdapter(adp);*/
 
 
                 }
@@ -131,12 +141,63 @@ private void fetchfoodORder(){
 }
 
 
+    private void fetchRestrauntRatings(final ProgressDialog pbrating){
+        pbrating.setMessage("Loading details...");
+        pbrating.show();
 
-   private void  fetchRestrauntDetails(String restID, final int totalSize,final int cuurrentSize){
+        Log.e("fetch pnr link ", "http://admin.trainpanda.com:80/api/restaurantRatings?filter[userId]="+sharedPreferences.getString("customer_id", "").trim());
 
-        pb2 =new ProgressDialog(getActivity());
-        pb2.setMessage("Loading details...");
-        pb2.show();
+        new GetPostClass("http://admin.trainpanda.com:80/api/restaurantRatings?filter[userId]="+sharedPreferences.getString("customer_id", "").trim() , EnumType.GET) {
+            @Override
+            public void response(String response) {
+                pbrating.dismiss();
+                Log.e("rating response ", response);
+
+                try {
+
+                    JSONObject mainObj = new JSONObject();
+                    JSONArray jsonArray=new JSONArray(response);
+                    mainObj.put("Rating",jsonArray);
+
+                    MainRating currentRating =  new GsonBuilder().create().fromJson(mainObj.toString(), MainRating.class);
+
+                    for(int i=0;i<objOrder.orders.size();i++) {
+
+                        for (int j = 0; j < currentRating.Rating.size(); j++) {
+                            if (objOrder.orders.get(i).restaurantId.equalsIgnoreCase(currentRating.Rating.get(j).restaurantId)) {
+                                int cuurentRating = currentRating.Rating.get(j).rating;
+                                objOrder.orders.get(i).restaurantRating = String.valueOf(cuurentRating);
+                            }
+                        }
+                    }
+
+
+                    MyAdapter adp = new MyAdapter(objOrder,getActivity());
+                    foodorderList.setAdapter(adp);
+
+
+
+                } catch (Exception e) {
+
+                    Log.e("exc", e.toString());
+                }
+
+            }
+
+            @Override
+            public void error(String error) {
+                pbrating.dismiss();
+//                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
+            }
+        }.call2();
+    }
+
+
+   private void  fetchRestrauntDetails(final ProgressDialog pb3,String restID, final int totalSize,final int cuurrentSize){
+
+      //  pb2 =new ProgressDialog(getActivity());
+        pb3.setMessage("Loading details...");
+        pb3.show();
 
 
         String url= API.BASE_URL+"items?filter[where][restaurantId]="+restID;
@@ -145,10 +206,15 @@ private void fetchfoodORder(){
         new GetPostClass(url, EnumType.GET) {
             @Override
             public void response(String response) {
-                pb2.dismiss();
-                Log.e("####restraunt data ", response);
+                pb3.dismiss();
 
-                try {
+                Log.e("####restraunt data "+cuurrentSize, response);
+
+               /* if(totalSize==cuurrentSize){
+                    pb2.dismiss();
+                }*/
+
+                /*try {
 
                     JSONObject mainObject = new JSONObject();
                     JSONArray subArray = new JSONArray();
@@ -168,7 +234,7 @@ private void fetchfoodORder(){
 
 
 
-                        if(totalSize==cuurrentSize){
+                       if(totalSize==cuurrentSize){
 
                         }else {
                             MyAdapter adp = new MyAdapter(objOrder, getActivity());
@@ -184,13 +250,13 @@ private void fetchfoodORder(){
 
                 } catch (Exception e) {
                     Log.e("exc", e.toString());
-                }
+                }*/
 
             }
 
             @Override
             public void error(String error) {
-                pb2.dismiss();
+                pb3.dismiss();
 //                Toast.makeText(getActivity(), error, Toast.LENGTH_SHORT).show();
             }
         }.call2();
@@ -220,32 +286,46 @@ private void fetchfoodORder(){
             return 0;
         }
 
+
+
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater=(LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
 
-            View row = inflater.inflate(R.layout.single_my_order_list_item, parent,false);;
 
-            TextView txtHotelName = (TextView)row.findViewById(R.id.txtHotelName);
-            TextView txtDate = (TextView)row.findViewById(R.id.txtDate);
-            TextView txtPrice = (TextView)row.findViewById(R.id.txtPrice);
-            TextView txtStaionName = (TextView)row.findViewById(R.id.txtStaionName);
+            View row=convertView;
+            MyHolder holder;
 
-            TextView txtFoodType = (TextView)row.findViewById(R.id.txtFoodType);
-            TextView txtRating = (TextView)row.findViewById(R.id.txtRating);
-            TextView txtRatingBox = (TextView)row.findViewById(R.id.txtRatingBox);
+            if(row==null){
+                holder=new MyHolder();
+                row = inflater.inflate(R.layout.single_my_order_list_item, parent,false);
+                holder.txtHotelName = (TextView)row.findViewById(R.id.txtHotelName);
+                holder.txtDate = (TextView)row.findViewById(R.id.txtDate);
+                holder.txtPrice = (TextView)row.findViewById(R.id.txtPrice);
+                holder.txtStaionName = (TextView)row.findViewById(R.id.txtStaionName);
 
-
-            txtHotelName.setTypeface(PrefUtils.getTypeFace(getActivity()));
-            txtStaionName.setTypeface(PrefUtils.getTypeFace(getActivity()));
-            txtDate.setTypeface(PrefUtils.getTypeFace(getActivity()));
-            txtPrice.setTypeface(PrefUtils.getTypeFace(getActivity()));
-            txtRating.setTypeface(PrefUtils.getTypeFace(getActivity()));
-            txtRatingBox.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtFoodType = (TextView)row.findViewById(R.id.txtFoodType);
+                holder.txtRating = (TextView)row.findViewById(R.id.txtRating);
+                holder.txtRatingBox = (TextView)row.findViewById(R.id.txtRatingBox);
 
 
-            txtHotelName.setText(""+valuesOrder.orders.get(position).restaurantId);
-            txtStaionName.setText("Station - "+valuesOrder.orders.get(position).stationCode);
+                holder.txtHotelName.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtStaionName.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtDate.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtPrice.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtRating.setTypeface(PrefUtils.getTypeFace(getActivity()));
+                holder.txtRatingBox.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
+                row.setTag(holder);
+
+            }else{
+                holder=(MyHolder) row.getTag();
+            }
+
+
+
+            holder.txtHotelName.setText(""+valuesOrder.orders.get(position).restaurantId);
+            holder.txtStaionName.setText("Station - "+valuesOrder.orders.get(position).stationCode);
 
             String tempDate = valuesOrder.orders.get(position).date;
             String TrimmedDate = tempDate.substring(0,valuesOrder.orders.get(position).date.indexOf("T"));
@@ -255,26 +335,51 @@ private void fetchfoodORder(){
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 Date newdate = sdf.parse(TrimmedDate);
 
-                txtDate.setText(""+new SimpleDateFormat("dd-MMM-yyyy").format(newdate));
+                holder.txtDate.setText(""+new SimpleDateFormat("dd-MMM-yyyy").format(newdate));
 
             }catch (Exception e){
                 Log.e("exc in date conv",e.toString());
             }
 
 
-            txtPrice.setText("INR "+valuesOrder.orders.get(position).totalAmount);
+            holder.txtPrice.setText("INR "+valuesOrder.orders.get(position).totalAmount);
 
             //txtFoodType.setText(""+valuesOrder.orders.get(position).restaurantId);
-            txtRating.setText("GIVE RATING");
-            txtRatingBox.setText("4.5");
+            holder.txtRating.setText("GIVE RATING");
 
-            txtRating.setOnClickListener(new View.OnClickListener() {
+
+            if(valuesOrder.orders.get(position).restaurantRating == null){
+                holder.txtRating.setText("GIVE RATING");
+                holder.txtRatingBox.setVisibility(View.GONE);
+            }else{
+                holder.txtRating.setText("RATED");
+                holder.txtRating.setTextColor(Color.WHITE);
+                holder.txtRatingBox.setVisibility(View.VISIBLE);
+                holder.txtRatingBox.setText(""+valuesOrder.orders.get(position).restaurantRating);
+            }
+
+
+
+            holder.txtRating.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    RatingsFragment fragment = new RatingsFragment();
-                    FragmentManager fragmentManager22 = getFragmentManager();
-                    fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                    if(valuesOrder.orders.get(position).restaurantRating == null) {
+                        //String hotelName = valuesOrder.orders.get(position).restaurantName;
+                        String hotelName = "Hotel Kunal - static";
+                        String stCode = valuesOrder.orders.get(position).stationCode;
+
+                        String restID = valuesOrder.orders.get(position).restaurantId;
+                        String userId = valuesOrder.orders.get(position).customerId;
+                        String ordeID = valuesOrder.orders.get(position).id;
+
+                        CustomDialogRating box = new CustomDialogRating(hotelName,stCode,restID,userId,ordeID,getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
+                        box.show();
+                    }else{
+                        Toast.makeText(context,"You have already rated for this order !!!",Toast.LENGTH_SHORT).show();
+                    }
+
+
                 }
             });
 
@@ -286,6 +391,15 @@ private void fetchfoodORder(){
         }
     }
 
+    public static class MyHolder{
+        TextView txtHotelName;
+        TextView txtDate;
+        TextView txtPrice;
+        TextView txtStaionName;
+        TextView txtFoodType;
+        TextView txtRating;
+        TextView txtRatingBox;
+    }
 
 //end of main class
 }

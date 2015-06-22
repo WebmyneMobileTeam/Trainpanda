@@ -1,0 +1,112 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/addBabyView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="28dp"
+    android:layout_gravity="center"
+    android:background="#fff"
+    tools:context="com.example.android.parvarish_nutricalculator.ui.HomeScreen">
+
+    <LinearLayout
+        android:background="@color/Dark_Red"
+        android:padding="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/txtTiltle"
+            android:gravity="center"
+            android:text="Rate your Food Experience"
+            android:textColor="@color/my_custom_orange"
+            android:textSize="@dimen/normal_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+</LinearLayout>
+
+   <TextView
+       android:textColor="@color/Black"
+       android:padding="8dp"
+       android:textSize="@dimen/normal_text"
+       android:id="@+id/txtHotelName"
+       android:text="Hotel Name"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content" />
+
+    <TextView
+        android:textColor="@color/Dark_Red"
+        android:padding="8dp"
+        android:textSize="@dimen/normal_text"
+        android:id="@+id/txtStaionName"
+        android:text="Station Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RatingBar
+        style="@style/foodRatingBar1"
+        android:numStars="5"
+        android:stepSize="1.0"
+        android:id="@+id/ratingBar"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+
+        <TextView
+            android:id="@+id/txtUpdate"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:background="@color/my_custom_orange"
+            android:gravity="center"
+            android:text="Submit"
+            android:textColor="#000000"
+            android:textSize="@dimen/small_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txtClose"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:background="@color/my_custom_orange"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CLOSE"
+            android:textColor="#000000"
+            android:textSize="@dimen/small_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/txtClose1"
+            android:layout_margin="8dp"
+            android:padding="4dp"
+            android:background="@color/my_custom_orange"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="CLOSE"
+            android:textColor="#000000"
+            android:textSize="@dimen/small_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</LinearLayout>

@@ -83,6 +83,7 @@
             android:layout_height="wrap_content" />
        </LinearLayout>
         <TextView
+            android:visibility="gone"
             android:padding="8dp"
             android:background="@drawable/boundry3"
             android:textStyle="bold"

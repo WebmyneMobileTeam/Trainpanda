@@ -30,6 +30,7 @@ import com.hackaholic.trainpanda.helpers.GetPostClass;
 import com.hackaholic.trainpanda.helpers.JSONPost;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
+import com.hackaholic.trainpanda.utility.ExpandableLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -40,6 +41,7 @@ import java.util.Date;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import Model.RecentOrder;
 import Model.Restraunt;
 import Model.TopCategories;
 import Model.TopMenuItems;
@@ -128,13 +130,14 @@ public class PlaceOrder extends FragmentActivity {
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
             System.out.println("GMT time: " + sdf.format(currentTime));
 
-            String todayDate = sdf.format(currentTime);
+            final String todayDate = sdf.format(currentTime);
 
             Log.e("Date",""+todayDate);
 
 
             JSONObject jsonObject = new JSONObject();
 
+            jsonObject.put("orderId", 0);
             jsonObject.put("totalAmount",finalPrice);
             jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
             jsonObject.put("date",todayDate );
@@ -154,7 +157,25 @@ public class PlaceOrder extends FragmentActivity {
 
                         Log.e("add order to server", "onPost response: " + msg);
 
-                        PrefUtils.setRecentOrder(PlaceOrder.this,true);
+                        try {
+                            JSONObject jsonObj = new JSONObject(msg);
+
+                            RecentOrder obj = new RecentOrder();
+
+                            obj.RestrauntID = valuesRestraunt.Restraunt.get(listPosition).id;
+                            obj.RestrauntName = valuesRestraunt.Restraunt.get(listPosition).name;
+                            obj.stationName = valuesRestraunt.Restraunt.get(listPosition).stationCode;
+                            obj.OrderAmount = String.valueOf(finalPrice);
+                            obj.OrderDate = String.valueOf(todayDate);
+                            obj.OrderId = jsonObj.getString("id");
+
+                            PrefUtils.setRecentOrederObject(PlaceOrder.this, obj);
+
+                            PrefUtils.setRecentOrder(PlaceOrder.this, true);
+
+                        }catch (Exception e){
+                            Log.e("exc ---",e.toString());
+                        }
 
                         if(TODO ==0){
                             Intent callIntent = new Intent(Intent.ACTION_CALL);
@@ -190,9 +211,6 @@ public class PlaceOrder extends FragmentActivity {
             }catch (Exception e){
                 Log.e("exc----", e.toString());
             }
-
-
-
 
 
         } catch (Exception e) {

@@ -8,7 +8,7 @@
         <!-- Customize your theme here. -->
     </style>
     <style name="foodRatingBar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/star_rating_bar_full</item>
+        <item name="android:progressDrawable">@drawable/mystar_rating_bar_full</item>
         <item name="android:minHeight">32dip</item>
         <item name="android:maxHeight">32dip</item>
     </style>
@@ -30,4 +30,8 @@
         <item name="android:minHeight">24dip</item>
         <item name="android:maxHeight">24dip</item>
     </style>
+
+
+
+
 </resources>

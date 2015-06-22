@@ -32,5 +32,7 @@ public class FETCH_SUB_ORDER {
 
 	public String restaurantName;
 
+	public String restaurantRating;
+
 
 }

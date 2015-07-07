@@ -164,7 +164,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 		imgToolbarOption.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity());
+				CustomDialogBoxEditPNR cdbox = new CustomDialogBoxEditPNR(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
 				cdbox.show();
 			}
 		});

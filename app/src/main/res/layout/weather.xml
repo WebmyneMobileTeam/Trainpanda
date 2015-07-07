@@ -85,7 +85,39 @@
 
                 />
 
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTemp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
 
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTempMIN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
+
+            <TextView
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:id="@+id/txtTempMAX"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Humidity - 40%"
+                android:textSize="12dp"
+                android:textColor="@color/White"
+                />
 
         </LinearLayout>
 
@@ -125,36 +157,7 @@
                 android:textSize="12dp"
                 android:textColor="@color/Orange"
                 />
-            <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/txtTemp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humidity - 40%"
-                android:textSize="12dp"
-                android:textColor="@color/White"
-                />
 
-            <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/txtTempMIN"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humidity - 40%"
-                android:textSize="12dp"
-                android:textColor="@color/White"
-                />
-
-            <TextView
-                android:layout_marginTop="5dp"
-                android:id="@+id/txtTempMAX"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Humidity - 40%"
-                android:textSize="12dp"
-                android:textColor="@color/White"
-                />
 
 
 
@@ -175,6 +178,7 @@
 
 
     <LinearLayout
+        android:id="@+id/famousLinear"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -202,15 +206,16 @@
             android:paddingLeft="16dp"
             android:layout_margin="4dp" />
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/departure_color"
+            />
         </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/departure_color"
-        />
+
 
     <LinearLayout
+        android:id="@+id/latestLinear"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

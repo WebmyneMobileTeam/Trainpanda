@@ -568,7 +568,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     public void onResume() {
         super.onResume();
         TextView title = (TextView) getActivity().findViewById(R.id.lk_profile_header_textview);
-        title.setText("Train Panda");
+        title.setText("TRAIN PANDA");
 
         ImageView imgToolbarOption = (ImageView) getActivity().findViewById(R.id.imgToolbarOption);
         imgToolbarOption.setVisibility(View.GONE);

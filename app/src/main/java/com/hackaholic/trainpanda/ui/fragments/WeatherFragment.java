@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class WeatherFragment extends Fragment
 	String ST_CODE;
 	ExpandableTextView txtFamousFor,txtLetestEvents;
 	String LATITUDE,LONGITUDE;
+	LinearLayout famousLinear,latestLinear;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,6 +58,8 @@ public class WeatherFragment extends Fragment
 
 		initializeTextViews(row);
 
+		famousLinear = (LinearLayout)row.findViewById(R.id.famousLinear);
+		latestLinear = (LinearLayout)row.findViewById(R.id.latestLinear);
 
 		fetchStationINFO();
 
@@ -131,16 +135,29 @@ public class WeatherFragment extends Fragment
 							String famousFor = jsonObject.getString("famousFor");
 
 							if(famousFor.toString().trim().length()==0){
+								famousLinear.setVisibility(View.GONE);
+								txtFamousFor.setVisibility(View.GONE);
 								txtFamousFor.setText("No Data Found");
+							}else{
+								famousLinear.setVisibility(View.VISIBLE);
+								txtFamousFor.setVisibility(View.VISIBLE);
+								txtFamousFor.setText(famousFor);
 							}
-							txtLetestEvents.setText("No Data Found");
-							txtFamousFor.setText(famousFor);
+
+							latestLinear.setVisibility(View.GONE);
+							txtLetestEvents.setVisibility(View.GONE);
+
+
 
 							fetchWeather(jsonObject.getString("latitude"),jsonObject.getString("longitude"));
 
 						}
 						catch(Exception e)
 						{
+							famousLinear.setVisibility(View.GONE);
+							latestLinear.setVisibility(View.GONE);
+							txtFamousFor.setVisibility(View.GONE);
+							txtLetestEvents.setVisibility(View.GONE);
 							txtLetestEvents.setText("No Data Found");
 							txtFamousFor.setText("No data Found");
 							Log.e("$$$$$$exc", e.toString());

@@ -6,10 +6,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:gravity="center"
+        android:background="@color/Dark_Red"
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/Dark_Red"
+        android:textColor="@color/White"
         android:padding="8dp"
         android:text="xxx"
         android:textSize="@dimen/big_text" />

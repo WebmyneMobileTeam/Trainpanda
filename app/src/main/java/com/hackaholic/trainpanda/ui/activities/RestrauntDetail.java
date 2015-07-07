@@ -310,7 +310,7 @@ public class RestrauntDetail extends FragmentActivity {
 
     private void fillupdetails(){
 
-        txtHotelName.setText(valuesRestraunt.Restraunt.get(listPosition).name);
+        txtHotelName.setText(valuesRestraunt.Restraunt.get(listPosition).name.toUpperCase());
         tv_restaurant_mobile.setText("" + valuesRestraunt.Restraunt.get(listPosition).mobileNo);
 
 

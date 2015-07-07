@@ -9,6 +9,9 @@ public class CurrentRestraunt {
 	@SerializedName("morningClosingTime")
 	public String morningClosingTime;
 
+	@SerializedName("rating")
+	public int rating;
+
 	@SerializedName("stationCode")
 	public String stationCode;
 

@@ -485,6 +485,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder.menu=(TextView)row.findViewById(R.id.menu);
 				holder.time=(TextView)row.findViewById(R.id.time);
 
+				holder.tvRating=(TextView)row.findViewById(R.id.tvRating);
 				holder.minOrder=(TextView)row.findViewById(R.id.minOrder);
 				holder.delivery=(TextView)row.findViewById(R.id.delivery);
 				holder.veg=(LinearLayout)row.findViewById(R.id.ll_veg_boundry);
@@ -547,6 +548,19 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 				holder.nonveg.setVisibility(View.VISIBLE);
 			}
 
+
+
+			// setting the rating
+			try{
+				if(valuesRestraunt.Restraunt.get(position).rating == 0)
+					holder.tvRating.setText(""+valuesRestraunt.Restraunt.get(position).rating);
+				else
+					holder.tvRating.setText("Not rated");
+			}catch (Exception e){
+				holder.tvRating.setText("Not rated");
+				Log.e("#### Exc - ",e.toString());
+			}
+
 			try {
 				if (valuesRestraunt.Restraunt.get(position).images.size() != 0) {
 					Glide.with(context).load(API.BASE_IMAGE_URL + valuesRestraunt.Restraunt.get(position).images.get(0).url).thumbnail(0.1f).into(holder.imgRestraunt);
@@ -562,7 +576,7 @@ public class RestaurantFragmentFilter extends Fragment implements OnClickListene
 
 	private static class MyHolder
 	{
-		TextView tv_restaurant_name,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile;
+		TextView tvRating,tv_restaurant_name,menu,time,minOrder,delivery,tv_restaurant_timings,tv_restaurant_mobile;
 		LinearLayout nonveg,veg;
 		ImageView imgRestraunt;
 	}

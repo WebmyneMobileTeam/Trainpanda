@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class PNR_PASSENGERS {
 
 	@SerializedName("no")
-	public long no;
+	public int no;
 
 	@SerializedName("booking_status")
 	public String booking_status;

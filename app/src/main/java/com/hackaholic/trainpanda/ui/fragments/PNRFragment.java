@@ -92,6 +92,10 @@ public class PNRFragment extends Fragment implements OnClickListener {
     private ImageView pnr_iv_running_status;
     PNR cuurentPNR;
 
+
+    public static SMS_DATA mainSMS;
+
+
     public PNRFragment() {
     }
 
@@ -161,12 +165,13 @@ public class PNRFragment extends Fragment implements OnClickListener {
 
 
         if(isSMSFind) {
-            SMS_DATA mainSMS = new SMS_DATA();
-            mainSMS.SMSData = smsPNR;
 
-            ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(getActivity(), "user_pref", 0);
-            complexPreferences.putObject("sms", mainSMS);
-            complexPreferences.commit();
+            mainSMS = new SMS_DATA(smsPNR);
+           // mainSMS.SMSData=smsPNR;
+
+            ComplexPreferences complexPreferences1 = ComplexPreferences.getComplexPreferences(getActivity(), "sms_pref", 0);
+            complexPreferences1.putObject("sms2", mainSMS);
+            complexPreferences1.commit();
         }
 
         CustomDialogPNRList pnrBox = new CustomDialogPNRList(getActivity(),android.R.style.Theme_Translucent_NoTitleBar);
@@ -178,21 +183,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
     private void initializeImgaeViews(View rootView) {
         rl_pnr_second = (RelativeLayout) rootView.findViewById(R.id.rl_pnr_second);
         pnr_third = (LinearLayout) rootView.findViewById(R.id.pnr_third);
-        //food_layout_send = (LinearLayout)rootView.findViewById(R.id.food_layout_send);
-        //pnr_iv_hotel_booking=(ImageView)rootView.findViewById(R.id.pnr_iv_hotel_booking);
-        //pnr_iv_hotel_booking.setOnClickListener(this);
-        //pnr_iv_cab_booking=(ImageView)rootView.findViewById(R.id.pnr_iv_cab_booking);
-        //pnr_iv_cab_booking.setOnClickListener(this);
-        //pnr_iv_restaurant_booking=(ImageView)rootView.findViewById(R.id.pnr_iv_restaurant_booking);
-        //pnr_iv_restaurant_booking.setOnClickListener(this);
-        //pnr_iv_train_route= (ImageView)rootView.findViewById(R.id.tain_route);
-        //pnr_iv_train_route.setOnClickListener(this);
-        //pnr_iv_food= (ImageView)rootView.findViewById(R.id.food_pnr);
-        //pnr_iv_food.setOnClickListener(this);
-        //pnr_tv_add=(TextView)rootView.findViewById(R.id.pnr_tv_add);
-        //pnr_tv_add.setOnClickListener(this);
-        //pnr_iv_running_status=(ImageView)rootView.findViewById(R.id.pnr_iv_running_status);
-        //pnr_iv_running_status.setOnClickListener(this);
+
     }
 
     void initializeEditTexts(View rootView) {
@@ -232,89 +223,6 @@ public class PNRFragment extends Fragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-		/*case R.id.pnr_iv_running_status:
-			if(!pnr_tv_train_number.getText().toString().trim().equals("Number")
-					&& !pnr_tv_train_number.getText().toString().trim().equals(""))
-			{
-				FragmentManager fragmentManager = getFragmentManager();
-				fragmentManager.beginTransaction()
-				.replace(R.id.frame_container, 
-						new RunningStatusFragment(
-								pnr_tv_train_number.getText().toString().trim(),
-								pnr_tv_from_date.getText().toString().trim(),
-								pnr_tv_from_name.getText().toString().trim(),
-								pnr_tv_to_name.getText().toString().trim()
-								)).commit();
-			}
-			else
-			{
-				pringMessage("Please Submit Valid PNR Number.");
-			}
-			break;		
-
-		case R.id.food_pnr:
-			if(!pnr_ed_pnr_no.getText().toString().trim().equals(""))
-			{
-				FragmentManager fragmentManager2 = getFragmentManager();
-				fragmentManager2.beginTransaction()
-				.replace(R.id.frame_container,new RestaurantFragment(toStationCode.toString())).commit();
-			}
-			else
-			{
-				pringMessage("Please fill PNR Number.");
-			}
-			
-			break;
-
-		case R.id.tain_route:
-
-			if(!pnr_ed_pnr_no.getText().toString().trim().equals(""))
-			{
-				System.out.println("1");
-				if(pnr_tv_train_number.getText().toString().equals(trainNumber+" ")){
-					System.out.println("2");
-				String tno = pnr_tv_train_number.getText().toString();
-				System.out.println("3");
-				
-				
-				System.out.println("4");
-                
-                Fragment fragment = new TrainRoutesFragment(); 
-                Bundle bundle = new Bundle();
-				bundle.putString("trainNo", tno);
-				fragment.setArguments(bundle);
-				FragmentManager fragmentManager22= getFragmentManager();
-	     		fragmentManager22.beginTransaction().replace(R.id.frame_container,fragment).commit();	
-			}
-				else {
-					pringMessage("Error in PNR");
-				}
-			}
-			else
-			{
-				pringMessage("Please fill PNR Number.");
-			}
-			
-						
-			break;*/
-
-		/*case R.id.pnr_tv_add:
-
-			if(!pnr_ed_pnr_no.getText().toString().trim().equals(""))
-			{
-				new SavePnrNumbersAsync(getActivity()).execute();
-			}
-			else
-			{
-				pringMessage("Please fill PNR Number.");
-			}
-			break;*/
-
-			/*	case R.id.iv_b:
-			Intent intent=new Intent(getActivity(),DialogActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-			startActivity(intent);
-			break;*/
 
             case R.id.pnr_tv_go:
                 if (!pnr_ed_pnr_no.getText().toString().trim().equals("")) {
@@ -336,47 +244,6 @@ public class PNRFragment extends Fragment implements OnClickListener {
                 }
                 break;
 
-		/*case R.id.pnr_tv_train_number:
-			
-			*//*FragmentManager fragmentManager_tno = getFragmentManager();
-			fragmentManager_tno.beginTransaction().replace(R.id.frame_container, new ArravaliExpressFragment(pnr_tv_train_number.getText().toString().trim())).commit();*//*
-			if(!pnr_tv_train_number.getText().toString().trim().equals("Number"))
-			{
-				FragmentManager fragmentManager1 = getFragmentManager();
-				fragmentManager1.beginTransaction()
-				.replace(R.id.frame_container, new ArravaliExpressFragment(pnr_tv_train_number.getText().toString().trim())).commit();
-			}
-			else
-			{
-				pringMessage("Please Select Train Number Please...!");
-			}
-			break;
-
-		case R.id.pnr_iv_cab_booking:
-			FragmentManager fragmentManager0 = getFragmentManager();
-			fragmentManager0.beginTransaction()
-			.replace(R.id.frame_container,new CabBookingFragment(fromStationCode)).commit();
-			break;
-
-		case R.id.pnr_iv_hotel_booking:
-			if(!pnr_ed_pnr_no.getText().toString().trim().equals(""))
-			{
-				FragmentManager fragmentManager1 = getFragmentManager();
-				fragmentManager1.beginTransaction()
-				.replace(R.id.frame_container,new HotelBookingFragment("AAR")).commit();
-			}
-			else
-			{
-				pringMessage("Please fill PNR Number.");
-			}
-			
-			break;
-
-		case R.id.pnr_iv_restaurant_booking:
-			FragmentManager fragmentManager2 = getFragmentManager();
-			fragmentManager2.beginTransaction()
-			.replace(R.id.frame_container,new RestaurantFragment(fromStationCode)).commit();
-			break;*/
 
             default:
                 break;
@@ -752,7 +619,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                 try {
                     JSONObject jsonObject = new JSONObject(result);
 
-                    Log.e("pnr Response", jsonObject.toString());
+                    Log.e("pnr Responseeee", jsonObject.toString());
 
 
                     cuurentPNR = new GsonBuilder().create().fromJson(jsonObject.toString(), PNR.class);
@@ -770,7 +637,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                     toStationCode = toStationJsonObject.getString("code");
                     toStationName = toStationJsonObject.getString("name");
                     //total_passengers
-                    totalPassengers = jsonObject.getString("total_passengers");
+                    totalPassengers = ""+jsonObject.getInt("total_passengers");
                     //pnr
                     pnr = jsonObject.getString("pnr");
                     //doj
@@ -803,8 +670,13 @@ public class PNRFragment extends Fragment implements OnClickListener {
                         JSONObject jsonObject2 = passengersJsonArray.getJSONObject(i);
                         al_booking_status.add(jsonObject2.getString("booking_status"));
                         al_current_status.add(jsonObject2.getString("current_status"));
-                        al_no.add(jsonObject2.getString("no"));
+                        al_no.add(""+jsonObject2.getInt("no"));
                     }
+
+                } catch (Exception e) {
+                    Log.e("exc in pnrrr", e.toString());
+                    e.printStackTrace();
+                }
 
                     if (cuurentPNR.pnr == null || cuurentPNR.pnr.equalsIgnoreCase("")) {
                         pringMessage("Could'nt Connect to Server. Please Try again");
@@ -826,10 +698,7 @@ public class PNRFragment extends Fragment implements OnClickListener {
                         FragmentManager fragmentManager22 = getFragmentManager();
                         fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
                     }
-                } catch (Exception e) {
-                    Log.e("exc in pnr", e.toString());
-                    e.printStackTrace();
-                }
+
             } else {
                 pringMessage("Response is null.");
             }

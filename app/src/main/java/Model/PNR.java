@@ -6,14 +6,11 @@ import java.util.ArrayList;
 
 public class PNR {
 
-	@SerializedName("response_code")
-	public long response_code;
 
 	@SerializedName("pnr")
 	public String pnr;
 
-	@SerializedName("error")
-	public boolean error;
+
 
 	@SerializedName("train_num")
 	public String train_num;
@@ -25,7 +22,7 @@ public class PNR {
 	public String chart_prepared;
 
 	@SerializedName("total_passengers")
-	public String total_passengers;
+	public int total_passengers;
 
 	@SerializedName("doj")
 	public String doj;

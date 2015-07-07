@@ -29,6 +29,8 @@ import com.google.gson.GsonBuilder;
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.ServiceHandler.ServiceHandler;
 import com.hackaholic.trainpanda.custom.ComplexPreferences;
+import com.hackaholic.trainpanda.helpers.JSONPost;
+import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.fragments.PNRFragment;
 import com.hackaholic.trainpanda.ui.fragments.TrainRoutesFragment;
@@ -39,6 +41,8 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.StringTokenizer;
+import java.util.TimeZone;
 
 import Model.FETCH_PNR;
 import Model.FETCH_SUB_PNR;
@@ -84,6 +88,10 @@ public class CustomDialogPNRList extends Dialog {
     private ArrayList<String> al_no;
     private ImageView pnr_iv_running_status;
 
+    PNR cuurentPNR;
+    SMS_DATA pnrobj;
+
+
     FragmentActivity act;
     public Dialog d;
     ListView pnrList;
@@ -108,8 +116,11 @@ public class CustomDialogPNRList extends Dialog {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.pnr_list);
 
-        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(act, "user_pref", 0);
-        final SMS_DATA pnrobj = complexPreferences.getObject("sms", SMS_DATA.class);
+//        ComplexPreferences complexPreferences2 = ComplexPreferences.getComplexPreferences(act, "sms_pref", 0);
+//        pnrobj = complexPreferences2.getObject("sms2", SMS_DATA.class);
+
+        pnrobj = PNRFragment.mainSMS;
+
 
         pnrList = (ListView)findViewById(R.id.pnrList);
         txtNOSMS = (TextView)findViewById(R.id.txtNOSMS);
@@ -141,7 +152,7 @@ public class CustomDialogPNRList extends Dialog {
 
 
             String url = "http://api.railwayapi.com/pnr_status/pnr/" + smsPnr + "/apikey/" + act.getResources().getString(R.string.key1) + "/";
-            Log.e("Url : ", "" + url);
+            Log.e("Url1 : ", "" + url);
             new PNRAsync().execute(url);
 
     }
@@ -190,56 +201,12 @@ public class CustomDialogPNRList extends Dialog {
                     Log.e("pnr Response", jsonObject.toString());
 
 
-                    PNR cuurentPNR = new GsonBuilder().create().fromJson(jsonObject.toString(), PNR.class);
+                    cuurentPNR = new GsonBuilder().create().fromJson(result, PNR.class);
 
 
                     ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(act, "user_pref", 0);
                     complexPreferences.putObject("current-pnr", cuurentPNR);
                     complexPreferences.commit();
-
-                    System.out.println(result);
-                    //Class
-                    classRailway = jsonObject.getString("class");
-                    //to_station
-                    JSONObject toStationJsonObject = jsonObject.getJSONObject("to_station");
-                    toStationCode = toStationJsonObject.getString("code");
-                    toStationName = toStationJsonObject.getString("name");
-                    //total_passengers
-                    totalPassengers = jsonObject.getString("total_passengers");
-                    //pnr
-                    pnr = jsonObject.getString("pnr");
-                    //doj
-                    doj = jsonObject.getString("doj");
-                    //boarding_point
-                    JSONObject boardingPointJsonObject = jsonObject.getJSONObject("boarding_point");
-                    boardingPointStationCode = boardingPointJsonObject.getString("code");
-                    boardingPointStationName = boardingPointJsonObject.getString("name");
-                    //train_num
-                    trainNumber = jsonObject.getString("train_num");
-                    //chart_prepared
-                    String chartPrepared = jsonObject.getString("chart_prepared");
-                    //from_station
-                    JSONObject fromStation = jsonObject.getJSONObject("from_station");
-                    fromStationCode = fromStation.getString("code");
-                    fromStationName = fromStation.getString("name");
-                    //reservation_upto
-                    JSONObject reservationUptoJsonObject = jsonObject.getJSONObject("reservation_upto");
-                    reservationUptoStationCode = reservationUptoJsonObject.getString("code");
-                    reservationUptoStationName = reservationUptoJsonObject.getString("name");
-                    //train_name
-                    trainName = jsonObject.getString("train_name");
-                    //passengers array
-                    al_booking_status = new ArrayList<String>();
-                    al_current_status = new ArrayList<String>();
-                    al_no = new ArrayList<String>();
-
-                    JSONArray passengersJsonArray = jsonObject.getJSONArray("passengers");
-                    for (int i = 0; i < passengersJsonArray.length(); i++) {
-                        JSONObject jsonObject2 = passengersJsonArray.getJSONObject(i);
-                        al_booking_status.add(jsonObject2.getString("booking_status"));
-                        al_current_status.add(jsonObject2.getString("current_status"));
-                        al_no.add(jsonObject2.getString("no"));
-                    }
 
                     if (cuurentPNR.pnr == null || cuurentPNR.pnr.equalsIgnoreCase("")) {
                         pringMessage("Could'nt Connect to Server. Please Try again");
@@ -247,14 +214,14 @@ public class CustomDialogPNRList extends Dialog {
 
 
                         // Saving data to server
-                        //  saveDataToServer();
+                        //saveDataToServer();
 
                         dismiss();
 
 
                         Fragment fragment = new TrainRoutesFragment();
                         Bundle bundle = new Bundle();
-                        bundle.putString("trainNo", trainNumber);
+                        bundle.putString("trainNo", ""+cuurentPNR.train_num);
                         Log.e("pnr", cuurentPNR.pnr);
                         bundle.putString("pnr", cuurentPNR.pnr);
                         bundle.putString("doj", cuurentPNR.doj);
@@ -264,8 +231,11 @@ public class CustomDialogPNRList extends Dialog {
                         fragmentManager.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
 
                     }
+
+
+
                 } catch (Exception e) {
-                    Log.e("exc in pnr", e.toString());
+                    Log.e("exc in pnr111", e.toString());
                     e.printStackTrace();
                 }
             } else {
@@ -279,6 +249,133 @@ public class CustomDialogPNRList extends Dialog {
 
         }
     }
+
+    private String parseDate(String doj) {
+        ArrayList<String> al = new ArrayList<String>();
+        StringTokenizer stringTokenizer = new StringTokenizer(doj, "-");
+        while (stringTokenizer.hasMoreTokens()) {
+            al.add(stringTokenizer.nextToken());
+        }
+        return al.get(2) + "" + (al.get(1).length() == 1 ? "0" + al.get(1) : al.get(1)) + "" + (al.get(0).length() == 1 ? "0" + al.get(0) : al.get(0));
+    }
+
+    private void getTrainStartEndTime(String trainNumber, String date) {
+        ArrayList<String> al = new ArrayList<String>();
+        String url = "http://api.railwayapi.com/live/train/" + trainNumber + "/doj/" + date + "/apikey/" + act.getResources().getString(R.string.key1) + "/";
+        Log.e("URL : ", "" + url);
+    }
+
+    private void saveDataToServer() {
+        getTrainStartEndTime(trainNumber, parseDate(doj));
+        try {
+            JSONObject customerJsonObject = new JSONObject();
+            customerJsonObject.put("id", sharedPreferences.getString("customer_id", "").trim());
+            Log.e("Customer Json Object : ", String.valueOf(customerJsonObject));
+
+            //Starting Station
+            JSONObject startingStationJsonObject = new JSONObject();
+            startingStationJsonObject.put("code", "" + fromStationCode.trim());
+            startingStationJsonObject.put("name", "" + fromStationName.trim());
+            Log.e("Starting Json Object : ", String.valueOf(startingStationJsonObject));
+
+            //End Station
+            JSONObject endJsonObject = new JSONObject();
+            endJsonObject.put("code", "" + toStationCode.trim());
+            endJsonObject.put("name", "" + toStationName.trim());
+            Log.e("End Json Object : ", String.valueOf(endJsonObject));
+
+            //Train Number
+            Log.e("Train Number : ", "" + trainNumber);
+
+            //Passengers Count
+            Log.e("Total Passengers : ", "" + totalPassengers);
+
+
+            //Parse Booking Status
+            ArrayList<String> temp = new ArrayList<String>();
+            StringTokenizer stringTokenizer = new StringTokenizer(al_booking_status.get(0).trim(), ",");
+            while (stringTokenizer.hasMoreTokens()) {
+                temp.add(stringTokenizer.nextToken());
+            }
+
+            Log.e("bookingClass : ", "" + classRailway);
+            Log.e("currentBookingStatus : ", "" + al_current_status.get(0));
+            Log.e("bookingStatus : ", "" + temp.get(0).trim());
+            Log.e("PNR Number : ", "" + pnr_ed_pnr_no.getText().toString().trim());
+
+            Log.e("bookingQuota : ", temp.get(1));
+
+
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("sNo", Long.parseLong(pnr_ed_pnr_no.getText().toString().trim()));
+            jsonObject.put("pnr", pnr_ed_pnr_no.getText().toString().trim());
+            jsonObject.put("customer", customerJsonObject);
+            jsonObject.put("trainNumber", Integer.parseInt(trainNumber.trim()));
+            jsonObject.put("startingStation", startingStationJsonObject);
+
+
+//Date Conversion starts
+            SimpleDateFormat orgFormat = new SimpleDateFormat("dd-M-yyyy");
+            String dateInString = cuurentPNR.doj;
+
+            final Date doj = orgFormat.parse(dateInString);
+            final SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM  yyyy hh:mm:ss  z");
+
+            // Give it to me in GMT time.
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            String DOJinString = sdf.format(doj);
+            Log.e("Date", "" + DOJinString);
+//Date Conversion ends
+
+            jsonObject.put("startDate",DOJinString);
+
+            jsonObject.put("endStation", endJsonObject);
+            jsonObject.put("bookingStatus", temp.get(0).trim());
+            jsonObject.put("passengersCount", Integer.parseInt(totalPassengers.trim()));
+            jsonObject.put("bookingClass", classRailway);
+            jsonObject.put("currentBookingStatus", al_current_status.get(0));
+            jsonObject.put("bookingQuota", temp.get(1).trim());
+
+            Log.e("FINAL JSON : ", "" + jsonObject);
+
+            try {
+
+                JSONPost json1 = new JSONPost();
+                json1.POST(act, "http://admin.trainpanda.com/api/pnrs", jsonObject.toString(), "Saving PNR Details...");
+                json1.setPostResponseListener(new POSTResponseListener() {
+                    @Override
+                    public String onPost(String msg) {
+
+                        Log.e("add pnr to server", "onPost response: " + msg);
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onPreExecute() {
+
+                    }
+
+                    @Override
+                    public void onBackground() {
+
+                    }
+                });
+            }catch (Exception e){
+                Log.e("exc1----",e.toString());
+            }
+
+
+
+
+
+        } catch (Exception e) {
+            Log.e("exc2----",e.toString());
+            e.printStackTrace();
+        }
+    }
+
 
 
 

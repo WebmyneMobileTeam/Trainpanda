@@ -53,7 +53,7 @@
             android:id="@+id/imgRest"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:src="@drawable/hotel_booking_img"
+            android:src="@color/pnr_bg"
             android:scaleType="fitXY"/>
 
     <LinearLayout

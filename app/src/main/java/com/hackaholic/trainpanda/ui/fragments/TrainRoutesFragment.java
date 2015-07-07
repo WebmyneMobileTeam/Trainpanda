@@ -665,7 +665,7 @@ private void hitServerLiveStatus() {
 		@Override
 		public int getCount() 
 		{
-			Log.e("size of tarian st",""+al_lat.size());
+			Log.e("size of tarian st", "" + al_lat.size());
 			return al_lat.size();
 		}
 
@@ -734,38 +734,11 @@ private void hitServerLiveStatus() {
 			holder.train_route_train_name.setText(""+al_fullname.get(position)+" ");
 
 
-			SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a");
-
-			String traintime = valuesLiveStatus.route.get(position).scharr;
-
-			try {
-				Date schTime = sdfTime.parse(traintime);
-
-				Date nowTime = new Date();
-
-				String strTime = sdfTime.format(nowTime);
-
-				if (schTime.after(nowTime)) {
-					holder.liveStatus.setText("Crossed");
-				} else if (schTime.before(nowTime)) {
-					holder.liveStatus.setText("Upcoming");
-				} else if (schTime.equals(nowTime)) {
-					holder.liveStatus.setText("Current");
-				}
-
-				Log.e("##### MY time",""+strTime);
-			}catch (Exception e){
-				Log.e("---- EXCe",""+ e.toString());
-				holder.liveStatus.setText("" +valuesLiveStatus.route.get(position).scharr);
-			}
-
-
-
-
 			if(position>=STARTPOS && position<=ENDPOS){
 				holder.mainParent.setBackgroundColor(Color.parseColor("#152846"));
 			}else{
-				holder.mainParent.setBackgroundColor(Color.parseColor("#424c53"));
+				//#424c53
+				holder.mainParent.setBackgroundColor(Color.parseColor("#ffffff"));
 			}
 
 
@@ -788,8 +761,50 @@ private void hitServerLiveStatus() {
 			}
 			else 
 			{
-				holder.train_route_halt_time.setText(".......");	
+				holder.train_route_halt_time.setText(".....");
 			}
+
+
+			// Setting the live status
+			SimpleDateFormat sdfTime = new SimpleDateFormat("hh:mm a");
+			String traintime="";
+			try {
+				traintime = valuesLiveStatus.route.get(position).scharr;
+			}catch (Exception e){
+				Log.e("---- EXCe1",""+ e.toString());
+			}
+
+
+			try {
+
+
+				Date schTime = sdfTime.parse(traintime);
+
+				Date nowTime = new Date();
+
+				String strTime = sdfTime.format(nowTime);
+
+				if (schTime.after(nowTime)) {
+					holder.liveStatus.setText("Crossed");
+				} else if (schTime.before(nowTime)) {
+					holder.liveStatus.setText("Upcoming");
+				} else if (schTime.equals(nowTime)) {
+					holder.liveStatus.setText("Current");
+				}
+
+				Log.e("##### MY time",""+strTime);
+			}catch (Exception e){
+				Log.e("---- EXCe2",""+ e.toString());
+				holder.liveStatus.setText("" +valuesLiveStatus.route.get(position).scharr);
+			}
+
+
+
+
+
+
+
+
 
 			return row;
 		}

@@ -7,7 +7,7 @@ Copyright (c) 2010 Josh Clemm
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tabsLayout"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="44dp"
     android:background="@drawable/tab_bg_selector"
     android:padding="10dip"
     android:gravity="center"

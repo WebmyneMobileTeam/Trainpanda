@@ -25,6 +25,7 @@ package com.hackaholic.trainpanda.utility;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.View;
@@ -36,6 +37,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hackaholic.trainpanda.R;
+import com.hackaholic.trainpanda.custom.AdvancedSpannableString;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -63,6 +65,7 @@ public class ExpandableTextView extends TextView {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ExpandableTextView);
         this.trimLength = typedArray.getInt(R.styleable.ExpandableTextView_trimLength, DEFAULT_TRIM_LENGTH);
+
         typedArray.recycle();
 
         setOnClickListener(new OnClickListener() {
@@ -93,7 +96,9 @@ public class ExpandableTextView extends TextView {
 
     private CharSequence getTrimmedText(CharSequence text) {
         if (originalText != null && originalText.length() > trimLength) {
-            return new SpannableStringBuilder(originalText, 0, trimLength + 1).append(ELLIPSIS);
+            AdvancedSpannableString moreSting = new AdvancedSpannableString(new SpannableStringBuilder(originalText, 0, trimLength + 1).append(ELLIPSIS));
+            moreSting.setColor(Color.parseColor("#FF9600"),ELLIPSIS);
+            return moreSting;
         } else {
             return originalText;
         }

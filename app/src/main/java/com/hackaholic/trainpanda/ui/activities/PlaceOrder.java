@@ -134,7 +134,6 @@ public class PlaceOrder extends FragmentActivity {
 
             Log.e("Date",""+todayDate);
 
-
             JSONObject jsonObject = new JSONObject();
 
             jsonObject.put("orderId", 0);

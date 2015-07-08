@@ -125,7 +125,7 @@ public class CustomDialogRating extends Dialog {
             JSONObject jsonObject = new JSONObject();
 
             jsonObject.put("restaurantId",RESTID);
-            jsonObject.put("userId", USERID);
+            jsonObject.put("customerId", USERID);
             jsonObject.put("orderId",ORDERID );
             jsonObject.put("feedback", "test");
             jsonObject.put("rating",RATING);
@@ -135,7 +135,7 @@ public class CustomDialogRating extends Dialog {
 
 
                 JSONPost json1 = new JSONPost();
-                json1.POST(act, "http://admin.trainpanda.com/api/restaurantRatings", jsonObject.toString(), "Submitting your rating...");
+                json1.POST(act, "http://admin.trainpanda.com/api/orders", jsonObject.toString(), "Submitting your rating...");
                 json1.setPostResponseListener(new POSTResponseListener() {
                 @Override
                     public String onPost(String msg) {

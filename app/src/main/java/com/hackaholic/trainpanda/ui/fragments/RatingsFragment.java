@@ -94,17 +94,28 @@ public class RatingsFragment extends Fragment
 
 			JSONObject jsonObject = new JSONObject();
 
+
 			jsonObject.put("restaurantId",recentOrder.RestrauntID);
-			jsonObject.put("userId", sharedPreferences.getString("customer_id", "").trim());
+			jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
 			jsonObject.put("orderId",recentOrder.OrderId );
 			jsonObject.put("feedback", "test");
 			jsonObject.put("rating",RATING);
 
+
+
+			/*jsonObject.put("restaurantId",recentOrder.RestrauntID);
+			jsonObject.put("userId", sharedPreferences.getString("customer_id", "").trim());
+			jsonObject.put("orderId",recentOrder.OrderId );
+			jsonObject.put("feedback", "test");
+			jsonObject.put("rating",RATING);
+*/
 			Log.e("FINAL rating JSON : ", "" + jsonObject);
 
 
 			JSONPost json1 = new JSONPost();
-			json1.POST(getActivity(), "http://admin.trainpanda.com/api/restaurantRatings", jsonObject.toString(), "Submitting your rating...");
+
+			//json1.POST(getActivity(), "http://admin.trainpanda.com/api/restaurantRatings", jsonObject.toString(), "Submitting your rating...");
+			json1.POST(getActivity(), "http://admin.trainpanda.com/api/orders", jsonObject.toString(), "Submitting your rating...");
 			json1.setPostResponseListener(new POSTResponseListener() {
 				@Override
 				public String onPost(String msg) {

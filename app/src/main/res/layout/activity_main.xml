@@ -104,7 +104,7 @@
                 android:onClick="toggleMenu" />
 
             <TextView
-
+                android:gravity="center_vertical"
                 android:id="@+id/lk_profile_header_textview"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/padding_50"

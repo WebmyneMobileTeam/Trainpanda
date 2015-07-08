@@ -38,7 +38,7 @@ public class WeatherFragment extends Fragment
 	private TextView weather_tv_min;
 	private TextView weather_tv_pressure;
 	private TextView weather_tv_rain;
-	private TextView weather_tv_temprature,txtTemp;
+	private TextView weather_tv_temprature;
 	private TextView weather_tv_wind,txtPressure,txtTempMIN,txtTempMAX;
 	ImageView imageCloud;
 	String ST_CODE;
@@ -71,7 +71,6 @@ public class WeatherFragment extends Fragment
 		txtLetestEvents=(ExpandableTextView)row.findViewById(R.id.txtLetestEvents);
 		txtFamousFor=(ExpandableTextView)row.findViewById(R.id.txtFamousFor);
 
-		txtTemp=(TextView)row.findViewById(R.id.txtTemp);
 		txtTempMIN =(TextView)row.findViewById(R.id.txtTempMIN);
 		txtTempMAX =(TextView)row.findViewById(R.id.txtTempMAX);
 
@@ -92,7 +91,7 @@ public class WeatherFragment extends Fragment
 
 		txtLetestEvents.setTypeface(PrefUtils.getTypeFace(getActivity()));
 		txtFamousFor.setTypeface(PrefUtils.getTypeFace(getActivity()));
-		txtTemp.setTypeface(PrefUtils.getTypeFace(getActivity()));
+
 		txtTempMIN.setTypeface(PrefUtils.getTypeFace(getActivity()));
 		txtTempMAX.setTypeface(PrefUtils.getTypeFace(getActivity()));
 
@@ -264,7 +263,7 @@ public class WeatherFragment extends Fragment
 							weather_tv_wind.setText("Wind - "+speed+" KM/H"+" ");
 							txtPressure.setText("Pressure - "+pressure);
 
-							txtTemp.setText("Temperature "+temp.substring(0,2)+"\u00b0"+" C");
+
 							txtTempMIN.setText("Temp Min. "+temp_min.substring(0,2)+"\u00b0"+" C");
 							txtTempMAX.setText("Temp Max. "+temp_max.substring(0,2)+"\u00b0"+" C");
 

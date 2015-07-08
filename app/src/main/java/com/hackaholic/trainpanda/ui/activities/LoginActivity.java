@@ -87,7 +87,7 @@ public class LoginActivity extends Activity implements OnClickListener, Connecti
 	private ConnectionResult mConnectionResult;
 
 	//Facebook
-	private String arr_permissions[]={"public_profile","user_location","user_likes", "email","user_hometown"};
+	private String arr_permissions[]={"public_profile","user_friends", "email"};
 	private UiLifecycleHelper uiHelper;
 	private SharedPreferences sharedPreferences;
 	private Editor editor;

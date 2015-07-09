@@ -38,9 +38,11 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 
+import Model.MenuItems;
 import Model.RecentOrder;
 import Model.Restraunt;
 import Model.TopCategories;
@@ -62,8 +64,11 @@ public class PlaceOrder extends FragmentActivity {
     RestrauntMenuAdapter resAdapter;
     ArrayList<CheckType> checkTypeList;
     ImageView imgBack,imgCall,imgSms;
-    int finalPrice;
+    int finalPrice=0;
     private SharedPreferences sharedPreferences;
+    HashMap<MenuItems, Integer> allItems;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +83,15 @@ public class PlaceOrder extends FragmentActivity {
         valuesRestraunt = complexPreferences.getObject("current_restraunt", Restraunt.class);
 
 
+
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        allItems = RestrauntDetail.selectedItems;
 
 
         fillupdetails();
@@ -132,7 +140,7 @@ public class PlaceOrder extends FragmentActivity {
 
             final String todayDate = sdf.format(currentTime);
 
-            Log.e("Date",""+todayDate);
+            Log.e("Date", "" + todayDate);
 
             JSONObject jsonObject = new JSONObject();
 
@@ -141,6 +149,7 @@ public class PlaceOrder extends FragmentActivity {
             jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
             jsonObject.put("date",todayDate );
             jsonObject.put("status", 0);
+            jsonObject.put("rating", 0);
             jsonObject.put("stationCode",valuesRestraunt.Restraunt.get(listPosition).stationCode);
             jsonObject.put("restaurantId",valuesRestraunt.Restraunt.get(listPosition).id);
 
@@ -222,28 +231,30 @@ public class PlaceOrder extends FragmentActivity {
     void fillupCartdetails(){
         LayoutInflater inflater = getLayoutInflater();
 
-        //for(int i=0;i<5;i++) {
 
-        SharedPreferences sp = getSharedPreferences("currentOrder", 0);
-        int qty = sp.getInt("qty", 0);
-        String itemName = sp.getString("itemname", "");
-        int price = sp.getInt("price", 0);
+        for (HashMap.Entry<MenuItems, Integer> entry : allItems.entrySet()) {
 
-        View cartItem = inflater.inflate(R.layout.placorder_catg_item, ListItemLinear, false);
+            MenuItems menuItem = entry.getKey();
 
-        TextView txtName = (TextView)cartItem.findViewById(R.id.txtName);
-        TextView txtqty = (TextView)cartItem.findViewById(R.id.qty);
-        TextView txtPrice = (TextView)cartItem.findViewById(R.id.price);
+            View cartItem = inflater.inflate(R.layout.placorder_catg_item, ListItemLinear, false);
+
+            TextView txtName = (TextView)cartItem.findViewById(R.id.txtName);
+            TextView txtqty = (TextView)cartItem.findViewById(R.id.qty);
+            TextView txtPrice = (TextView)cartItem.findViewById(R.id.price);
 
 
-         finalPrice = price * qty;
+            int tempPrice = menuItem.listPrice * entry.getValue();
 
-        txtName.setText(itemName);
-        txtqty.setText("x"+qty);
-        txtPrice.setText("Rs: "+finalPrice + "/-");
+            txtName.setText( menuItem.menuItem);
+            txtqty.setText("x"+entry.getValue());
+            txtPrice.setText("Rs: " + tempPrice + "/-");
 
             ListItemLinear.addView(cartItem);
-        // }
+
+            finalPrice += tempPrice;
+        }
+
+
         View bottom = inflater.inflate(R.layout.placorder_catg_bottom, ListItemLinear, false);
         ListItemLinear.addView(bottom);
 
@@ -279,6 +290,8 @@ public class PlaceOrder extends FragmentActivity {
 
 
     private void fillupdetails() {
+
+
 
         txtHotelName.setText(valuesRestraunt.Restraunt.get(listPosition).name.toUpperCase());
         tv_restaurant_mobile.setText("" + valuesRestraunt.Restraunt.get(listPosition).mobileNo);

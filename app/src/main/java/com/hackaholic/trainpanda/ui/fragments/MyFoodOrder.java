@@ -77,9 +77,9 @@ private void fetchfoodORder(){
     pb.setMessage("Loading details...");
     pb.show();
 
-    Log.e("fetch pnr link ", "http://admin.trainpanda.com:80/api/orders?filter[id]="+sharedPreferences.getString("customer_id", "").trim());
+    Log.e("fetch pnr link ", "http://admin.trainpanda.com:80/api/orders?filter[where][customerId]="+sharedPreferences.getString("customer_id", "").trim());
 
-    new GetPostClass("http://admin.trainpanda.com:80/api/orders?filter[id]="+sharedPreferences.getString("customer_id", "").trim() , EnumType.GET) {
+    new GetPostClass("http://admin.trainpanda.com:80/api/orders?filter[where][customerId]="+sharedPreferences.getString("customer_id", "").trim() , EnumType.GET) {
         @Override
         public void response(String response) {
             pb.dismiss();

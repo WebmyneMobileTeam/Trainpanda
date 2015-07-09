@@ -123,7 +123,7 @@ public class RatingsFragment extends Fragment
 					Log.e("rating res", msg);
 
 					//Setting that rating is completed for recent order
-					PrefUtils.setRecentOrder(getActivity(),false);
+					//PrefUtils.setRecentOrder(getActivity(),false);
 
 					Toast.makeText(getActivity(), "Thank you for submitting your rating. We value your feedback.", Toast.LENGTH_SHORT).show();
 

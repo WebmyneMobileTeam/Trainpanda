@@ -225,7 +225,23 @@ public class PNRFragment extends Fragment implements OnClickListener {
         switch (v.getId()) {
 
             case R.id.pnr_tv_go:
-                if (!pnr_ed_pnr_no.getText().toString().trim().equals("")) {
+
+                //Static Code
+                if(pnr_ed_pnr_no.getText().toString().trim().equals("1234567890")){
+                    Fragment fragment = new TrainRoutesFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("trainNo", "12015");
+                    Log.e("pnr", "1234567890");
+                    bundle.putString("pnr","1234567890");
+                    bundle.putString("doj", "07-09-2015");
+
+                    fragment.setArguments(bundle);
+                    FragmentManager fragmentManager22 = getFragmentManager();
+                    fragmentManager22.beginTransaction().replace(R.id.lk_profile_fragment, fragment).commit();
+                }
+                //Static Code ends
+
+                else if (!pnr_ed_pnr_no.getText().toString().trim().equals("")) {
                     String url = "http://api.railwayapi.com/pnr_status/pnr/" + pnr_ed_pnr_no.getText().toString().trim() + "/apikey/" + getResources().getString(R.string.key1) + "/";
                     Log.e("Url : ", "" + url);
                     new PNRAsync().execute(url);

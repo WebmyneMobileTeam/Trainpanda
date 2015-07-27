@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 
-public class POSTAPI {
+public class PUTAPI {
 
     public static Reader callWebservicePost(String SERVER_URL,String jsonString) {
 
@@ -31,22 +31,23 @@ public class POSTAPI {
         try {
 
             HttpClient client = new DefaultHttpClient();
-            HttpPost post = new HttpPost(SERVER_URL);
+            HttpPut put = new HttpPut(SERVER_URL);
+
             // parse without any json body parameters
             if(jsonString.equalsIgnoreCase("")) {
-                post.setHeader("Accept", "application/text");
-                post.setHeader("Content-type", "application/text");
+                put.setHeader("Accept", "application/text");
+                put.setHeader("Content-type", "application/text");
             } else { // with json body parameters
-                post.setHeader("Accept", "application/json");
-                post.setHeader("Content-type", "application/json");
+                put.setHeader("Accept", "application/json");
+                put.setHeader("Content-type", "application/json");
             }
 
             StringEntity e = new StringEntity(jsonString.toString(), HTTP.UTF_8);
             e.setContentType("application/json");
 
-            post.setEntity(e);
+            put.setEntity(e);
 
-            HttpResponse response = client.execute(post);
+            HttpResponse response = client.execute(put);
             Log.e("jsonString:", jsonString + "");
          //   Log.e("response:",response+"");
 

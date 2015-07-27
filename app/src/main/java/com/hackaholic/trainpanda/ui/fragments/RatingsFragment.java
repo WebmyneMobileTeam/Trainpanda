@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.helpers.JSONPost;
+import com.hackaholic.trainpanda.helpers.JSONPut;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 
@@ -95,24 +96,13 @@ public class RatingsFragment extends Fragment
 			JSONObject jsonObject = new JSONObject();
 
 
-			jsonObject.put("restaurantId",recentOrder.RestrauntID);
-			jsonObject.put("customerId", sharedPreferences.getString("customer_id", "").trim());
-			jsonObject.put("orderId",recentOrder.OrderId );
-			jsonObject.put("feedback", "test");
+			jsonObject.put("id",recentOrder.OrderId );
 			jsonObject.put("rating",RATING);
 
+			Log.e("FINAL POJO rating JSON : ", "" + jsonObject);
 
 
-			/*jsonObject.put("restaurantId",recentOrder.RestrauntID);
-			jsonObject.put("userId", sharedPreferences.getString("customer_id", "").trim());
-			jsonObject.put("orderId",recentOrder.OrderId );
-			jsonObject.put("feedback", "test");
-			jsonObject.put("rating",RATING);
-*/
-			Log.e("FINAL rating JSON : ", "" + jsonObject);
-
-
-			JSONPost json1 = new JSONPost();
+			JSONPut json1 = new JSONPut();
 
 			//json1.POST(getActivity(), "http://admin.trainpanda.com/api/restaurantRatings", jsonObject.toString(), "Submitting your rating...");
 			json1.POST(getActivity(), "http://admin.trainpanda.com/api/orders", jsonObject.toString(), "Submitting your rating...");
@@ -123,7 +113,7 @@ public class RatingsFragment extends Fragment
 					Log.e("rating res", msg);
 
 					//Setting that rating is completed for recent order
-					//PrefUtils.setRecentOrder(getActivity(),false);
+					PrefUtils.setRecentOrder(getActivity(),false);
 
 					Toast.makeText(getActivity(), "Thank you for submitting your rating. We value your feedback.", Toast.LENGTH_SHORT).show();
 

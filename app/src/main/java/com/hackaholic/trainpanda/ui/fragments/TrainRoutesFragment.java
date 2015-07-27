@@ -198,21 +198,19 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 
 		ListView pnr_listview1 = (ListView) rootView.findViewById(R.id.pnr_listview);
 
-		pnr_listview1.setAdapter(
-				new MyAdapterPNR(cuurentPNR, getActivity()));
-
-
+		//Static Code
+		if(PNR.equals("1234567890")){
+			pnr_listview1.setAdapter(
+					new MyAdapterPNR(cuurentPNR, getActivity(),true));
+		}//Static code ends
+		else {
+			pnr_listview1.setAdapter(
+					new MyAdapterPNR(cuurentPNR, getActivity(),false));
+		}
 
 		openPNRSlider();
 
 		return rootView;
-
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-
 
 	}
 
@@ -230,91 +228,7 @@ public class TrainRoutesFragment extends Fragment implements OnClickListener {
 		pnr_listview = (ListView) rootView.findViewById(R.id.pnr_listview);
 
 		train_route_tv_go.performClick();
-
-
-		/*train_route_actv_train_number.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (train_route_actv_train_number.getText().toString().length() > 1) {
-					train_route_tv_go.performClick();
-					new TrainNumberTask().execute(train_route_actv_train_number.getText().toString().trim());
-				}
-			}
-		});*/
-
-
 	}
-
-	/*private class TrainNumberTask extends AsyncTask<String, Void, String> {
-		@Override
-		protected void onPreExecute() {
-			progressBar_train_routes.setVisibility(View.VISIBLE);
-		}
-
-		@Override
-		protected String doInBackground(String... params) {
-			return hitServer(params[0]);
-		}
-
-		private String hitServer(String value) {
-			String response = null;
-			String url = "http://api.railwayapi.com/suggest_station/name/" + value + "/apikey/" + getResources().getString(R.string.key1) + "/";
-			//String url="http://api.railwayapi.com/suggest_station/name/"+value+"/apikey/"+getResources().getString(R.string.key1)+"/";
-			try {
-				ServiceHandler handler = new ServiceHandler();
-				response = handler.makeServiceCall(url.replaceAll(" ", "%20"), ServiceHandler.GET);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return response;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			progressBar_train_routes.setVisibility(View.GONE);
-
-			if (result != null) {
-				//Toast.makeText(getActivity(), ""+result, Toast.LENGTH_LONG).show();
-				Log.e("REsponse", "" + result);
-
-				ArrayList<String> al_train_numbers = new ArrayList<String>();
-				try {
-
-					TRAIN_NAMES tnmames =  new GsonBuilder().create().fromJson(result.toString(), TRAIN_NAMES.class);
-					for(int i=0;i<tnmames.station.size();i++){
-						al_train_numbers.add(tnmames.station.get(i).code);
-					}
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-
-
-
-				ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity(),
-						R.layout.single_row_textview, R.id.signle_row_textview_tv, al_train_numbers);
-
-
-				train_route_actv_train_number.setAdapter(adapter2);
-
-
-
-			} else {
-				Toast.makeText(getActivity(), "Response Is null", Toast.LENGTH_SHORT).show();
-			}
-		}
-	}*/
-
-
 
 
 
@@ -425,11 +339,17 @@ private void hitServerLiveStatus() {
 
 
 
+			//Static Code
+			if(PNR.equals("1234567890")){
+				train_route_listview.setAdapter(new MyAdapter(getActivity(), objLive,
+						al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng, 1, 5));
 
+			}//end
+			else{
+				train_route_listview.setAdapter(new MyAdapter(getActivity(), objLive,
+						al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng, startPos, endPos));
 
-
-			train_route_listview.setAdapter(new MyAdapter(getActivity(), objLive,
-					al_lat, al_scharr, al_fullname, al_schdep, al_state, al_no, al_code, al_lng, startPos, endPos));
+			}
 
 
 			// Automatically close the pnr slider after 3 Seconds
@@ -565,9 +485,10 @@ private void hitServerLiveStatus() {
 		private PNR valuesPNR;
 		private int rows;
 		private Context context;
-		public MyAdapterPNR(PNR currentpnr,Context context)
+		boolean isStaticCode;
+		public MyAdapterPNR(PNR currentpnr,Context context,boolean staticode)
 		{
-
+			this.isStaticCode = staticode;
 			this.valuesPNR = currentpnr;
 			this.context=context;
 			Log.e("pnr : ", "" + this.valuesPNR.pnr);
@@ -578,12 +499,18 @@ private void hitServerLiveStatus() {
 		@Override
 		public int getCount()
 		{
+			if(isStaticCode)
+				return 1;
+			else
 			return valuesPNR.passengers.size();
 		}
 		@Override
 		public Object getItem(int position)
 		{
-			return valuesPNR.passengers.get(position);
+			if(isStaticCode)
+				return 0;
+			else
+				return	valuesPNR.passengers.get(position);
 		}
 		@Override
 		public long getItemId(int position)
@@ -607,10 +534,16 @@ private void hitServerLiveStatus() {
 				single_row_pnr_tv_seats.setTypeface(PrefUtils.getTypeFace(getActivity()));
 				single_row_pnr_tv_status.setTypeface(PrefUtils.getTypeFace(getActivity()));
 
-				single_row_pnr_tv_passengers.setText("Passenger "+valuesPNR.passengers.get(position).no);
-				single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(position).booking_status+"");
-				single_row_pnr_tv_status.setText(valuesPNR.passengers.get(position).current_status+"");
 
+				if(isStaticCode){
+					single_row_pnr_tv_passengers.setText("Passenger 1");
+					single_row_pnr_tv_seats.setText("W/L 45");
+					single_row_pnr_tv_status.setText("W/L 10");
+				}else {
+					single_row_pnr_tv_passengers.setText("Passenger " + valuesPNR.passengers.get(position).no);
+					single_row_pnr_tv_seats.setText(valuesPNR.passengers.get(position).booking_status + "");
+					single_row_pnr_tv_status.setText(valuesPNR.passengers.get(position).current_status + "");
+				}
 
 
 			return row;

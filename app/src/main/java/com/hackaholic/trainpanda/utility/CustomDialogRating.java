@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.hackaholic.trainpanda.R;
 import com.hackaholic.trainpanda.helpers.JSONPost;
+import com.hackaholic.trainpanda.helpers.JSONPut;
 import com.hackaholic.trainpanda.helpers.POSTResponseListener;
 import com.hackaholic.trainpanda.helpers.PrefUtils;
 import com.hackaholic.trainpanda.ui.fragments.MyFoodOrder;
@@ -124,17 +125,15 @@ public class CustomDialogRating extends Dialog {
 
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("restaurantId",RESTID);
-            jsonObject.put("customerId", USERID);
-            jsonObject.put("orderId",ORDERID );
-            jsonObject.put("feedback", "test");
+
+            jsonObject.put("id",ORDERID );
             jsonObject.put("rating",RATING);
 
 
             Log.e("FINAL rating JSON : ", "" + jsonObject);
 
 
-                JSONPost json1 = new JSONPost();
+            JSONPut json1 = new JSONPut();
                 json1.POST(act, "http://admin.trainpanda.com/api/orders", jsonObject.toString(), "Submitting your rating...");
                 json1.setPostResponseListener(new POSTResponseListener() {
                 @Override
